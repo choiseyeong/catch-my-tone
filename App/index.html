@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catch My Tone — 나만의 퍼스널컬러 진단</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🎨</div>
+        <span class="logo-text">Catch My Tone</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link active">홈</a></li>
+        <li><a href="about.html" class="nav-link">퍼스널컬러란?</a></li>
+        <li><a href="diagnosis.html" class="nav-link nav-btn">진단하기</a></li>
+      </ul>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+    <div class="hero-blob blob-3"></div>
+    <div class="hero-content container">
+      <div class="hero-badge animate-fade-in">✨ 웹캠 기반 퍼스널컬러 진단 서비스</div>
+      <h1 class="hero-title animate-fade-in animate-delay-1">
+        내 얼굴에 어울리는<br>
+        <span class="gradient-text">색을 찾아봐요</span>
+      </h1>
+      <p class="hero-desc animate-fade-in animate-delay-2">
+        카메라 앞에서 다양한 컬러 천을 비교하며<br>
+        나만의 퍼스널컬러를 발견하세요.
+      </p>
+      <div class="hero-buttons animate-fade-in animate-delay-3">
+        <a href="diagnosis.html" class="btn btn-primary">진단 시작하기 →</a>
+        <a href="about.html" class="btn btn-secondary">퍼스널컬러 알아보기</a>
+      </div>
+      <div class="hero-tags animate-fade-in animate-delay-4">
+        <span class="tag">🌸 봄 웜톤</span>
+        <span class="tag">🌿 여름 쿨톤</span>
+        <span class="tag">🍂 가을 웜톤</span>
+        <span class="tag">❄️ 겨울 쿨톤</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">어떻게 진단하나요</span>
+        <h2>실제 진단처럼, 더 쉽게</h2>
+        <p>퍼스널컬러 진단사가 색상 천으로 진단하는 방식을 그대로 웹에서 경험해 보세요.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📸</div>
+          <h3>웹캠으로 간편하게</h3>
+          <p>별도 앱 설치 없이 브라우저에서 바로 카메라를 실행해 진단할 수 있어요. 자연광 아래에서 하면 더 정확해요.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👋</div>
+          <h3>손동작으로 조작</h3>
+          <p>버튼을 누르지 않아도 손동작만으로 색상 천을 넘기고, 마음에 드는 색을 선택할 수 있어요.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>정밀한 색상 분석</h3>
+          <p>선택한 색상들을 웜톤·쿨톤, 명도, 채도 기준으로 분석해 내 계절 타입을 알려드려요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">진단 과정</span>
+        <h2>4단계로 끝나요</h2>
+        <p>복잡한 절차 없이 카메라 앞에서 자연스럽게 진단을 진행할 수 있어요.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <h3>카메라 시작</h3>
+          <p>카메라 접근을 허용하고 얼굴이 잘 보이는 자세를 잡아요.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">02</div>
+          <h3>색상 천 비교</h3>
+          <p>얼굴 주변에 다양한 색상의 가상 천이 나타나요. 하나씩 비교해보세요.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">03</div>
+          <h3>색상 선택</h3>
+          <p>어울린다고 느껴지는 색상을 엄지척 제스처로 선택하세요.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">04</div>
+          <h3>결과 확인</h3>
+          <p>선택한 색상을 분석해 퍼스널컬러 계절 타입과 추천 팔레트를 알려드려요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Season Preview -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">퍼스널컬러 타입</span>
+        <h2>어떤 타입이 나올까요?</h2>
+        <p>봄·여름·가을·겨울 4가지 계절 타입 중 어디에 해당하는지 찾아보세요.</p>
+      </div>
+      <div class="seasons-grid">
+        <div class="season-card spring">
+          <div class="season-emoji">🌸</div>
+          <div class="season-title">봄 웜톤</div>
+          <div class="season-subtitle">Spring Warm</div>
+          <p class="season-desc">밝고 화사한 따뜻한 색상이 어울려요. 생기 있고 사랑스러운 분위기를 연출해요.</p>
+          <div class="season-keywords">
+            <span class="keyword">밝음</span>
+            <span class="keyword">화사</span>
+            <span class="keyword">따뜻함</span>
+            <span class="keyword">생기</span>
+          </div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#FFB347;"></div>
+            <div class="season-swatch" style="background:#FF8C69;"></div>
+            <div class="season-swatch" style="background:#FFDAB9;"></div>
+            <div class="season-swatch" style="background:#98FB98;"></div>
+            <div class="season-swatch" style="background:#FFD700;"></div>
+          </div>
+        </div>
+        <div class="season-card summer">
+          <div class="season-emoji">🌿</div>
+          <div class="season-title">여름 쿨톤</div>
+          <div class="season-subtitle">Summer Cool</div>
+          <p class="season-desc">부드럽고 뿌연 차가운 색상이 어울려요. 우아하고 부드러운 분위기를 연출해요.</p>
+          <div class="season-keywords">
+            <span class="keyword">부드러움</span>
+            <span class="keyword">우아</span>
+            <span class="keyword">차가움</span>
+            <span class="keyword">뿌연</span>
+          </div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#C8A2C8;"></div>
+            <div class="season-swatch" style="background:#FFB6C1;"></div>
+            <div class="season-swatch" style="background:#B0E0E6;"></div>
+            <div class="season-swatch" style="background:#DDA0DD;"></div>
+            <div class="season-swatch" style="background:#ADD8E6;"></div>
+          </div>
+        </div>
+        <div class="season-card autumn">
+          <div class="season-emoji">🍂</div>
+          <div class="season-title">가을 웜톤</div>
+          <div class="season-subtitle">Autumn Warm</div>
+          <p class="season-desc">깊고 탁한 따뜻한 색상이 어울려요. 성숙하고 고급스러운 분위기를 연출해요.</p>
+          <div class="season-keywords">
+            <span class="keyword">깊음</span>
+            <span class="keyword">고급</span>
+            <span class="keyword">따뜻함</span>
+            <span class="keyword">탁함</span>
+          </div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#CD853F;"></div>
+            <div class="season-swatch" style="background:#D2691E;"></div>
+            <div class="season-swatch" style="background:#8B7355;"></div>
+            <div class="season-swatch" style="background:#6B8E23;"></div>
+            <div class="season-swatch" style="background:#B8860B;"></div>
+          </div>
+        </div>
+        <div class="season-card winter">
+          <div class="season-emoji">❄️</div>
+          <div class="season-title">겨울 쿨톤</div>
+          <div class="season-subtitle">Winter Cool</div>
+          <p class="season-desc">선명하고 강렬한 차가운 색상이 어울려요. 시크하고 도시적인 분위기를 연출해요.</p>
+          <div class="season-keywords">
+            <span class="keyword">선명</span>
+            <span class="keyword">강렬</span>
+            <span class="keyword">차가움</span>
+            <span class="keyword">시크</span>
+          </div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#4169E1;"></div>
+            <div class="season-swatch" style="background:#DC143C;"></div>
+            <div class="season-swatch" style="background:#2F2F4F;"></div>
+            <div class="season-swatch" style="background:#8B008B;"></div>
+            <div class="season-swatch" style="background:#E0E0FF;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:36px;">
+        <a href="about.html" class="btn btn-secondary">퍼스널컬러 더 알아보기 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-blob cta-blob-1"></div>
+        <div class="cta-blob cta-blob-2"></div>
+        <h2>나의 퍼스널컬러가 궁금하다면?</h2>
+        <p>지금 바로 무료로 진단해보세요. 웹캠만 있으면 됩니다.</p>
+        <a href="diagnosis.html" class="btn btn-primary btn-large">지금 시작하기 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-text">🎨 Catch My Tone</span>
+          <p>웹캠 기반 퍼스널컬러 진단 서비스</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

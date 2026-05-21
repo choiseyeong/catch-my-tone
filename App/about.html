@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>퍼스널컬러란? — Catch My Tone</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🎨</div>
+        <span class="logo-text">Catch My Tone</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">홈</a></li>
+        <li><a href="about.html" class="nav-link active">퍼스널컬러란?</a></li>
+        <li><a href="diagnosis.html" class="nav-link nav-btn">진단하기</a></li>
+      </ul>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+    <div class="container">
+      <div class="hero-badge">📚 퍼스널컬러 가이드</div>
+      <h1>퍼스널컬러란<br>무엇일까요?</h1>
+      <p>나의 피부톤, 눈동자, 머리카락 색에 가장 잘 어울리는<br>고유한 색상 팔레트를 찾는 것이에요.</p>
+    </div>
+  </section>
+
+  <!-- What is Personal Color -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">개념 이해</span>
+        <h2>퍼스널컬러란?</h2>
+        <p>같은 옷을 입어도 어떤 사람은 더 생기 있어 보이고, 어떤 사람은 피부가 칙칙해 보이는 이유가 있어요.</p>
+      </div>
+      <div class="info-box">
+        <div class="info-box-icon">💡</div>
+        <p>
+          퍼스널컬러란 개인의 피부 베이스 색(웜톤·쿨톤), 명도(밝기), 채도, 청탁(맑음·탁함) 등을 기준으로
+          가장 잘 어울리는 색상 그룹을 분류하는 개념이에요. 1970년대 미국의 색채 컨설턴트
+          <strong>Carole Jackson</strong>이 '봄·여름·가을·겨울' 4계절 시스템으로 정리했어요.
+        </p>
+      </div>
+      <div class="features-grid" style="margin-top:36px;">
+        <div class="feature-card">
+          <div class="feature-icon">✨</div>
+          <h3>피부가 환해 보여요</h3>
+          <p>맞는 색상을 입으면 피부의 결점이 커버되고 생기 있어 보여요.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👗</div>
+          <h3>옷 선택이 쉬워져요</h3>
+          <p>나에게 맞는 색상 팔레트를 알면 쇼핑과 코디가 훨씬 간편해져요.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💄</div>
+          <h3>메이크업이 잘 받아요</h3>
+          <p>립, 블러셔 컬러를 퍼스널컬러에 맞게 고르면 훨씬 자연스럽게 어울려요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Warm vs Cool -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">웜톤 vs 쿨톤</span>
+        <h2>베이스 색 이해하기</h2>
+        <p>퍼스널컬러의 가장 큰 분류는 웜톤과 쿨톤이에요. 내 피부의 베이스 색이 무엇인지 파악하는 것이 첫 번째예요.</p>
+      </div>
+      <div class="tone-compare">
+        <div class="tone-card warm">
+          <span class="tone-label">🌅 WARM TONE</span>
+          <h3>웜톤 (Warm Tone)</h3>
+          <p>피부 베이스에 노란기, 빨간기가 도는 따뜻한 느낌의 색조예요. 황금빛, 복숭아빛 색상이 잘 어울려요.</p>
+          <div class="tone-swatches">
+            <div class="swatch" style="background:#FFB347;" title="복숭아"></div>
+            <div class="swatch" style="background:#DAA520;" title="골드"></div>
+            <div class="swatch" style="background:#CD853F;" title="브라운"></div>
+            <div class="swatch" style="background:#E07040;" title="코랄"></div>
+            <div class="swatch" style="background:#F0E060;" title="옐로우"></div>
+            <div class="swatch" style="background:#8B4513;" title="다크 브라운"></div>
+          </div>
+          <ul class="tone-list">
+            <li>손목 안쪽 혈관이 초록빛</li>
+            <li>금 액세서리가 더 잘 어울림</li>
+            <li>하얀 옷보다 아이보리가 더 예뻐 보임</li>
+            <li>피부에 노란기나 황금빛이 돎</li>
+          </ul>
+        </div>
+        <div class="tone-card cool">
+          <span class="tone-label">❄️ COOL TONE</span>
+          <h3>쿨톤 (Cool Tone)</h3>
+          <p>피부 베이스에 파란기, 핑크기가 도는 차가운 느낌의 색조예요. 은빛, 장미빛 색상이 잘 어울려요.</p>
+          <div class="tone-swatches">
+            <div class="swatch" style="background:#C8A2C8;" title="라벤더"></div>
+            <div class="swatch" style="background:#ADD8E6;" title="베이비 블루"></div>
+            <div class="swatch" style="background:#FFB6C1;" title="베이비 핑크"></div>
+            <div class="swatch" style="background:#4169E1;" title="로얄 블루"></div>
+            <div class="swatch" style="background:#DC143C;" title="크림슨"></div>
+            <div class="swatch" style="background:#C0C0C0;" title="실버"></div>
+          </div>
+          <ul class="tone-list">
+            <li>손목 안쪽 혈관이 파랗거나 보랏빛</li>
+            <li>은 액세서리가 더 잘 어울림</li>
+            <li>아이보리보다 순백색이 더 예뻐 보임</li>
+            <li>피부에 핑크기나 푸른기가 돎</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brightness & Saturation -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">색상 속성</span>
+        <h2>명도·채도·청탁 이해하기</h2>
+        <p>웜/쿨 외에도 이 세 가지 속성이 퍼스널컬러 타입을 세분화하는 데 중요한 역할을 해요.</p>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h3>💡 명도 (Brightness)</h3>
+          <p>색의 밝고 어두운 정도예요. 밝은 색에 어울리는지, 어두운 색에 어울리는지로 라이트/다크 타입을 구분해요.</p>
+          <div class="scale-bar brightness-scale"></div>
+          <div class="scale-labels"><span>어두운 색</span><span>중간</span><span>밝은 색</span></div>
+        </div>
+        <div class="concept-card">
+          <h3>🎨 채도 (Saturation)</h3>
+          <p>색의 선명하고 탁한 정도예요. 선명한 색이 잘 받는 사람은 브라이트, 차분한 색이 어울리는 사람은 뮤트 타입이에요.</p>
+          <div class="scale-bar saturation-scale"></div>
+          <div class="scale-labels"><span>탁한 색</span><span>중간</span><span>선명한 색</span></div>
+        </div>
+        <div class="concept-card">
+          <h3>💎 청탁 (Clarity)</h3>
+          <p>색의 맑고 탁한 느낌이에요. 맑고 깨끗한 색이 어울리면 브라이트/라이트, 자연스럽게 가라앉은 색이 어울리면 뮤트/다크 타입이에요.</p>
+          <div class="scale-bar clarity-scale"></div>
+          <div class="scale-labels"><span>탁한 색</span><span></span><span>맑은 색</span></div>
+        </div>
+        <div class="concept-card">
+          <h3>🔄 계절 세부 타입</h3>
+          <p>웜/쿨과 명도·채도를 조합하면 각 계절별로 세부 타입이 나뉘어요.</p>
+          <ul class="tone-list" style="margin-top:8px;">
+            <li><strong>라이트 (Light)</strong> — 밝고 연한 색</li>
+            <li><strong>브라이트 (Bright)</strong> — 맑고 선명한 색</li>
+            <li><strong>뮤트 (Mute)</strong> — 차분하고 탁한 색</li>
+            <li><strong>다크 (Dark)</strong> — 깊고 어두운 색</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Seasons -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">4계절 타입</span>
+        <h2>봄·여름·가을·겨울</h2>
+        <p>퍼스널컬러는 크게 4가지 계절 타입으로 나뉘어요. 각 타입마다 어울리는 색상이 달라요.</p>
+      </div>
+      <div class="seasons-grid">
+        <div class="season-card spring">
+          <div class="season-emoji">🌸</div>
+          <div class="season-title">봄 웜톤</div>
+          <div class="season-subtitle">Spring Warm · 밝고 화사한</div>
+          <p class="season-desc">
+            따뜻하고 밝은 빛을 머금은 생기 있는 색상이 어울려요.
+            복숭아, 산호, 라임 그린처럼 가볍고 화사한 색상이 피부를 빛나게 해줘요.
+          </p>
+          <div class="season-keywords">
+            <span class="keyword">밝음</span><span class="keyword">화사</span>
+            <span class="keyword">따뜻함</span><span class="keyword">생기</span><span class="keyword">봄꽃</span>
+          </div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#FFB347;"></div>
+            <div class="season-swatch" style="background:#FF8C69;"></div>
+            <div class="season-swatch" style="background:#FFDAB9;"></div>
+            <div class="season-swatch" style="background:#98FB98;"></div>
+            <div class="season-swatch" style="background:#FFD700;"></div>
+            <div class="season-swatch" style="background:#FF69B4;"></div>
+          </div>
+        </div>
+        <div class="season-card summer">
+          <div class="season-emoji">🌿</div>
+          <div class="season-title">여름 쿨톤</div>
+          <div class="season-subtitle">Summer Cool · 부드럽고 우아한</div>
+          <p class="season-desc">
+            시원하고 뿌연 듯 부드러운 색상이 어울려요.
+            라벤더, 파우더 블루, 로즈 핑크처럼 안개 낀 듯 은은한 색상이 피부를 은은하게 빛나게 해줘요.
+          </p>
+          <div class="season-keywords">
+            <span class="keyword">부드러움</span><span class="keyword">우아</span>
+            <span class="keyword">차가움</span><span class="keyword">뿌연</span><span class="keyword">안개</span>
+          </div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#C8A2C8;"></div>
+            <div class="season-swatch" style="background:#FFB6C1;"></div>
+            <div class="season-swatch" style="background:#B0E0E6;"></div>
+            <div class="season-swatch" style="background:#DDA0DD;"></div>
+            <div class="season-swatch" style="background:#ADD8E6;"></div>
+            <div class="season-swatch" style="background:#D8BFD8;"></div>
+          </div>
+        </div>
+        <div class="season-card autumn">
+          <div class="season-emoji">🍂</div>
+          <div class="season-title">가을 웜톤</div>
+          <div class="season-subtitle">Autumn Warm · 깊고 고급스러운</div>
+          <p class="season-desc">
+            깊고 풍부한 어스 톤 색상이 어울려요.
+            버건디, 올리브, 머스타드처럼 깊이 있는 자연스러운 색상이 성숙하고 고급스러운 분위기를 연출해줘요.
+          </p>
+          <div class="season-keywords">
+            <span class="keyword">깊음</span><span class="keyword">고급</span>
+            <span class="keyword">따뜻함</span><span class="keyword">탁함</span><span class="keyword">어스톤</span>
+          </div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#CD853F;"></div>
+            <div class="season-swatch" style="background:#D2691E;"></div>
+            <div class="season-swatch" style="background:#8B7355;"></div>
+            <div class="season-swatch" style="background:#6B8E23;"></div>
+            <div class="season-swatch" style="background:#B8860B;"></div>
+            <div class="season-swatch" style="background:#800020;"></div>
+          </div>
+        </div>
+        <div class="season-card winter">
+          <div class="season-emoji">❄️</div>
+          <div class="season-title">겨울 쿨톤</div>
+          <div class="season-subtitle">Winter Cool · 선명하고 시크한</div>
+          <p class="season-desc">
+            강렬하고 선명한 색상이 어울려요.
+            퓨어 화이트, 블랙, 와인, 코발트 블루처럼 뚜렷한 대비의 색상이 도시적이고 세련된 분위기를 연출해줘요.
+          </p>
+          <div class="season-keywords">
+            <span class="keyword">선명</span><span class="keyword">강렬</span>
+            <span class="keyword">차가움</span><span class="keyword">시크</span><span class="keyword">대비</span>
+          </div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#4169E1;"></div>
+            <div class="season-swatch" style="background:#DC143C;"></div>
+            <div class="season-swatch" style="background:#1C1C2E;"></div>
+            <div class="season-swatch" style="background:#8B008B;"></div>
+            <div class="season-swatch" style="background:#E8E8F0;"></div>
+            <div class="season-swatch" style="background:#00CED1;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagnosis Tips -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">진단 팁</span>
+        <h2>더 정확한 진단을 위해</h2>
+        <p>이렇게 준비하면 더 정확한 퍼스널컬러 결과를 얻을 수 있어요.</p>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h3>💡 조명 환경</h3>
+          <p>자연광(낮 햇빛)이 가장 이상적이에요. 형광등은 피부색을 왜곡할 수 있고, 백열등은 노란빛이 너무 강해요. 창가에서 진단해보세요.</p>
+        </div>
+        <div class="concept-card">
+          <h3>🧴 민낯으로</h3>
+          <p>메이크업을 한 상태에서는 정확한 진단이 어려워요. 파운데이션, 컨실러, 립 메이크업을 지운 뒤 진단하세요.</p>
+        </div>
+        <div class="concept-card">
+          <h3>👕 흰 옷 또는 흰 배경</h3>
+          <p>옷 색깔이 얼굴 피부에 영향을 줄 수 있어요. 흰 상의를 입거나 흰 종이를 목 주변에 대고 진단하면 더 정확해요.</p>
+        </div>
+        <div class="concept-card">
+          <h3>📱 직접 비교하기</h3>
+          <p>색상 천을 얼굴에 대보고 직접 눈으로 비교하는 것이 가장 정확해요. 어떤 색이 피부를 더 밝고 깨끗해 보이게 하는지 살펴보세요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-blob cta-blob-1"></div>
+        <div class="cta-blob cta-blob-2"></div>
+        <h2>이제 직접 진단해볼까요?</h2>
+        <p>개념을 알았으니 이제 내 퍼스널컬러를 실제로 찾아봐요.</p>
+        <a href="diagnosis.html" class="btn btn-primary btn-large">진단 시작하기 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-text">🎨 Catch My Tone</span>
+          <p>웹캠 기반 퍼스널컬러 진단 서비스</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>진단 결과 — Catch My Tone</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🎨</div>
+        <span class="logo-text">Catch My Tone</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">홈</a></li>
+        <li><a href="about.html" class="nav-link">퍼스널컬러란?</a></li>
+        <li><a href="diagnosis.html" class="nav-link nav-btn">진단하기</a></li>
+      </ul>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Result Hero -->
+  <section class="result-hero">
+    <div class="result-hero-bg"></div>
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+    <div class="container">
+      <div class="result-badge">✨ 진단 완료</div>
+      <div class="result-season" style="background: linear-gradient(135deg, #E8702A, #FFB340, #FFD166); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        봄 웜톤
+      </div>
+      <div class="result-season-en">Spring Warm Type</div>
+      <p class="result-tagline">
+        밝고 생기 넘치는 따뜻한 색상이 당신에게 잘 어울려요.<br>
+        화사하고 사랑스러운 봄꽃 같은 팔레트를 만나보세요.
+      </p>
+
+      <!-- Reliability -->
+      <div style="max-width:360px; margin:0 auto 28px; background:rgba(255,255,255,0.7); padding:16px 20px; border-radius:14px; backdrop-filter:blur(8px);">
+        <div style="display:flex; justify-content:space-between; font-size:0.88rem; margin-bottom:8px;">
+          <span style="color:var(--text-medium); font-weight:600;">진단 신뢰도</span>
+          <span style="color:var(--orange); font-weight:700;">82%</span>
+        </div>
+        <div class="reliability-bar-bg">
+          <div class="reliability-bar-fill"></div>
+        </div>
+        <p style="font-size:0.78rem; color:var(--text-muted); margin-top:6px;">웜톤 색상을 82% 이상 선택하셨어요.</p>
+      </div>
+
+      <div class="result-palette-preview">
+        <div class="result-swatch" style="background:#FFB347;"></div>
+        <div class="result-swatch" style="background:#FF8C69;"></div>
+        <div class="result-swatch" style="background:#FFDAB9;"></div>
+        <div class="result-swatch" style="background:#98FB98;"></div>
+        <div class="result-swatch" style="background:#FFD700;"></div>
+        <div class="result-swatch" style="background:#FF69B4;"></div>
+        <div class="result-swatch" style="background:#FFA07A;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Content -->
+  <section class="section" style="padding-top:64px;">
+    <div class="container">
+
+      <!-- Main 2-col layout -->
+      <div class="result-layout">
+
+        <!-- Best Colors -->
+        <div class="result-card">
+          <h3><span>🌟</span> 베스트 컬러</h3>
+          <div class="palette-grid">
+            <div class="palette-item">
+              <div class="palette-color" style="background:#FFB347;"></div>
+              <div class="palette-name">피치 오렌지</div>
+            </div>
+            <div class="palette-item">
+              <div class="palette-color" style="background:#FF8C69;"></div>
+              <div class="palette-name">살몬 핑크</div>
+            </div>
+            <div class="palette-item">
+              <div class="palette-color" style="background:#FFD700;"></div>
+              <div class="palette-name">선샤인 옐로우</div>
+            </div>
+            <div class="palette-item">
+              <div class="palette-color" style="background:#FFDAB9;"></div>
+              <div class="palette-name">피치 크림</div>
+            </div>
+            <div class="palette-item">
+              <div class="palette-color" style="background:#98FB98;"></div>
+              <div class="palette-name">민트 그린</div>
+            </div>
+            <div class="palette-item">
+              <div class="palette-color" style="background:#FF69B4;"></div>
+              <div class="palette-name">핫 핑크</div>
+            </div>
+            <div class="palette-item">
+              <div class="palette-color" style="background:#FFA07A;"></div>
+              <div class="palette-name">라이트 살몬</div>
+            </div>
+            <div class="palette-item">
+              <div class="palette-color" style="background:#FFFACD;"></div>
+              <div class="palette-name">레몬 쉬폰</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colors to Avoid -->
+        <div class="result-card">
+          <h3><span>🚫</span> 피하면 좋은 컬러</h3>
+          <div class="avoid-grid">
+            <div class="avoid-item">
+              <div class="avoid-color" style="background:#708090;"></div>
+              <div class="avoid-name">슬레이트 그레이</div>
+            </div>
+            <div class="avoid-item">
+              <div class="avoid-color" style="background:#4682B4;"></div>
+              <div class="avoid-name">스틸 블루</div>
+            </div>
+            <div class="avoid-item">
+              <div class="avoid-color" style="background:#800000;"></div>
+              <div class="avoid-name">다크 마룬</div>
+            </div>
+            <div class="avoid-item">
+              <div class="avoid-color" style="background:#2F4F4F;"></div>
+              <div class="avoid-name">다크 그린</div>
+            </div>
+          </div>
+          <div class="info-box" style="margin-top:16px; margin-bottom:0;">
+            <div class="info-box-icon">💡</div>
+            <p>차갑고 어두운 색상은 피부를 칙칙하거나 창백하게 보이게 할 수 있어요. 완전히 피하기보다는 얼굴에서 멀리, 하의나 액세서리로 활용해보세요.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Characteristics -->
+      <div class="result-layout">
+        <div class="result-card">
+          <h3><span>✨</span> 봄 웜톤의 특징</h3>
+          <div class="traits-list">
+            <div class="trait-item">
+              <div class="trait-dot"></div>
+              <div class="trait-text">피부 베이스에 <strong>노란기·복숭아빛</strong>이 돌아요.</div>
+            </div>
+            <div class="trait-item">
+              <div class="trait-dot"></div>
+              <div class="trait-text">밝고 화사한 색상을 입으면 <strong>피부가 환해지고 생기</strong> 있어 보여요.</div>
+            </div>
+            <div class="trait-item">
+              <div class="trait-dot"></div>
+              <div class="trait-text"><strong>골드 액세서리</strong>가 실버보다 훨씬 잘 어울려요.</div>
+            </div>
+            <div class="trait-item">
+              <div class="trait-dot"></div>
+              <div class="trait-text">아이보리·크림색 옷이 순백색보다 더 자연스럽게 어울려요.</div>
+            </div>
+            <div class="trait-item">
+              <div class="trait-dot"></div>
+              <div class="trait-text">따뜻한 파스텔, 복숭아·살몬 계열에서 <strong>특히 빛나요</strong>.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Makeup -->
+        <div class="result-card">
+          <h3><span>💄</span> 추천 메이크업 컬러</h3>
+          <div class="makeup-grid">
+            <div class="makeup-item">
+              <div class="makeup-category">립 컬러</div>
+              <div class="makeup-value">코랄 · 피치 핑크</div>
+              <div class="makeup-desc">살몬 코랄, 웜 피치 계열</div>
+            </div>
+            <div class="makeup-item">
+              <div class="makeup-category">블러셔</div>
+              <div class="makeup-value">피치 · 코랄 핑크</div>
+              <div class="makeup-desc">따뜻한 복숭아빛 볼터치</div>
+            </div>
+            <div class="makeup-item">
+              <div class="makeup-category">아이섀도우</div>
+              <div class="makeup-value">골드 · 브론즈 · 오렌지 브라운</div>
+              <div class="makeup-desc">따뜻한 어스 톤</div>
+            </div>
+            <div class="makeup-item">
+              <div class="makeup-category">파운데이션</div>
+              <div class="makeup-value">옐로우 베이지 계열</div>
+              <div class="makeup-desc">13~17호 웜 언더톤</div>
+            </div>
+          </div>
+          <div style="margin-top:16px; padding:14px; background:rgba(255,248,240,0.8); border-radius:10px; border:1px solid rgba(255,212,160,0.3);">
+            <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:4px; font-weight:600;">AVOID</div>
+            <div style="font-size:0.88rem; color:var(--text-medium);">쿨한 장밋빛 핑크, 퍼플, 블루 계열 메이크업은 피부와 동떨어져 보일 수 있어요.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fashion Recommendations -->
+      <div class="result-card" style="margin-bottom:0;">
+        <h3><span>👗</span> 패션 컬러 추천</h3>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-top:4px;">
+
+          <div style="text-align:center;">
+            <div style="font-size:0.82rem; font-weight:700; color:var(--orange); margin-bottom:10px; letter-spacing:0.05em;">베스트 컬러</div>
+            <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+              <div style="width:38px; height:38px; border-radius:8px; background:#FFB347; box-shadow:var(--shadow-sm);"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#FFDAB9; box-shadow:var(--shadow-sm);"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#98FB98; box-shadow:var(--shadow-sm);"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#FFF8DC; box-shadow:var(--shadow-sm);"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#FFFFE0; box-shadow:var(--shadow-sm);"></div>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">복숭아, 아이보리, 민트, 크림, 옐로우</p>
+          </div>
+
+          <div style="text-align:center;">
+            <div style="font-size:0.82rem; font-weight:700; color:var(--text-medium); margin-bottom:10px; letter-spacing:0.05em;">포인트 컬러</div>
+            <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+              <div style="width:38px; height:38px; border-radius:8px; background:#FF8C69; box-shadow:var(--shadow-sm);"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#FF69B4; box-shadow:var(--shadow-sm);"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#FFA07A; box-shadow:var(--shadow-sm);"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#DAA520; box-shadow:var(--shadow-sm);"></div>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">살몬, 핫핑크, 라이트살몬, 골드</p>
+          </div>
+
+          <div style="text-align:center;">
+            <div style="font-size:0.82rem; font-weight:700; color:#C0605A; margin-bottom:10px; letter-spacing:0.05em;">피할 컬러</div>
+            <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+              <div style="width:38px; height:38px; border-radius:8px; background:#708090; box-shadow:var(--shadow-sm); opacity:0.7;"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#4682B4; box-shadow:var(--shadow-sm); opacity:0.7;"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#2F4F4F; box-shadow:var(--shadow-sm); opacity:0.7;"></div>
+              <div style="width:38px; height:38px; border-radius:8px; background:#1C1C1C; box-shadow:var(--shadow-sm); opacity:0.7;"></div>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">회색, 쿨 블루, 다크 그린, 블랙</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="result-actions">
+        <a href="diagnosis.html" class="btn btn-secondary btn-large">다시 진단하기</a>
+        <button class="btn btn-primary btn-large" onclick="shareResult()">결과 공유하기 📤</button>
+        <a href="about.html" class="btn btn-secondary btn-large">더 알아보기</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-text">🎨 Catch My Tone</span>
+          <p>웹캠 기반 퍼스널컬러 진단 서비스</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function shareResult() {
+      if (navigator.share) {
+        navigator.share({ title: 'Catch My Tone 진단 결과', text: '나의 퍼스널컬러는 봄 웜톤이에요! ✨', url: location.href });
+      } else {
+        navigator.clipboard.writeText(location.href).then(() => alert('링크가 복사되었어요!'));
+      }
+    }
+  </script>
+</body>
+</html>
