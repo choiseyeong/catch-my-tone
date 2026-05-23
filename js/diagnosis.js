@@ -1,106 +1,706 @@
-// ─── Color Data ──────────────────────────────────────────────────────────────
-const colors = [
-  { bg: 'linear-gradient(135deg, #FFD4A8, #FFB380)', name: '13호 아이보리 베이지', desc: '밝은 베이지 계열 · 웜 베이스' },
-  { bg: 'linear-gradient(135deg, #F5C090, #E8A870)', name: '15호 내추럴 베이지', desc: '자연스러운 베이지 · 웜 베이스' },
-  { bg: 'linear-gradient(135deg, #EBB078, #D89060)', name: '17호 샌드 베이지', desc: '모래빛 베이지 · 웜 베이스' },
-  { bg: 'linear-gradient(135deg, #E0A068, #C88050)', name: '19호 웜 베이지', desc: '따뜻한 황갈색 · 웜 베이스' },
-  { bg: 'linear-gradient(135deg, #D49060, #C07848)', name: '21호 골든 베이지', desc: '황금빛 베이지 · 웜 베이스' },
-  { bg: 'linear-gradient(135deg, #C88058, #B06840)', name: '23호 딥 베이지', desc: '깊은 베이지 · 웜 베이스' },
-  { bg: 'linear-gradient(135deg, #E8C8C0, #D0B0A8)', name: '15호 핑크 베이지', desc: '핑크빛 베이지 · 쿨 베이스' },
-  { bg: 'linear-gradient(135deg, #D8B8B8, #C0A0A0)', name: '17호 로즈 베이지', desc: '장미빛 베이지 · 쿨 베이스' },
-  { bg: 'linear-gradient(135deg, #C8A8A8, #B09090)', name: '19호 쿨 베이지', desc: '차가운 베이지 · 쿨 베이스' },
-  { bg: 'linear-gradient(135deg, #B89898, #A08080)', name: '21호 뉴트럴 베이지', desc: '뉴트럴 베이지 · 쿨 베이스' },
-  { bg: 'linear-gradient(135deg, #E8D0E0, #D0B8C8)', name: '라벤더 쿨', desc: '연보라 계열 · 쿨 베이스' },
-  { bg: 'linear-gradient(135deg, #F0D8E8, #D8C0D0)', name: '로즈 쿨', desc: '로즈핑크 계열 · 쿨 베이스' },
-];
+// ─── Stage definitions ───────────────────────────────────────────────────────
+// Stage 1: 베이스 파운데이션 선택 (좌·우 호수 swatch)
+// Stage 2~5: 비교 천 3쌍 (옵션 1 / 옵션 2 토글 → good 으로 선택 → ok 로 다음 단계)
 
-let currentIndex = 0;
-const selectedColors = [];
+const STAGE_TITLES = {
+  1: { title: '베이스 파운데이션 선택', sub: '메이크업 추천 보조 데이터',
+       desc: '웜 또는 쿨 베이스 파운데이션 중 피부에 가장 잘 맞는 번호를 손가락으로 가리켜 선택하세요. 최종 계절 판정이 아닌 메이크업 추천에 활용됩니다.' },
+  2: { title: '웜톤 vs 쿨톤', sub: '베이스 톤 비교',
+       desc: '얼굴 옆에 천을 대고 피부가 더 환해 보이는 쪽을 골라요. 1번(웜) / 2번(쿨) 손모양으로 천을 바꾸고, good 손모양으로 선택, OK 사인으로 다음 단계.' },
+  3: { title: '저명도 vs 고명도', sub: '명도 비교',
+       desc: '어두운 천과 밝은 천 중 얼굴이 더 살아 보이는 쪽을 골라요. 1번(저명도) / 2번(고명도) 손모양으로 천을 바꿔보세요.' },
+  4: { title: '저채도 vs 고채도', sub: '채도 비교',
+       desc: '선명한 색과 부드러운 색 중 더 잘 어울리는 쪽을 골라요. 1번(저채도) / 2번(고채도) 손모양으로 천을 바꿔보세요.' },
+  5: { title: '청색 vs 탁색', sub: '청·탁 비교',
+       desc: '맑은 색감과 차분한 색감 중 어떤 쪽이 더 어울리는지 비교해요. 1번(청색) / 2번(탁색) 손모양으로 천을 바꿔보세요.' },
+};
 
-// ─── Color UI ─────────────────────────────────────────────────────────────────
-function updateDisplay() {
-  const color = colors[currentIndex];
-  document.getElementById('currentColorDisplay').style.background = color.bg;
-  document.getElementById('currentColorName').textContent = color.name;
-  document.getElementById('currentColorDesc').textContent = color.desc;
+const COMPARE_STAGES = {
+  2: {
+    axis: 'tone',
+    opt1: { key: 'warm', label: '웜' },
+    opt2: { key: 'cool', label: '쿨' },
+    pairs: [
+      { title: '핑크 비교',  opt1: { hex: '#F4A698', name: '웜핑크' },     opt2: { hex: '#F4A6C6', name: '쿨핑크' } },
+      { title: '블루 비교',  opt1: { hex: '#88BBDD', name: '웜블루' },     opt2: { hex: '#7AA8E5', name: '쿨블루' } },
+      { title: '베이직 비교', opt1: { hex: '#F5ECD7', name: '아이보리' },  opt2: { hex: '#FAFAFA', name: '화이트' } },
+    ],
+  },
+  3: {
+    axis: 'value',
+    opt1: { key: 'dark', label: '저명도' },
+    opt2: { key: 'light', label: '고명도' },
+    pairs: [
+      { title: '블루 명도',   opt1: { hex: '#1F2D5C', name: '네이비' },    opt2: { hex: '#B6D4E8', name: '라이트블루' } },
+      { title: '옐로우 명도', opt1: { hex: '#C99A2A', name: '머스터드' },  opt2: { hex: '#FFF4B0', name: '크림옐로우' } },
+      { title: '명도 대비',   opt1: { hex: '#0F0F12', name: '블랙' },      opt2: { hex: '#FFFFFF', name: '화이트' } },
+    ],
+  },
+  4: {
+    axis: 'chroma',
+    opt1: { key: 'muted', label: '저채도' },
+    opt2: { key: 'bright', label: '고채도' },
+    pairs: [
+      { title: '레드 채도', opt1: { hex: '#C28A91', name: '더스티로즈' },   opt2: { hex: '#D8233A', name: '비비드레드' } },
+      { title: '블루 채도', opt1: { hex: '#6E8AA8', name: '그레이시블루' }, opt2: { hex: '#1B4FCB', name: '코발트블루' } },
+      { title: '그린 채도', opt1: { hex: '#7DA68C', name: '저채도그린' },   opt2: { hex: '#1FA85D', name: '고채도그린' } },
+    ],
+  },
+  5: {
+    axis: 'clarity',
+    opt1: { key: 'clear', label: '청색' },
+    opt2: { key: 'grayish', label: '탁색' },
+    pairs: [
+      { title: '민트/세이지', opt1: { hex: '#66E0C8', name: '클리어민트' },    opt2: { hex: '#A3B79A', name: '세이지그린' } },
+      { title: '라벤더',      opt1: { hex: '#C6A6F0', name: '클리어라벤더' }, opt2: { hex: '#A89BB1', name: '그레이시라벤더' } },
+      { title: '코랄',        opt1: { hex: '#FF8868', name: '클리어코랄' },   opt2: { hex: '#D8A795', name: '살몬베이지' } },
+    ],
+  },
+};
 
-  document.querySelectorAll('.color-strip-item').forEach((el, i) => {
-    el.classList.toggle('active', i === currentIndex);
+// ─── Global state ────────────────────────────────────────────────────────────
+let currentStage = 1;
+const totalUserStages = 5;
+
+// Stage 1
+let stage1Selection = null; // { tone: 'warm'|'cool', idx: 0..5, num: '13호'.. }
+let stage1HoveredEl = null;
+let stage1HoverTimer = null;
+let stage1HoverStartTime = 0;
+let stage1HoverRafId = null;
+const STAGE1_HOVER_DURATION = 1200;
+
+// Stage 2~5
+let currentPairIdx = 0;
+let currentChoice = null; // 'opt1' | 'opt2'
+const stageResults = { 2: [], 3: [], 4: [], 5: [] }; // each is an array of 'opt1Key'|'opt2Key'
+
+// Accumulated attribute scores
+const scores = {
+  warm: 0, cool: 0,
+  light: 0, dark: 0,
+  bright: 0, muted: 0,
+  clear: 0, grayish: 0,
+};
+
+// ─── Color conversion helpers ────────────────────────────────────────────────
+function hexToRgb(hex) {
+  const h = hex.replace('#','');
+  return { r: parseInt(h.substring(0,2),16), g: parseInt(h.substring(2,4),16), b: parseInt(h.substring(4,6),16) };
+}
+
+function rgbToXyz(r, g, b) {
+  let R = r / 255, G = g / 255, B = b / 255;
+  R = R > 0.04045 ? Math.pow((R + 0.055)/1.055, 2.4) : R / 12.92;
+  G = G > 0.04045 ? Math.pow((G + 0.055)/1.055, 2.4) : G / 12.92;
+  B = B > 0.04045 ? Math.pow((B + 0.055)/1.055, 2.4) : B / 12.92;
+  const X = (R * 0.4124 + G * 0.3576 + B * 0.1805) * 100;
+  const Y = (R * 0.2126 + G * 0.7152 + B * 0.0722) * 100;
+  const Z = (R * 0.0193 + G * 0.1192 + B * 0.9505) * 100;
+  return { X, Y, Z };
+}
+
+function xyzToLab(X, Y, Z) {
+  const refX = 95.047, refY = 100.0, refZ = 108.883;
+  let x = X / refX, y = Y / refY, z = Z / refZ;
+  x = x > 0.008856 ? Math.pow(x, 1/3) : (7.787 * x) + (16/116);
+  y = y > 0.008856 ? Math.pow(y, 1/3) : (7.787 * y) + (16/116);
+  z = z > 0.008856 ? Math.pow(z, 1/3) : (7.787 * z) + (16/116);
+  return { L: (116 * y) - 16, a: 500 * (x - y), b: 200 * (y - z) };
+}
+
+function rgbToLab(r, g, b) {
+  const xyz = rgbToXyz(r, g, b);
+  return xyzToLab(xyz.X, xyz.Y, xyz.Z);
+}
+
+// ─── Stage 1 (foundation picker) ─────────────────────────────────────────────
+function showStage1UI() {
+  document.getElementById('stage1CoolSide').style.display = 'flex';
+  document.getElementById('stage1WarmSide').style.display = 'flex';
+  document.getElementById('stage1ConfirmBar').style.display = 'flex';
+}
+
+function hideStage1UI() {
+  document.getElementById('stage1CoolSide').style.display = 'none';
+  document.getElementById('stage1WarmSide').style.display = 'none';
+  document.getElementById('stage1ConfirmBar').style.display = 'none';
+}
+
+function clearStage1Hover() {
+  if (stage1HoverTimer) { clearTimeout(stage1HoverTimer); stage1HoverTimer = null; }
+  if (stage1HoverRafId) { cancelAnimationFrame(stage1HoverRafId); stage1HoverRafId = null; }
+  if (stage1HoveredEl) {
+    stage1HoveredEl.classList.remove('hovered');
+    const prog = stage1HoveredEl.querySelector('.stage0-hover-progress');
+    if (prog) prog.style.transform = 'scaleX(0)';
+    stage1HoveredEl = null;
+  }
+  stage1HoverStartTime = 0;
+}
+
+function animateStage1Hover(el) {
+  const prog = el.querySelector('.stage0-hover-progress');
+  if (!prog || stage1HoveredEl !== el) return;
+  const ratio = Math.min((Date.now() - stage1HoverStartTime) / STAGE1_HOVER_DURATION, 1);
+  prog.style.transform = `scaleX(${ratio})`;
+  if (ratio < 1) stage1HoverRafId = requestAnimationFrame(() => animateStage1Hover(el));
+}
+
+function selectStage1Swatch(el) {
+  document.querySelectorAll('.stage0-swatch-item.selected').forEach(e => {
+    e.classList.remove('selected');
+    const p = e.querySelector('.stage0-hover-progress');
+    if (p) p.style.transform = 'scaleX(0)';
   });
-  const strip = document.getElementById('colorStrip');
-  const activeItem = strip.children[currentIndex];
-  if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  el.classList.remove('hovered');
+  el.classList.add('selected');
+  const prog = el.querySelector('.stage0-hover-progress');
+  if (prog) prog.style.transform = 'scaleX(1)';
 
-  const overlay = document.getElementById('colorOverlay');
-  if (overlay.style.display !== 'none') {
-    const hex = colors[currentIndex].bg.match(/#[A-Fa-f0-9]{6}/)?.[0] ?? '#FFB347';
-    overlay.style.background = `linear-gradient(to top, ${hex}BB, transparent)`;
+  const labels = ['13호', '15호', '17호', '21호', '23호', '25호'];
+  const idx = parseInt(el.dataset.idx);
+  stage1Selection = { tone: el.dataset.tone, idx, num: labels[idx] };
+  const toneLabel = el.dataset.tone === 'warm' ? '웜' : '쿨';
+  document.getElementById('stage1SelInfo').textContent = `${toneLabel} 베이스 ${labels[idx]} 선택됨 ✓`;
+  document.getElementById('stage1OkBtn').removeAttribute('disabled');
+  renderStageProgress();
+}
+
+function clickStage1Swatch(el) {
+  clearStage1Hover();
+  selectStage1Swatch(el);
+}
+
+function resetStage1() {
+  document.querySelectorAll('.stage0-swatch-item.selected').forEach(e => {
+    e.classList.remove('selected');
+    const p = e.querySelector('.stage0-hover-progress');
+    if (p) p.style.transform = 'scaleX(0)';
+  });
+  stage1Selection = null;
+  document.getElementById('stage1SelInfo').textContent = '손가락으로 색상을 가리켜 선택하세요';
+  document.getElementById('stage1OkBtn').setAttribute('disabled', '');
+}
+
+function confirmStage1() {
+  if (!stage1Selection) return;
+  clearStage1Hover();
+  hideStage1UI();
+  enterStage(2);
+}
+
+// detect fingertip pointing for stage 1
+function detectStage1Pointing(lm) {
+  if (!canvasEl || canvasEl.width === 0) return;
+
+  const cx = lm[8].x * canvasEl.width;
+  const cy = lm[8].y * canvasEl.height;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 13, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 140, 66, 0.28)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255, 140, 66, 0.9)';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+  ctx.fillStyle = '#FF8C42';
+  ctx.fill();
+
+  const cRect = canvasEl.getBoundingClientRect();
+  const fingerX = cRect.left + (1 - lm[8].x) * cRect.width;
+  const fingerY = cRect.top  + lm[8].y       * cRect.height;
+
+  let found = null;
+  document.querySelectorAll('.stage0-swatch-item').forEach(sw => {
+    const r = sw.getBoundingClientRect();
+    if (fingerX >= r.left && fingerX <= r.right &&
+        fingerY >= r.top  && fingerY <= r.bottom) {
+      found = sw;
+    }
+  });
+
+  if (found !== stage1HoveredEl) {
+    clearStage1Hover();
+    stage1HoveredEl = found;
+    if (found) {
+      found.classList.add('hovered');
+      stage1HoverStartTime = Date.now();
+      animateStage1Hover(found);
+      stage1HoverTimer = setTimeout(() => {
+        if (stage1HoveredEl === found) {
+          selectStage1Swatch(found);
+          stage1HoveredEl = null;
+        }
+      }, STAGE1_HOVER_DURATION);
+    }
   }
 }
 
-function nextColor() {
-  currentIndex = (currentIndex + 1) % colors.length;
-  updateDisplay();
+// ─── Compare stages (2~5) ────────────────────────────────────────────────────
+function showCompareUI() {
+  document.getElementById('compareInfoBar').style.display = 'flex';
+  document.getElementById('compareOptionsBar').style.display = 'flex';
 }
 
-function prevColor() {
-  currentIndex = (currentIndex - 1 + colors.length) % colors.length;
-  updateDisplay();
+function hideCompareUI() {
+  document.getElementById('compareInfoBar').style.display = 'none';
+  document.getElementById('compareOptionsBar').style.display = 'none';
+  document.getElementById('clothDrape').classList.remove('visible');
 }
 
-function selectColor() {
-  const color = colors[currentIndex];
-  if (selectedColors.find(c => c.name === color.name)) return;
-  selectedColors.push({ ...color, index: currentIndex });
+function renderCompareStage() {
+  const def = COMPARE_STAGES[currentStage];
+  if (!def) return;
+  const pair = def.pairs[currentPairIdx];
 
-  const container = document.getElementById('selectedColors');
-  if (selectedColors.length === 1) container.innerHTML = '';
+  document.getElementById('comparePairIdx').textContent = `${currentPairIdx + 1} / ${def.pairs.length}`;
+  document.getElementById('comparePairTitle').textContent = pair.title;
 
-  const swatch = document.createElement('div');
-  swatch.style.cssText = `
-    width:40px; height:40px; border-radius:8px;
-    background:${color.bg};
-    box-shadow:0 2px 6px rgba(0,0,0,0.12);
-    cursor:pointer;
-    transition: transform 0.2s;
-    flex-shrink:0;
-  `;
-  swatch.title = color.name;
-  swatch.addEventListener('mouseenter', () => swatch.style.transform = 'scale(1.1)');
-  swatch.addEventListener('mouseleave', () => swatch.style.transform = 'scale(1)');
-  container.appendChild(swatch);
+  // pair dots
+  const dotsEl = document.getElementById('comparePairDots');
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < def.pairs.length; i++) {
+    const d = document.createElement('div');
+    d.className = 'pair-dot';
+    if (i < stageResults[currentStage].length) d.classList.add('done');
+    else if (i === currentPairIdx) d.classList.add('current');
+    dotsEl.appendChild(d);
+  }
 
-  document.getElementById('selectedCount').textContent = `(${selectedColors.length}개)`;
-  if (selectedColors.length >= 3) document.getElementById('analyzeBtn').removeAttribute('disabled');
+  // options
+  document.getElementById('compareOpt1Swatch').style.background = pair.opt1.hex;
+  document.getElementById('compareOpt1Name').childNodes[0].nodeValue = pair.opt1.name;
+  document.getElementById('compareOpt1Sub').textContent = `${def.opt1.label} 후보`;
+  document.getElementById('compareOpt2Swatch').style.background = pair.opt2.hex;
+  document.getElementById('compareOpt2Name').childNodes[0].nodeValue = pair.opt2.name;
+  document.getElementById('compareOpt2Sub').textContent = `${def.opt2.label} 후보`;
 
-  nextColor();
+  // reset choice highlight & cloth
+  document.getElementById('compareOpt1').classList.remove('active');
+  document.getElementById('compareOpt2').classList.remove('active');
+  document.getElementById('clothDrape').classList.remove('visible');
+  currentChoice = null;
 }
 
-function resetSelection() {
-  selectedColors.length = 0;
-  currentIndex = 0;
-  updateDisplay();
-  document.getElementById('selectedColors').innerHTML = `
-    <span style="font-size:0.85rem; color:var(--text-muted); align-self:center;">
-      아직 선택한 색상이 없어요. 어울리는 색상에 👍를 눌러보세요.
-    </span>`;
-  document.getElementById('selectedCount').textContent = '(0개)';
-  document.getElementById('analyzeBtn').setAttribute('disabled', '');
+function showCloth(which) {
+  const def = COMPARE_STAGES[currentStage];
+  if (!def) return;
+  const pair = def.pairs[currentPairIdx];
+  const opt1El = document.getElementById('compareOpt1');
+  const opt2El = document.getElementById('compareOpt2');
+  const drape  = document.getElementById('clothDrape');
+
+  if (which === 'opt1') {
+    opt1El.classList.add('active');
+    opt2El.classList.remove('active');
+    drape.style.background = pair.opt1.hex;
+    drape.classList.add('visible');
+    currentChoice = 'opt1';
+  } else if (which === 'opt2') {
+    opt2El.classList.add('active');
+    opt1El.classList.remove('active');
+    drape.style.background = pair.opt2.hex;
+    drape.classList.add('visible');
+    currentChoice = 'opt2';
+  } else {
+    opt1El.classList.remove('active');
+    opt2El.classList.remove('active');
+    drape.classList.remove('visible');
+    currentChoice = null;
+  }
 }
 
-function goToResult() {
+function confirmCurrentPair() {
+  if (!currentChoice) return;
+  const def = COMPARE_STAGES[currentStage];
+  const key = currentChoice === 'opt1' ? def.opt1.key : def.opt2.key;
+  scores[key] = (scores[key] || 0) + 1;
+  stageResults[currentStage].push(key);
+
+  // advance pair or signal stage completion
+  if (currentPairIdx < def.pairs.length - 1) {
+    currentPairIdx++;
+    renderCompareStage();
+    setStatus(`${currentPairIdx + 1}번째 비교 — 1번/2번 손모양으로 천을 바꿔보세요`);
+  } else {
+    // stage done — wait for OK to advance
+    renderStageProgress();
+    setStatus('이번 단계 비교 완료! OK 사인으로 다음 단계로 ✋');
+    showStageProgressActions();
+  }
+  renderStageProgress();
+}
+
+function isCurrentStageDone() {
+  if (currentStage === 1) return !!stage1Selection;
+  const def = COMPARE_STAGES[currentStage];
+  return def ? stageResults[currentStage].length >= def.pairs.length : false;
+}
+
+function advanceFromCompare() {
+  if (!isCurrentStageDone()) return;
+  if (currentStage < totalUserStages) {
+    enterStage(currentStage + 1);
+  } else {
+    finishAndAnalyze();
+  }
+}
+
+// ─── Stage transitions / progress UI ─────────────────────────────────────────
+function enterStage(stage) {
+  currentStage = stage;
+  currentPairIdx = 0;
+  currentChoice = null;
+  updateProgress();
+  renderStageCard();
+  renderStageProgress();
+
+  // UI swap (only show camera-overlay UI if camera has started)
+  const cameraReady = !!videoEl;
+  if (stage === 1) {
+    hideCompareUI();
+    if (cameraReady) showStage1UI();
+    setStatus(cameraReady ? '손가락으로 파운데이션 색상을 가리켜 선택하세요 ☝️' : '');
+  } else if (stage >= 2 && stage <= 5) {
+    hideStage1UI();
+    if (cameraReady) showCompareUI();
+    renderCompareStage();
+    setStatus(cameraReady ? '1번/2번 손모양으로 천을 비교하고, good 손모양으로 선택하세요' : '');
+  } else if (stage > 5) {
+    hideStage1UI();
+    hideCompareUI();
+  }
+
+  showStageProgressActions();
+}
+
+function updateProgress() {
+  const userStep = Math.min(totalUserStages, Math.max(1, currentStage));
+  const pct = Math.round(((userStep - 1) / totalUserStages) * 100);
+  const bar = document.getElementById('progressBar');
+  const label = document.getElementById('progressLabel');
+  if (bar) bar.style.width = pct + '%';
+  if (label) label.textContent = `${userStep} / ${totalUserStages} 단계`;
+}
+
+function renderStageCard() {
+  const t = STAGE_TITLES[currentStage];
+  if (!t) return;
+  document.getElementById('stageBadge').textContent = String(currentStage);
+  document.getElementById('stageBadgeTitle').textContent = t.title;
+  document.getElementById('stageBadgeSubtitle').textContent = t.sub;
+  document.getElementById('stageDescription').textContent = t.desc;
+}
+
+function renderStageProgress() {
+  const wrap = document.getElementById('stageProgressList');
+  wrap.innerHTML = '';
+  for (let s = 1; s <= totalUserStages; s++) {
+    const row = document.createElement('div');
+    row.className = 'stage-progress-row';
+
+    const done = (s === 1 && stage1Selection)
+      || (s >= 2 && stageResults[s] && stageResults[s].length >= (COMPARE_STAGES[s]?.pairs.length || 3));
+    if (s === currentStage) row.classList.add('current');
+    else if (done) row.classList.add('done');
+
+    const num = document.createElement('div');
+    num.className = 'stage-progress-num';
+    num.textContent = done ? '✓' : String(s);
+
+    const title = document.createElement('div');
+    title.className = 'stage-progress-title';
+    title.textContent = STAGE_TITLES[s].title;
+
+    const result = document.createElement('div');
+    result.className = 'stage-progress-result';
+    if (s === 1 && stage1Selection) {
+      result.textContent = `${stage1Selection.tone === 'warm' ? '웜' : '쿨'} ${stage1Selection.num}`;
+    } else if (s >= 2 && stageResults[s]?.length) {
+      result.textContent = summarizeStageResult(s);
+    }
+
+    row.appendChild(num);
+    row.appendChild(title);
+    row.appendChild(result);
+    wrap.appendChild(row);
+  }
+}
+
+function summarizeStageResult(s) {
+  const def = COMPARE_STAGES[s];
+  if (!def) return '';
+  const opt1Cnt = stageResults[s].filter(k => k === def.opt1.key).length;
+  const opt2Cnt = stageResults[s].filter(k => k === def.opt2.key).length;
+  if (opt1Cnt > opt2Cnt) return def.opt1.label;
+  if (opt2Cnt > opt1Cnt) return def.opt2.label;
+  return '중간';
+}
+
+function showStageProgressActions() {
+  const nextBtn = document.getElementById('nextStageBtn');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const done = isCurrentStageDone();
+
+  if (currentStage === 1) {
+    // stage 1 has its own confirm bar in camera area
+    nextBtn.style.display = 'none';
+    analyzeBtn.style.display = 'none';
+  } else if (currentStage >= 2 && currentStage < totalUserStages) {
+    nextBtn.style.display = 'block';
+    analyzeBtn.style.display = 'none';
+    nextBtn.toggleAttribute('disabled', !done);
+  } else if (currentStage === totalUserStages) {
+    nextBtn.style.display = 'none';
+    analyzeBtn.style.display = 'block';
+    analyzeBtn.toggleAttribute('disabled', !done);
+  }
+}
+
+// ─── Final analysis & result ─────────────────────────────────────────────────
+function finishAndAnalyze() {
+  if (!isCurrentStageDone()) return;
+
+  // 6단계: 큰 계절 후보
+  const tone   = scores.warm  > scores.cool    ? 'warm'  : (scores.cool    > scores.warm  ? 'cool'    : 'neutral');
+  const value  = scores.light > scores.dark    ? 'light' : (scores.dark    > scores.light ? 'dark'    : 'medium');
+  const chroma = scores.bright > scores.muted  ? 'bright': (scores.muted   > scores.bright? 'muted'   : 'mid');
+  const clarity= scores.clear > scores.grayish ? 'clear' : (scores.grayish > scores.clear ? 'grayish' : 'mid');
+
+  let seasonKey;
+  if (tone === 'warm' && value === 'light') seasonKey = 'spring';
+  else if (tone === 'warm' && value === 'dark') seasonKey = 'autumn';
+  else if (tone === 'cool' && value === 'light') seasonKey = 'summer';
+  else if (tone === 'cool' && value === 'dark') seasonKey = 'winter';
+  else if (tone === 'warm') seasonKey = chroma === 'bright' ? 'spring' : 'autumn';
+  else if (tone === 'cool') seasonKey = chroma === 'bright' ? 'winter' : 'summer';
+  else seasonKey = chroma === 'bright' ? 'spring' : 'autumn';
+
+  // 7단계: 세부 타입
+  const subtype = determineSubtype(seasonKey, { tone, value, chroma, clarity });
+
+  // worst (대표 톤의 정반대 계열)
+  const worstKey = { spring: 'winter', summer: 'autumn', autumn: 'summer', winter: 'spring' }[seasonKey];
+
+  // 신뢰도 계산: 4개 축의 우세도 평균
+  const axes = [
+    [scores.warm,  scores.cool],
+    [scores.light, scores.dark],
+    [scores.bright,scores.muted],
+    [scores.clear, scores.grayish],
+  ];
+  let confidenceSum = 0;
+  axes.forEach(([a, b]) => {
+    const total = a + b;
+    if (total > 0) confidenceSum += Math.abs(a - b) / total;
+  });
+  const confidence = Math.round((confidenceSum / axes.length) * 50 + 50); // 50~100 range
+
+  const result = {
+    key: seasonKey,
+    worstKey,
+    name: SEASON_INFO[seasonKey].name,
+    nameEn: SEASON_INFO[seasonKey].nameEn,
+    worstName: SEASON_INFO[worstKey].name,
+    description: SEASON_INFO[seasonKey].description,
+    subtype,
+    confidence,
+    scores: { ...scores },
+    derived: { tone, value, chroma, clarity },
+    foundation: stage1Selection,
+    palette: SEASON_INFO[seasonKey].palette,
+    bestColors: SEASON_INFO[seasonKey].bestColors,
+    worstColors: SEASON_INFO[worstKey].bestColors,
+    makeup: SEASON_INFO[seasonKey].makeup,
+    traits: SEASON_INFO[seasonKey].traits,
+    fashion: SEASON_INFO[seasonKey].fashion,
+    stageResults: { ...stageResults },
+  };
+
+  try { localStorage.setItem('cmt_result', JSON.stringify(result)); } catch (e) {}
   window.location.href = 'result.html';
 }
 
-// ─── Camera & MediaPipe Hands ─────────────────────────────────────────────────
+function determineSubtype(seasonKey, der) {
+  // 명세서 기반 세부 타입
+  if (seasonKey === 'spring') {
+    if (der.value === 'light' && der.clarity === 'clear') return '봄웜 라이트';
+    if (der.chroma === 'bright' && der.clarity === 'clear') return '봄웜 브라이트';
+    return '봄웜 트루';
+  }
+  if (seasonKey === 'summer') {
+    if (der.value === 'light' && der.chroma === 'muted') return '여름쿨 라이트';
+    if (der.chroma === 'muted' && der.clarity === 'grayish') return '여름쿨 뮤트';
+    return '여름쿨 트루';
+  }
+  if (seasonKey === 'autumn') {
+    if (der.chroma === 'muted' && der.clarity === 'grayish') return '가을웜 뮤트';
+    if (der.value === 'dark' && der.chroma === 'muted') return '가을웜 딥';
+    return '가을웜 트루';
+  }
+  if (seasonKey === 'winter') {
+    if (der.chroma === 'bright' && der.clarity === 'clear') return '겨울쿨 브라이트';
+    if (der.value === 'dark' && der.clarity === 'clear') return '겨울쿨 딥';
+    return '겨울쿨 트루';
+  }
+  return '';
+}
+
+// ─── Season info (best/worst palettes, makeup, etc.) ─────────────────────────
+const SEASON_INFO = {
+  spring: {
+    name: '봄 웜톤',
+    nameEn: 'Spring Warm',
+    description: '밝고 생기 넘치는 따뜻한 색상이 당신에게 잘 어울려요.<br>화사하고 사랑스러운 봄꽃 같은 팔레트를 만나보세요.',
+    palette: ['#FFB347', '#FF8C69', '#FFDAB9', '#98FB98', '#FFD700', '#FF69B4', '#FFA07A'],
+    bestColors: [
+      { hex: '#FFB347', name: '피치 오렌지' },
+      { hex: '#FF8C69', name: '살몬 핑크' },
+      { hex: '#FFD700', name: '선샤인 옐로우' },
+      { hex: '#FFDAB9', name: '피치 크림' },
+      { hex: '#98FB98', name: '민트 그린' },
+      { hex: '#FF69B4', name: '핫 핑크' },
+      { hex: '#FFA07A', name: '라이트 살몬' },
+      { hex: '#FFFACD', name: '레몬 쉬폰' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '코랄 · 피치 핑크',          desc: '살몬 코랄, 웜 피치 계열' },
+      { category: '블러셔',     value: '피치 · 코랄 핑크',          desc: '따뜻한 복숭아빛 볼터치' },
+      { category: '아이섀도우', value: '골드 · 브론즈 · 오렌지 브라운', desc: '따뜻한 어스 톤' },
+      { category: '파운데이션', value: '옐로우 베이지 계열',         desc: '13~17호 웜 언더톤' },
+    ],
+    makeupAvoid: '쿨한 장밋빛 핑크, 퍼플, 블루 계열 메이크업은 피부와 동떨어져 보일 수 있어요.',
+    traits: [
+      '피부 베이스에 <strong>노란기·복숭아빛</strong>이 돌아요.',
+      '밝고 화사한 색상을 입으면 <strong>피부가 환해지고 생기</strong> 있어 보여요.',
+      '<strong>골드 액세서리</strong>가 실버보다 훨씬 잘 어울려요.',
+      '아이보리·크림색 옷이 순백색보다 더 자연스럽게 어울려요.',
+      '따뜻한 파스텔, 복숭아·살몬 계열에서 <strong>특히 빛나요</strong>.',
+    ],
+    fashion: {
+      best:  { colors: ['#FFB347','#FFDAB9','#98FB98','#FFF8DC','#FFFFE0'], desc: '복숭아, 아이보리, 민트, 크림, 옐로우' },
+      point: { colors: ['#FF8C69','#FF69B4','#FFA07A','#DAA520'],            desc: '살몬, 핫핑크, 라이트살몬, 골드' },
+    },
+  },
+  summer: {
+    name: '여름 쿨톤',
+    nameEn: 'Summer Cool',
+    description: '부드럽고 시원한 파스텔 컬러가 당신에게 잘 어울려요.<br>차분하고 우아한 여름 바다 같은 팔레트를 만나보세요.',
+    palette: ['#B0C4DE', '#DDA0DD', '#F8C8DC', '#AFCBE3', '#D8BFD8', '#FFB6C1', '#C0D9D9'],
+    bestColors: [
+      { hex: '#B0C4DE', name: '라이트 스틸 블루' },
+      { hex: '#DDA0DD', name: '플럼 라이트' },
+      { hex: '#F8C8DC', name: '베이비 핑크' },
+      { hex: '#AFCBE3', name: '소프트 스카이' },
+      { hex: '#D8BFD8', name: '시슬' },
+      { hex: '#FFB6C1', name: '라이트 핑크' },
+      { hex: '#C0D9D9', name: '파우더 아쿠아' },
+      { hex: '#F0E6F6', name: '라일락' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '로즈 · 모브 핑크',     desc: '쿨 톤 핑크, 베리 베이지' },
+      { category: '블러셔',     value: '로즈 · 핑크',          desc: '차분한 쿨 핑크 볼터치' },
+      { category: '아이섀도우', value: '라벤더 · 그레이 · 모브', desc: '쿨 톤 뉴트럴' },
+      { category: '파운데이션', value: '핑크 베이지 계열',     desc: '15~19호 쿨 언더톤' },
+    ],
+    makeupAvoid: '강한 오렌지/골드·짙은 브라운 계열은 피부를 칙칙하게 보이게 할 수 있어요.',
+    traits: [
+      '피부에 <strong>붉은기·푸른기</strong>가 도는 쿨 베이스예요.',
+      '강한 원색보다 <strong>부드러운 파스텔</strong>이 더 잘 어울려요.',
+      '<strong>실버 액세서리</strong>가 골드보다 자연스럽게 어울려요.',
+      '검정보다 <strong>네이비·그레이</strong>가 더 우아하게 떨어져요.',
+      '쨍한 색보다 <strong>그레이가 살짝 섞인 톤</strong>에서 빛나요.',
+    ],
+    fashion: {
+      best:  { colors: ['#B0C4DE','#F8C8DC','#D8BFD8','#C0D9D9','#F0E6F6'], desc: '소프트 블루, 베이비 핑크, 시슬, 아쿠아, 라일락' },
+      point: { colors: ['#DDA0DD','#FFB6C1','#AFCBE3','#9F8FBF'],            desc: '플럼, 라이트 핑크, 스카이, 라벤더' },
+    },
+  },
+  autumn: {
+    name: '가을 웜톤',
+    nameEn: 'Autumn Warm',
+    description: '차분하고 깊이 있는 흙빛 컬러가 당신에게 잘 어울려요.<br>고급스럽고 분위기 있는 가을 단풍 같은 팔레트를 만나보세요.',
+    palette: ['#B5651D', '#CD853F', '#8B6F47', '#A0522D', '#DAA520', '#808000', '#A52A2A'],
+    bestColors: [
+      { hex: '#B5651D', name: '캐러멜' },
+      { hex: '#CD853F', name: '페루' },
+      { hex: '#8B6F47', name: '월넛' },
+      { hex: '#A0522D', name: '시에나' },
+      { hex: '#DAA520', name: '머스터드 골드' },
+      { hex: '#808000', name: '올리브' },
+      { hex: '#A52A2A', name: '벽돌 레드' },
+      { hex: '#D2B48C', name: '탄' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '벽돌 · 테라코타 · 브릭',    desc: '딥한 웜 톤, 누드 브라운' },
+      { category: '블러셔',     value: '브릭 · 펌프킨',             desc: '오렌지 브라운 볼터치' },
+      { category: '아이섀도우', value: '브라운 · 카키 · 골드 브론즈', desc: '깊이감 있는 어스 톤' },
+      { category: '파운데이션', value: '딥 옐로우 베이지',          desc: '21~25호 웜 언더톤' },
+    ],
+    makeupAvoid: '쨍한 파스텔 핑크, 푸른 톤 립스틱은 어색하게 동떨어져 보일 수 있어요.',
+    traits: [
+      '피부에 <strong>황금빛·구릿빛</strong>이 도는 깊은 웜이에요.',
+      '<strong>가라앉은 어스 톤</strong>에서 분위기와 깊이가 살아나요.',
+      '검정보다 <strong>딥 브라운</strong>이 더 자연스럽게 떨어져요.',
+      '<strong>골드·앤티크 골드</strong> 액세서리와 궁합이 좋아요.',
+      '가을 단풍처럼 <strong>레드·오렌지·올리브</strong> 계열에 강해요.',
+    ],
+    fashion: {
+      best:  { colors: ['#B5651D','#CD853F','#8B6F47','#808000','#D2B48C'], desc: '캐러멜, 페루, 월넛, 올리브, 탄' },
+      point: { colors: ['#A0522D','#DAA520','#A52A2A','#6B4226'],            desc: '시에나, 머스터드, 벽돌, 다크 브라운' },
+    },
+  },
+  winter: {
+    name: '겨울 쿨톤',
+    nameEn: 'Winter Cool',
+    description: '선명하고 강한 쿨 컬러가 당신에게 잘 어울려요.<br>도시적이고 시크한 겨울 밤 같은 팔레트를 만나보세요.',
+    palette: ['#0F4C81', '#C71585', '#000080', '#DC143C', '#FFFFFF', '#1A1A1A', '#7F00FF'],
+    bestColors: [
+      { hex: '#0F4C81', name: '클래식 블루' },
+      { hex: '#C71585', name: '마젠타' },
+      { hex: '#000080', name: '네이비' },
+      { hex: '#DC143C', name: '크림슨' },
+      { hex: '#FFFFFF', name: '퓨어 화이트' },
+      { hex: '#1A1A1A', name: '잉크 블랙' },
+      { hex: '#7F00FF', name: '바이올렛' },
+      { hex: '#00CED1', name: '다크 터쿼이즈' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '체리 · 마젠타 · 와인',    desc: '선명한 쿨 톤, 푸른 빨강' },
+      { category: '블러셔',     value: '핑크 · 라즈베리',         desc: '쨍한 쿨 핑크 볼터치' },
+      { category: '아이섀도우', value: '플럼 · 차콜 · 실버 화이트', desc: '강한 대비, 쿨 컬러' },
+      { category: '파운데이션', value: '핑크/뉴트럴 베이지',      desc: '17~21호 쿨 언더톤' },
+    ],
+    makeupAvoid: '베이지·골드·오렌지 계열은 얼굴이 칙칙해 보일 수 있어요.',
+    traits: [
+      '피부에 <strong>푸른기·붉은기</strong>가 강한 쿨 베이스예요.',
+      '대비가 큰 <strong>선명한 컬러</strong>일수록 얼굴이 또렷해져요.',
+      '<strong>실버·플래티넘</strong> 액세서리가 골드보다 잘 어울려요.',
+      '<strong>퓨어 화이트와 잉크 블랙</strong>이 가장 자연스러워요.',
+      '강한 채도·강한 명도 대비의 옷에서 <strong>도시적인 매력</strong>이 나와요.',
+    ],
+    fashion: {
+      best:  { colors: ['#0F4C81','#000080','#FFFFFF','#1A1A1A','#DC143C'], desc: '클래식블루, 네이비, 퓨어화이트, 잉크블랙, 크림슨' },
+      point: { colors: ['#C71585','#7F00FF','#00CED1','#FF1493'],            desc: '마젠타, 바이올렛, 터쿼이즈, 핫핑크' },
+    },
+  },
+};
+
+// ─── Hand gesture detection ──────────────────────────────────────────────────
 let videoEl = null;
 let canvasEl = null;
 let ctx = null;
 let handsInstance = null;
+let faceMeshInstance = null;
 let frameLoopActive = false;
 let lastGestureTime = 0;
-const GESTURE_COOLDOWN = 950;
-let swipeBuffer = [];
+const GESTURE_COOLDOWN = 900;
+let faceLabSample = null;
+let stableGesture = { type: null, count: 0 };
+let faceLandmarksLatest = null;
+let faceLostFrames = 0;
 
 async function startCamera() {
   const placeholder = document.getElementById('cameraPlaceholder');
@@ -125,15 +725,16 @@ async function startCamera() {
     canvasEl.className = 'camera-canvas';
 
     placeholder.replaceWith(videoEl);
-    cameraArea.insertBefore(canvasEl, document.getElementById('colorOverlay'));
-
-    document.getElementById('colorOverlay').style.display = 'block';
+    cameraArea.insertBefore(canvasEl, document.getElementById('clothDrape'));
 
     await videoEl.play();
 
+    if (currentStage === 1) showStage1UI();
+    else if (currentStage >= 2 && currentStage <= 5) { showCompareUI(); renderCompareStage(); }
+
     setStatus('손 인식 모델 로딩 중…');
     initHands();
-
+    initFaceMesh();
   } catch (err) {
     const msg = err.name === 'NotAllowedError'
       ? '카메라 권한이 거부되었어요.<br>브라우저 주소창에서 권한을 허용해주세요.'
@@ -151,28 +752,14 @@ async function startCamera() {
 }
 
 function initHands() {
-  handsInstance = new Hands({
-    locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`
-  });
-
+  handsInstance = new Hands({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}` });
   handsInstance.setOptions({
-    maxNumHands: 1,
-    modelComplexity: 1,
-    minDetectionConfidence: 0.72,
-    minTrackingConfidence: 0.55
+    maxNumHands: 1, modelComplexity: 1,
+    minDetectionConfidence: 0.72, minTrackingConfidence: 0.55,
   });
-
   handsInstance.onResults(onHandResults);
-
   frameLoopActive = true;
   requestAnimationFrame(frameLoop);
-
-  // Mark ready once first frame is processed
-  handsInstance.onResults = (results) => {
-    setStatus('손동작으로 색상을 골라보세요 ✋');
-    handsInstance.onResults = onHandResults;
-    onHandResults(results);
-  };
 }
 
 async function frameLoop() {
@@ -180,17 +767,15 @@ async function frameLoop() {
     requestAnimationFrame(frameLoop);
     return;
   }
-
   if (canvasEl.width !== videoEl.videoWidth && videoEl.videoWidth > 0) {
     canvasEl.width  = videoEl.videoWidth;
     canvasEl.height = videoEl.videoHeight;
     ctx = canvasEl.getContext('2d');
   }
-
   try {
-    await handsInstance.send({ image: videoEl });
+    if (handsInstance) await handsInstance.send({ image: videoEl });
+    if (faceMeshInstance) await faceMeshInstance.send({ image: videoEl });
   } catch (_) {}
-
   requestAnimationFrame(frameLoop);
 }
 
@@ -199,7 +784,8 @@ function onHandResults(results) {
   ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
   if (!results.multiHandLandmarks?.length) {
-    swipeBuffer = [];
+    stableGesture = { type: null, count: 0 };
+    if (currentStage === 1) clearStage1Hover();
     return;
   }
 
@@ -208,53 +794,118 @@ function onHandResults(results) {
   drawConnectors(ctx, lm, HAND_CONNECTIONS, { color: 'rgba(255,140,66,0.75)', lineWidth: 2 });
   drawLandmarks(ctx, lm, { color: '#FF8C42', lineWidth: 1, radius: 4 });
 
-  const now = Date.now();
-  if (now - lastGestureTime < GESTURE_COOLDOWN) return;
+  // Stage 1: pointing detection with hover
+  if (currentStage === 1) {
+    handleStage1Hand(lm);
+    return;
+  }
 
-  const gesture = detectGesture(lm);
-  if (gesture) {
-    lastGestureTime = now;
-    triggerGesture(gesture);
+  // Stage 2~5: gesture-based interaction
+  if (currentStage >= 2 && currentStage <= 5) {
+    handleCompareStageHand(lm);
   }
 }
 
-function detectGesture(lm) {
-  // y increases downward; finger extended = tip.y < mcp.y
+function handleStage1Hand(lm) {
+  const g = classifyGesture(lm);
+  // palm → reset
+  if (g === 'palm') {
+    const now = Date.now();
+    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+      lastGestureTime = now;
+      showGestureFeedback('초기화 🖐');
+      resetStage1();
+    }
+    clearStage1Hover();
+    return;
+  }
+  // ok → advance
+  if (g === 'ok' && stage1Selection) {
+    const now = Date.now();
+    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+      lastGestureTime = now;
+      showGestureFeedback('확인 👌');
+      setTimeout(() => confirmStage1(), 280);
+    }
+    clearStage1Hover();
+    return;
+  }
+  // one → pointing for swatch hover
+  if (g === 'one') {
+    detectStage1Pointing(lm);
+  } else {
+    clearStage1Hover();
+  }
+}
+
+function handleCompareStageHand(lm) {
+  const g = classifyGesture(lm);
+
+  // Live cloth toggle (no cooldown) for 'one' / 'two'
+  if (g === 'one' && currentChoice !== 'opt1') showCloth('opt1');
+  else if (g === 'two' && currentChoice !== 'opt2') showCloth('opt2');
+  else if (g === 'palm' && currentChoice !== null) {
+    const now = Date.now();
+    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+      lastGestureTime = now;
+      showGestureFeedback('초기화 🖐');
+      showCloth(null);
+    }
+    return;
+  }
+
+  // good → confirm choice (cooldown)
+  if (g === 'good' && currentChoice) {
+    const now = Date.now();
+    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+      lastGestureTime = now;
+      showGestureFeedback('선택 👍');
+      confirmCurrentPair();
+    }
+    return;
+  }
+
+  // ok → advance stage (cooldown)
+  if (g === 'ok' && isCurrentStageDone()) {
+    const now = Date.now();
+    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+      lastGestureTime = now;
+      showGestureFeedback('다음 단계 👌');
+      setTimeout(() => advanceFromCompare(), 280);
+    }
+    return;
+  }
+}
+
+function classifyGesture(lm) {
   const up = (tip, mcp) => lm[tip].y < lm[mcp].y - 0.03;
   const idx  = up(8,  5);
   const mid  = up(12, 9);
   const ring = up(16, 13);
   const pink = up(20, 17);
-  const thumb = lm[4].y < lm[2].y - 0.05;
+  const thumbUp = lm[4].y < lm[2].y - 0.05;
 
-  // Open palm — all 4 fingers extended
-  if (idx && mid && ring && pink) return 'reset';
+  // Thumb-index pinch distance (normalized landmark coords)
+  const dx = lm[4].x - lm[8].x;
+  const dy = lm[4].y - lm[8].y;
+  const pinchDist = Math.sqrt(dx*dx + dy*dy);
 
-  // Thumbs up — thumb up, all fingers curled
-  if (thumb && !idx && !mid && !ring && !pink) return 'select';
+  // OK sign: thumb-index tips touching, other fingers extended
+  if (pinchDist < 0.07 && mid && ring && pink) return 'ok';
 
-  // Swipe — track wrist x over recent frames
-  // Video is CSS-mirrored: user's right swipe → x decreases in MediaPipe coords
-  swipeBuffer.push(lm[0].x);
-  if (swipeBuffer.length > 10) swipeBuffer.shift();
+  // Open palm — all four fingers extended (+thumb up usually)
+  if (idx && mid && ring && pink) return 'palm';
 
-  if (swipeBuffer.length >= 6) {
-    const delta = swipeBuffer.at(-1) - swipeBuffer[0];
-    if (delta < -0.12) { swipeBuffer = []; return 'next'; }
-    if (delta >  0.12) { swipeBuffer = []; return 'prev'; }
-  }
+  // Thumbs up — only thumb extended
+  if (thumbUp && !idx && !mid && !ring && !pink) return 'good';
+
+  // Two-finger (peace) — index + middle extended only
+  if (idx && mid && !ring && !pink) return 'two';
+
+  // One-finger (point) — index only
+  if (idx && !mid && !ring && !pink) return 'one';
 
   return null;
-}
-
-function triggerGesture(gesture) {
-  const labels = { next: '다음 →', prev: '← 이전', select: '선택 👍', reset: '초기화 🖐' };
-  showGestureFeedback(labels[gesture] || '');
-
-  if (gesture === 'next')   nextColor();
-  else if (gesture === 'prev')   prevColor();
-  else if (gesture === 'select') selectColor();
-  else if (gesture === 'reset')  resetSelection();
 }
 
 function showGestureFeedback(text) {
@@ -273,18 +924,131 @@ function setStatus(text) {
   el.style.display = text ? 'block' : 'none';
 }
 
-// ─── Strip click & Keyboard ───────────────────────────────────────────────────
-document.getElementById('colorStrip').addEventListener('click', e => {
-  const item = e.target.closest('.color-strip-item');
-  if (!item) return;
-  const idx = Array.from(document.querySelectorAll('.color-strip-item')).indexOf(item);
-  if (idx !== -1) { currentIndex = idx; updateDisplay(); }
-});
+// ─── FaceMesh (skin sampling – optional, kept for future use) ────────────────
+function initFaceMesh() {
+  try {
+    faceMeshInstance = new FaceMesh({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${f}` });
+    faceMeshInstance.setOptions({ maxNumFaces: 1, refineLandmarks: false, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
+    faceMeshInstance.onResults(onFaceResults);
+  } catch (e) { /* ignore */ }
+}
 
+function onFaceResults(results) {
+  const lms = results.multiFaceLandmarks?.[0];
+  if (!lms) {
+    faceLostFrames++;
+    if (faceLostFrames > 8) {
+      faceLandmarksLatest = null;
+      updateClothPosition();
+    }
+    return;
+  }
+  faceLostFrames = 0;
+  faceLandmarksLatest = lms;
+  updateClothPosition();
+
+  if (!videoEl) return;
+  const vw = videoEl.videoWidth || 640, vh = videoEl.videoHeight || 480;
+  let minX=1,minY=1,maxX=0,maxY=0;
+  lms.forEach(p => { minX = Math.min(minX,p.x); minY = Math.min(minY,p.y); maxX = Math.max(maxX,p.x); maxY = Math.max(maxY,p.y); });
+  const w = (maxX-minX)*vw, h = (maxY-minY)*vh;
+  const cx = (minX+maxX)/2*vw, cy = (minY+maxY)/2*vh;
+  const sz = Math.max(10, Math.floor(Math.min(w,h)*0.12));
+  const pts = [{x:cx - w*0.22, y:cy - h*0.05},{x:cx + w*0.22, y:cy - h*0.05},{x:cx, y:cy + h*0.15}];
+  const samples = [];
+  pts.forEach(p => {
+    const avg = getAverageVideoRGB(Math.round(p.x - sz/2), Math.round(p.y - sz/2), sz, sz);
+    if (avg) samples.push(avg);
+  });
+  if (!samples.length) return;
+  const avg = samples.reduce((acc,s)=>({r:acc.r+s.r,g:acc.g+s.g,b:acc.b+s.b}),{r:0,g:0,b:0});
+  avg.r = Math.round(avg.r/samples.length); avg.g = Math.round(avg.g/samples.length); avg.b = Math.round(avg.b/samples.length);
+  faceLabSample = rgbToLab(avg.r, avg.g, avg.b);
+}
+
+// Position the cloth drape under the user's chin using FaceMesh landmarks.
+// The video is CSS-mirrored (scaleX(-1)) so we mirror landmark x coords too.
+function updateClothPosition() {
+  const drape = document.getElementById('clothDrape');
+  const cameraArea = document.getElementById('cameraArea');
+  if (!drape || !cameraArea) return;
+
+  // Hide if not in a compare stage or face is lost
+  if (!(currentStage >= 2 && currentStage <= 5) || !faceLandmarksLatest) {
+    drape.style.visibility = 'hidden';
+    return;
+  }
+
+  const lm = faceLandmarksLatest;
+  // 152 = chin tip, 234 = left face boundary (user's left), 454 = right face boundary
+  const chin = lm[152];
+  const faceL = lm[234];
+  const faceR = lm[454];
+  if (!chin || !faceL || !faceR) {
+    drape.style.visibility = 'hidden';
+    return;
+  }
+
+  // camera area's video uses object-fit:cover, the canvas tracks the video,
+  // and landmarks are already in normalized [0..1] coords of the video frame.
+  // We position the drape inside the camera-area which is sized in CSS pixels.
+  const rect = cameraArea.getBoundingClientRect();
+  const camW = rect.width;
+  const camH = rect.height;
+
+  // Mirror x (preview is flipped horizontally)
+  const chinX = (1 - chin.x) * camW;
+  const chinY = chin.y * camH;
+
+  // face width in CSS px
+  const faceWidth = Math.abs(faceR.x - faceL.x) * camW;
+  // drape spans roughly 2.6x face width but capped to camera width
+  const clothWidth  = Math.min(camW * 1.0, Math.max(faceWidth * 2.4, camW * 0.6));
+  const clothHeight = Math.max(80, camH - chinY - 6);
+
+  const left = Math.max(-clothWidth * 0.05, Math.min(camW - clothWidth * 0.95, chinX - clothWidth / 2));
+  const top  = chinY + 4;
+
+  drape.style.visibility = 'visible';
+  drape.style.width  = clothWidth + 'px';
+  drape.style.height = clothHeight + 'px';
+  drape.style.left   = left + 'px';
+  drape.style.top    = top + 'px';
+}
+
+function getAverageVideoRGB(x, y, w, h) {
+  try {
+    const tmp = document.createElement('canvas');
+    tmp.width = w; tmp.height = h;
+    const tctx = tmp.getContext('2d');
+    tctx.drawImage(videoEl, x, y, w, h, 0, 0, w, h);
+    const id = tctx.getImageData(0,0,w,h).data;
+    let r=0,g=0,b=0,c=0;
+    for (let i=0;i<id.length;i+=4) {
+      if (id[i+3] === 0) continue;
+      r += id[i]; g += id[i+1]; b += id[i+2]; c++;
+    }
+    if (!c) return null;
+    return { r: Math.round(r/c), g: Math.round(g/c), b: Math.round(b/c) };
+  } catch (e) { return null; }
+}
+
+// ─── Keyboard fallback ───────────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight') nextColor();
-  else if (e.key === 'ArrowLeft') prevColor();
-  else if (e.key === 'Enter') selectColor();
+  if (currentStage >= 2 && currentStage <= 5) {
+    if (e.key === '1') showCloth('opt1');
+    else if (e.key === '2') showCloth('opt2');
+    else if (e.key === 'Enter' || e.key.toLowerCase() === 'g') {
+      if (currentChoice) confirmCurrentPair();
+    } else if (e.key.toLowerCase() === 'o') {
+      if (isCurrentStageDone()) advanceFromCompare();
+    }
+  }
+  if (currentStage === 1) {
+    if (e.key.toLowerCase() === 'o' && stage1Selection) confirmStage1();
+    if (e.key.toLowerCase() === 'r') resetStage1();
+  }
 });
 
-updateDisplay();
+// ─── Bootstrap ──────────────────────────────────────────────────────────────
+enterStage(1);

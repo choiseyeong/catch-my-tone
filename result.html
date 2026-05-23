@@ -34,11 +34,14 @@
     <div class="hero-blob blob-2"></div>
     <div class="container">
       <div class="result-badge">✨ 진단 완료</div>
-      <div class="result-season" style="background: linear-gradient(135deg, #E8702A, #FFB340, #FFD166); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+      <div class="result-season" id="resultSeason" style="background: linear-gradient(135deg, #E8702A, #FFB340, #FFD166); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
         봄 웜톤
       </div>
-      <div class="result-season-en">Spring Warm Type</div>
-      <p class="result-tagline">
+      <div class="result-season-en" id="resultSeasonEn">Spring Warm Type</div>
+
+      <div class="subtype-tag" id="resultSubtype">봄웜 라이트</div>
+
+      <p class="result-tagline" id="resultTagline">
         밝고 생기 넘치는 따뜻한 색상이 당신에게 잘 어울려요.<br>
         화사하고 사랑스러운 봄꽃 같은 팔레트를 만나보세요.
       </p>
@@ -47,15 +50,15 @@
       <div style="max-width:360px; margin:0 auto 28px; background:rgba(255,255,255,0.7); padding:16px 20px; border-radius:14px; backdrop-filter:blur(8px);">
         <div style="display:flex; justify-content:space-between; font-size:0.88rem; margin-bottom:8px;">
           <span style="color:var(--text-medium); font-weight:600;">진단 신뢰도</span>
-          <span style="color:var(--orange); font-weight:700;">82%</span>
+          <span id="resultConfidence" style="color:var(--orange); font-weight:700;">82%</span>
         </div>
         <div class="reliability-bar-bg">
-          <div class="reliability-bar-fill"></div>
+          <div class="reliability-bar-fill" id="resultConfidenceBar"></div>
         </div>
-        <p style="font-size:0.78rem; color:var(--text-muted); margin-top:6px;">웜톤 색상을 82% 이상 선택하셨어요.</p>
+        <p id="resultConfidenceText" style="font-size:0.78rem; color:var(--text-muted); margin-top:6px;">5단계 비교에서 일관성이 높았어요.</p>
       </div>
 
-      <div class="result-palette-preview">
+      <div class="result-palette-preview" id="resultPalettePreview">
         <div class="result-swatch" style="background:#FFB347;"></div>
         <div class="result-swatch" style="background:#FF8C69;"></div>
         <div class="result-swatch" style="background:#FFDAB9;"></div>
@@ -76,128 +79,42 @@
 
         <!-- Best Colors -->
         <div class="result-card">
-          <h3><span>🌟</span> 베스트 컬러</h3>
-          <div class="palette-grid">
-            <div class="palette-item">
-              <div class="palette-color" style="background:#FFB347;"></div>
-              <div class="palette-name">피치 오렌지</div>
-            </div>
-            <div class="palette-item">
-              <div class="palette-color" style="background:#FF8C69;"></div>
-              <div class="palette-name">살몬 핑크</div>
-            </div>
-            <div class="palette-item">
-              <div class="palette-color" style="background:#FFD700;"></div>
-              <div class="palette-name">선샤인 옐로우</div>
-            </div>
-            <div class="palette-item">
-              <div class="palette-color" style="background:#FFDAB9;"></div>
-              <div class="palette-name">피치 크림</div>
-            </div>
-            <div class="palette-item">
-              <div class="palette-color" style="background:#98FB98;"></div>
-              <div class="palette-name">민트 그린</div>
-            </div>
-            <div class="palette-item">
-              <div class="palette-color" style="background:#FF69B4;"></div>
-              <div class="palette-name">핫 핑크</div>
-            </div>
-            <div class="palette-item">
-              <div class="palette-color" style="background:#FFA07A;"></div>
-              <div class="palette-name">라이트 살몬</div>
-            </div>
-            <div class="palette-item">
-              <div class="palette-color" style="background:#FFFACD;"></div>
-              <div class="palette-name">레몬 쉬폰</div>
-            </div>
-          </div>
+          <h3><span>🌟</span> 베스트 컬러 (대표 톤)</h3>
+          <div class="palette-grid" id="bestColorsGrid"></div>
         </div>
 
-        <!-- Colors to Avoid -->
+        <!-- Worst Colors -->
         <div class="result-card">
-          <h3><span>🚫</span> 피하면 좋은 컬러</h3>
-          <div class="avoid-grid">
-            <div class="avoid-item">
-              <div class="avoid-color" style="background:#708090;"></div>
-              <div class="avoid-name">슬레이트 그레이</div>
-            </div>
-            <div class="avoid-item">
-              <div class="avoid-color" style="background:#4682B4;"></div>
-              <div class="avoid-name">스틸 블루</div>
-            </div>
-            <div class="avoid-item">
-              <div class="avoid-color" style="background:#800000;"></div>
-              <div class="avoid-name">다크 마룬</div>
-            </div>
-            <div class="avoid-item">
-              <div class="avoid-color" style="background:#2F4F4F;"></div>
-              <div class="avoid-name">다크 그린</div>
-            </div>
-          </div>
+          <h3><span>🚫</span> 워스트 컬러 <span id="worstSeasonLabel" style="font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-left:auto;"></span></h3>
+          <div class="avoid-grid" id="worstColorsGrid"></div>
           <div class="info-box" style="margin-top:16px; margin-bottom:0;">
             <div class="info-box-icon">💡</div>
-            <p>차갑고 어두운 색상은 피부를 칙칙하거나 창백하게 보이게 할 수 있어요. 완전히 피하기보다는 얼굴에서 멀리, 하의나 액세서리로 활용해보세요.</p>
+            <p id="worstColorsDesc">정반대 계열의 색은 얼굴에서 멀리, 하의나 액세서리로만 활용해보세요.</p>
           </div>
         </div>
 
       </div>
 
+      <!-- Axis scores -->
+      <div class="result-card" style="margin-bottom:28px;">
+        <h3><span>📊</span> 단계별 점수 분포</h3>
+        <div class="score-breakdown" id="scoreBreakdown"></div>
+      </div>
+
       <!-- Characteristics -->
       <div class="result-layout">
         <div class="result-card">
-          <h3><span>✨</span> 봄 웜톤의 특징</h3>
-          <div class="traits-list">
-            <div class="trait-item">
-              <div class="trait-dot"></div>
-              <div class="trait-text">피부 베이스에 <strong>노란기·복숭아빛</strong>이 돌아요.</div>
-            </div>
-            <div class="trait-item">
-              <div class="trait-dot"></div>
-              <div class="trait-text">밝고 화사한 색상을 입으면 <strong>피부가 환해지고 생기</strong> 있어 보여요.</div>
-            </div>
-            <div class="trait-item">
-              <div class="trait-dot"></div>
-              <div class="trait-text"><strong>골드 액세서리</strong>가 실버보다 훨씬 잘 어울려요.</div>
-            </div>
-            <div class="trait-item">
-              <div class="trait-dot"></div>
-              <div class="trait-text">아이보리·크림색 옷이 순백색보다 더 자연스럽게 어울려요.</div>
-            </div>
-            <div class="trait-item">
-              <div class="trait-dot"></div>
-              <div class="trait-text">따뜻한 파스텔, 복숭아·살몬 계열에서 <strong>특히 빛나요</strong>.</div>
-            </div>
-          </div>
+          <h3><span>✨</span> <span id="traitsSeasonLabel">대표 톤</span>의 특징</h3>
+          <div class="traits-list" id="traitsList"></div>
         </div>
 
         <!-- Makeup -->
         <div class="result-card">
           <h3><span>💄</span> 추천 메이크업 컬러</h3>
-          <div class="makeup-grid">
-            <div class="makeup-item">
-              <div class="makeup-category">립 컬러</div>
-              <div class="makeup-value">코랄 · 피치 핑크</div>
-              <div class="makeup-desc">살몬 코랄, 웜 피치 계열</div>
-            </div>
-            <div class="makeup-item">
-              <div class="makeup-category">블러셔</div>
-              <div class="makeup-value">피치 · 코랄 핑크</div>
-              <div class="makeup-desc">따뜻한 복숭아빛 볼터치</div>
-            </div>
-            <div class="makeup-item">
-              <div class="makeup-category">아이섀도우</div>
-              <div class="makeup-value">골드 · 브론즈 · 오렌지 브라운</div>
-              <div class="makeup-desc">따뜻한 어스 톤</div>
-            </div>
-            <div class="makeup-item">
-              <div class="makeup-category">파운데이션</div>
-              <div class="makeup-value">옐로우 베이지 계열</div>
-              <div class="makeup-desc">13~17호 웜 언더톤</div>
-            </div>
-          </div>
+          <div class="makeup-grid" id="makeupGrid"></div>
           <div style="margin-top:16px; padding:14px; background:rgba(255,248,240,0.8); border-radius:10px; border:1px solid rgba(255,212,160,0.3);">
             <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:4px; font-weight:600;">AVOID</div>
-            <div style="font-size:0.88rem; color:var(--text-medium);">쿨한 장밋빛 핑크, 퍼플, 블루 계열 메이크업은 피부와 동떨어져 보일 수 있어요.</div>
+            <div id="makeupAvoid" style="font-size:0.88rem; color:var(--text-medium);">쿨한 장밋빛 핑크, 퍼플, 블루 계열 메이크업은 피부와 동떨어져 보일 수 있어요.</div>
           </div>
         </div>
       </div>
@@ -205,42 +122,8 @@
       <!-- Fashion Recommendations -->
       <div class="result-card" style="margin-bottom:0;">
         <h3><span>👗</span> 패션 컬러 추천</h3>
-        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-top:4px;">
-
-          <div style="text-align:center;">
-            <div style="font-size:0.82rem; font-weight:700; color:var(--orange); margin-bottom:10px; letter-spacing:0.05em;">베스트 컬러</div>
-            <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
-              <div style="width:38px; height:38px; border-radius:8px; background:#FFB347; box-shadow:var(--shadow-sm);"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#FFDAB9; box-shadow:var(--shadow-sm);"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#98FB98; box-shadow:var(--shadow-sm);"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#FFF8DC; box-shadow:var(--shadow-sm);"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#FFFFE0; box-shadow:var(--shadow-sm);"></div>
-            </div>
-            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">복숭아, 아이보리, 민트, 크림, 옐로우</p>
-          </div>
-
-          <div style="text-align:center;">
-            <div style="font-size:0.82rem; font-weight:700; color:var(--text-medium); margin-bottom:10px; letter-spacing:0.05em;">포인트 컬러</div>
-            <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
-              <div style="width:38px; height:38px; border-radius:8px; background:#FF8C69; box-shadow:var(--shadow-sm);"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#FF69B4; box-shadow:var(--shadow-sm);"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#FFA07A; box-shadow:var(--shadow-sm);"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#DAA520; box-shadow:var(--shadow-sm);"></div>
-            </div>
-            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">살몬, 핫핑크, 라이트살몬, 골드</p>
-          </div>
-
-          <div style="text-align:center;">
-            <div style="font-size:0.82rem; font-weight:700; color:#C0605A; margin-bottom:10px; letter-spacing:0.05em;">피할 컬러</div>
-            <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
-              <div style="width:38px; height:38px; border-radius:8px; background:#708090; box-shadow:var(--shadow-sm); opacity:0.7;"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#4682B4; box-shadow:var(--shadow-sm); opacity:0.7;"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#2F4F4F; box-shadow:var(--shadow-sm); opacity:0.7;"></div>
-              <div style="width:38px; height:38px; border-radius:8px; background:#1C1C1C; box-shadow:var(--shadow-sm); opacity:0.7;"></div>
-            </div>
-            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">회색, 쿨 블루, 다크 그린, 블랙</p>
-          </div>
-
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-top:4px;" id="fashionGrid">
+          <!-- filled by JS -->
         </div>
       </div>
 
@@ -268,9 +151,199 @@
 
   <script src="js/main.js"></script>
   <script>
+    const SEASON_GRADIENTS = {
+      spring: 'linear-gradient(135deg, #E8702A, #FFB340, #FFD166)',
+      summer: 'linear-gradient(135deg, #8A7AB8, #B8AFD8, #DFC4E8)',
+      autumn: 'linear-gradient(135deg, #8B4513, #B5651D, #DAA520)',
+      winter: 'linear-gradient(135deg, #1A3A7A, #4A4ABF, #C71585)',
+    };
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function renderAxisScores(scores) {
+      const wrap = document.getElementById('scoreBreakdown');
+      if (!wrap || !scores) return;
+      const axes = [
+        { label: '웜 vs 쿨',   a: 'warm',   b: 'cool',    aLabel: '웜',     bLabel: '쿨' },
+        { label: '밝음 vs 어두움', a: 'light',  b: 'dark',    aLabel: '밝음',   bLabel: '어두움' },
+        { label: '선명 vs 부드러움', a: 'bright', b: 'muted',   aLabel: '선명',   bLabel: '부드러움' },
+        { label: '청색 vs 탁색', a: 'clear',  b: 'grayish', aLabel: '청',     bLabel: '탁' },
+      ];
+      wrap.innerHTML = '';
+      axes.forEach(ax => {
+        const aVal = scores[ax.a] || 0;
+        const bVal = scores[ax.b] || 0;
+        const total = aVal + bVal || 1;
+        const aPct = Math.round((aVal / total) * 100);
+        const dominant = aVal > bVal ? ax.aLabel : (bVal > aVal ? ax.bLabel : '동률');
+
+        const row = document.createElement('div');
+        row.className = 'score-row';
+        row.innerHTML = `
+          <div class="score-row-label">${escapeHtml(ax.label)} <span style="color:var(--orange-dark); margin-left:6px;">${escapeHtml(dominant)} 우세</span></div>
+          <div class="score-row-bar">
+            <span class="score-row-val">${escapeHtml(ax.aLabel)} ${aVal}</span>
+            <div class="score-row-bar-bg"><div class="score-row-bar-fill" style="width:${aPct}%;"></div></div>
+            <span class="score-row-val">${bVal} ${escapeHtml(ax.bLabel)}</span>
+          </div>
+        `;
+        wrap.appendChild(row);
+      });
+    }
+
+    function renderBestColors(colors) {
+      const wrap = document.getElementById('bestColorsGrid');
+      if (!wrap || !colors) return;
+      wrap.innerHTML = '';
+      colors.forEach(c => {
+        const item = document.createElement('div');
+        item.className = 'palette-item';
+        item.innerHTML = `<div class="palette-color" style="background:${c.hex};"></div><div class="palette-name">${escapeHtml(c.name)}</div>`;
+        wrap.appendChild(item);
+      });
+    }
+
+    function renderWorstColors(colors) {
+      const wrap = document.getElementById('worstColorsGrid');
+      if (!wrap || !colors) return;
+      wrap.innerHTML = '';
+      colors.slice(0, 4).forEach(c => {
+        const item = document.createElement('div');
+        item.className = 'avoid-item';
+        item.innerHTML = `<div class="avoid-color" style="background:${c.hex};"></div><div class="avoid-name">${escapeHtml(c.name)}</div>`;
+        wrap.appendChild(item);
+      });
+    }
+
+    function renderTraits(traits) {
+      const wrap = document.getElementById('traitsList');
+      if (!wrap || !traits) return;
+      wrap.innerHTML = '';
+      traits.forEach(t => {
+        const item = document.createElement('div');
+        item.className = 'trait-item';
+        item.innerHTML = `<div class="trait-dot"></div><div class="trait-text">${t}</div>`;
+        wrap.appendChild(item);
+      });
+    }
+
+    function renderMakeup(items) {
+      const wrap = document.getElementById('makeupGrid');
+      if (!wrap || !items) return;
+      wrap.innerHTML = '';
+      items.forEach(m => {
+        const it = document.createElement('div');
+        it.className = 'makeup-item';
+        it.innerHTML = `
+          <div class="makeup-category">${escapeHtml(m.category)}</div>
+          <div class="makeup-value">${escapeHtml(m.value)}</div>
+          <div class="makeup-desc">${escapeHtml(m.desc)}</div>
+        `;
+        wrap.appendChild(it);
+      });
+    }
+
+    function renderFashion(fashion, worstColors) {
+      const wrap = document.getElementById('fashionGrid');
+      if (!wrap) return;
+      const swatchHtml = arr => arr.map(c => `<div style="width:38px; height:38px; border-radius:8px; background:${c}; box-shadow:var(--shadow-sm);"></div>`).join('');
+      const worstSwatchHtml = (worstColors || []).slice(0,4).map(c =>
+        `<div style="width:38px; height:38px; border-radius:8px; background:${c.hex}; box-shadow:var(--shadow-sm); opacity:0.7;"></div>`
+      ).join('');
+
+      wrap.innerHTML = `
+        <div style="text-align:center;">
+          <div style="font-size:0.82rem; font-weight:700; color:var(--orange); margin-bottom:10px; letter-spacing:0.05em;">베스트 컬러</div>
+          <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">${swatchHtml(fashion.best.colors)}</div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">${escapeHtml(fashion.best.desc)}</p>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.82rem; font-weight:700; color:var(--text-medium); margin-bottom:10px; letter-spacing:0.05em;">포인트 컬러</div>
+          <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">${swatchHtml(fashion.point.colors)}</div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">${escapeHtml(fashion.point.desc)}</p>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.82rem; font-weight:700; color:#C0605A; margin-bottom:10px; letter-spacing:0.05em;">피할 컬러</div>
+          <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">${worstSwatchHtml}</div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">${(worstColors || []).slice(0,4).map(c => escapeHtml(c.name)).join(', ')}</p>
+        </div>
+      `;
+    }
+
+    (function render() {
+      let data = null;
+      try { data = JSON.parse(localStorage.getItem('cmt_result')); } catch (e) {}
+      if (!data) return;
+
+      // Title
+      if (data.name) document.getElementById('resultSeason').textContent = data.name;
+      if (data.nameEn) document.getElementById('resultSeasonEn').textContent = data.nameEn;
+      if (data.subtype) document.getElementById('resultSubtype').textContent = data.subtype;
+      else document.getElementById('resultSubtype').style.display = 'none';
+      if (data.description) document.getElementById('resultTagline').innerHTML = data.description;
+
+      // Title gradient by season
+      if (data.key && SEASON_GRADIENTS[data.key]) {
+        const el = document.getElementById('resultSeason');
+        el.style.background = SEASON_GRADIENTS[data.key];
+        el.style.webkitBackgroundClip = 'text';
+        el.style.webkitTextFillColor = 'transparent';
+        el.style.backgroundClip = 'text';
+      }
+
+      // Confidence
+      if (typeof data.confidence === 'number') {
+        const pct = Math.max(0, Math.min(100, data.confidence));
+        document.getElementById('resultConfidence').textContent = pct + '%';
+        document.getElementById('resultConfidenceBar').style.width = pct + '%';
+        document.getElementById('resultConfidenceText').textContent =
+          pct >= 75 ? '단계별 비교에서 일관성이 매우 높았어요.' :
+          pct >= 60 ? '대표 톤이 비교적 뚜렷하게 드러났어요.' :
+                      '결과가 미묘했어요. 자연광에서 다시 진단해보세요.';
+      }
+
+      // Palette preview
+      if (Array.isArray(data.palette)) {
+        const prev = document.getElementById('resultPalettePreview');
+        prev.innerHTML = '';
+        data.palette.forEach(col => {
+          const d = document.createElement('div');
+          d.className = 'result-swatch';
+          d.style.background = col;
+          prev.appendChild(d);
+        });
+      }
+
+      // Best / worst
+      renderBestColors(data.bestColors);
+      renderWorstColors(data.worstColors);
+      if (data.worstName) document.getElementById('worstSeasonLabel').textContent = `(${data.worstName} 계열)`;
+      if (data.worstName) document.getElementById('worstColorsDesc').textContent =
+        `${data.worstName} 계열의 색은 얼굴 가까이에서 피부를 칙칙하거나 창백하게 보이게 할 수 있어요. 하의나 액세서리로만 가볍게 활용해보세요.`;
+
+      // Traits + makeup
+      if (data.name) document.getElementById('traitsSeasonLabel').textContent = data.name;
+      renderTraits(data.traits);
+      renderMakeup(data.makeup);
+      const avoidEl = document.getElementById('makeupAvoid');
+      if (avoidEl && data.makeupAvoid) avoidEl.textContent = data.makeupAvoid;
+
+      // Score breakdown
+      renderAxisScores(data.scores);
+
+      // Fashion
+      if (data.fashion) renderFashion(data.fashion, data.worstColors);
+    })();
+
     function shareResult() {
+      const data = JSON.parse(localStorage.getItem('cmt_result') || '{}');
+      const text = data.subtype
+        ? `나의 퍼스널컬러는 ${data.subtype} (${data.name})이에요! ✨`
+        : '나의 퍼스널컬러 결과 보러가기 ✨';
       if (navigator.share) {
-        navigator.share({ title: 'Catch My Tone 진단 결과', text: '나의 퍼스널컬러는 봄 웜톤이에요! ✨', url: location.href });
+        navigator.share({ title: 'Catch My Tone 진단 결과', text, url: location.href });
       } else {
         navigator.clipboard.writeText(location.href).then(() => alert('링크가 복사되었어요!'));
       }
