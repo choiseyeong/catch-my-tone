@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>퍼스널컬러란? — Catch My Tone</title>
+  <link rel="icon" type="image/png" href="images/catch_my_tone_logo.png">
+  <link rel="apple-touch-icon" href="images/catch_my_tone_logo.png">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
@@ -13,7 +15,7 @@
   <nav class="navbar">
     <div class="container nav-container">
       <a href="index.html" class="logo">
-        <div class="logo-icon">🎨</div>
+        <img class="logo-icon" src="images/catch_my_tone_logo.png" alt="Catch My Tone">
         <span class="logo-text">Catch My Tone</span>
       </a>
       <ul class="nav-links" id="navLinks">
@@ -175,7 +177,7 @@
         <p>퍼스널컬러는 크게 4가지 계절 타입으로 나뉘어요. 각 타입마다 어울리는 색상이 달라요.</p>
       </div>
       <div class="seasons-grid">
-        <div class="season-card spring">
+        <a href="spring.html" class="season-card spring">
           <div class="season-emoji">🌸</div>
           <div class="season-title">봄 웜톤</div>
           <div class="season-subtitle">Spring Warm · 밝고 화사한</div>
@@ -195,8 +197,9 @@
             <div class="season-swatch" style="background:#FFD700;"></div>
             <div class="season-swatch" style="background:#FF69B4;"></div>
           </div>
-        </div>
-        <div class="season-card summer">
+          <span class="season-cta">3가지 세부 타입 보기 →</span>
+        </a>
+        <a href="summer.html" class="season-card summer">
           <div class="season-emoji">🌿</div>
           <div class="season-title">여름 쿨톤</div>
           <div class="season-subtitle">Summer Cool · 부드럽고 우아한</div>
@@ -216,8 +219,9 @@
             <div class="season-swatch" style="background:#ADD8E6;"></div>
             <div class="season-swatch" style="background:#D8BFD8;"></div>
           </div>
-        </div>
-        <div class="season-card autumn">
+          <span class="season-cta">3가지 세부 타입 보기 →</span>
+        </a>
+        <a href="autumn.html" class="season-card autumn">
           <div class="season-emoji">🍂</div>
           <div class="season-title">가을 웜톤</div>
           <div class="season-subtitle">Autumn Warm · 깊고 고급스러운</div>
@@ -237,8 +241,9 @@
             <div class="season-swatch" style="background:#B8860B;"></div>
             <div class="season-swatch" style="background:#800020;"></div>
           </div>
-        </div>
-        <div class="season-card winter">
+          <span class="season-cta">3가지 세부 타입 보기 →</span>
+        </a>
+        <a href="winter.html" class="season-card winter">
           <div class="season-emoji">❄️</div>
           <div class="season-title">겨울 쿨톤</div>
           <div class="season-subtitle">Winter Cool · 선명하고 시크한</div>
@@ -258,7 +263,8 @@
             <div class="season-swatch" style="background:#E8E8F0;"></div>
             <div class="season-swatch" style="background:#00CED1;"></div>
           </div>
-        </div>
+          <span class="season-cta">3가지 세부 타입 보기 →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -310,7 +316,10 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-brand">
-          <span class="logo-text">🎨 Catch My Tone</span>
+          <div class="logo" style="margin-bottom:8px;">
+            <img class="logo-icon" src="images/catch_my_tone_logo.png" alt="">
+            <span class="logo-text">Catch My Tone</span>
+          </div>
           <p>웹캠 기반 퍼스널컬러 진단 서비스</p>
         </div>
       </div>

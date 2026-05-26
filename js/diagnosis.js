@@ -15,47 +15,97 @@ const STAGE_TITLES = {
        desc: '맑은 색감과 차분한 색감 중 어떤 쪽이 더 어울리는지 비교해요. 1번(청색) / 2번(탁색) 손모양으로 천을 바꿔보세요.' },
 };
 
+// Stage metadata (axis, option keys). Pairs are selected dynamically from
+// COMPARE_POOLS depending on the previous stages' results.
 const COMPARE_STAGES = {
+  2: { axis: 'tone',    opt1: { key: 'warm',   label: '웜' },      opt2: { key: 'cool',    label: '쿨' } },
+  3: { axis: 'value',   opt1: { key: 'dark',   label: '저명도' },   opt2: { key: 'light',   label: '고명도' } },
+  4: { axis: 'chroma',  opt1: { key: 'muted',  label: '저채도' },   opt2: { key: 'bright',  label: '고채도' } },
+  5: { axis: 'clarity', opt1: { key: 'clear',  label: '청색' },     opt2: { key: 'grayish', label: '탁색' } },
+};
+
+// Pools of comparison pairs per stage × context.
+// Stage 2 only has 'default' (decision begins here).
+// Stage 3 branches on tone, stage 4 on tone+value, stage 5 on tentative season.
+const COMPARE_POOLS = {
   2: {
-    axis: 'tone',
-    opt1: { key: 'warm', label: '웜' },
-    opt2: { key: 'cool', label: '쿨' },
-    pairs: [
-      { title: '핑크 비교',  opt1: { hex: '#F4A698', name: '웜핑크' },     opt2: { hex: '#F4A6C6', name: '쿨핑크' } },
-      { title: '블루 비교',  opt1: { hex: '#88BBDD', name: '웜블루' },     opt2: { hex: '#7AA8E5', name: '쿨블루' } },
-      { title: '베이직 비교', opt1: { hex: '#F5ECD7', name: '아이보리' },  opt2: { hex: '#FAFAFA', name: '화이트' } },
+    default: [
+      { title: '핑크 비교',   opt1: { hex: '#F4A698', name: '웜핑크' },   opt2: { hex: '#F4A6C6', name: '쿨핑크' } },
+      { title: '블루 비교',   opt1: { hex: '#88BBDD', name: '웜블루' },   opt2: { hex: '#7AA8E5', name: '쿨블루' } },
+      { title: '베이직 비교', opt1: { hex: '#F5ECD7', name: '아이보리' }, opt2: { hex: '#FAFAFA', name: '화이트' } },
     ],
   },
   3: {
-    axis: 'value',
-    opt1: { key: 'dark', label: '저명도' },
-    opt2: { key: 'light', label: '고명도' },
-    pairs: [
-      { title: '블루 명도',   opt1: { hex: '#1F2D5C', name: '네이비' },    opt2: { hex: '#B6D4E8', name: '라이트블루' } },
+    warm: [
       { title: '옐로우 명도', opt1: { hex: '#C99A2A', name: '머스터드' },  opt2: { hex: '#FFF4B0', name: '크림옐로우' } },
+      { title: '오렌지 명도', opt1: { hex: '#8B4513', name: '딥브라운' },  opt2: { hex: '#FFC9A8', name: '피치' } },
+      { title: '레드 명도',   opt1: { hex: '#8B2030', name: '다크와인' },  opt2: { hex: '#FF8C7A', name: '코랄' } },
+    ],
+    cool: [
+      { title: '블루 명도',   opt1: { hex: '#1F2D5C', name: '네이비' },    opt2: { hex: '#B6D4E8', name: '라이트블루' } },
+      { title: '퍼플 명도',   opt1: { hex: '#3A2D5A', name: '딥플럼' },    opt2: { hex: '#D8C8E8', name: '라일락' } },
       { title: '명도 대비',   opt1: { hex: '#0F0F12', name: '블랙' },      opt2: { hex: '#FFFFFF', name: '화이트' } },
+    ],
+    neutral: [
+      { title: '명도 대비',   opt1: { hex: '#0F0F12', name: '블랙' },         opt2: { hex: '#FFFFFF', name: '화이트' } },
+      { title: '그레이 명도', opt1: { hex: '#3D3D3D', name: '차콜' },         opt2: { hex: '#D0D0D0', name: '라이트그레이' } },
+      { title: '브라운 명도', opt1: { hex: '#3E2A1B', name: '다크브라운' },   opt2: { hex: '#D8B894', name: '라이트브라운' } },
     ],
   },
   4: {
-    axis: 'chroma',
-    opt1: { key: 'muted', label: '저채도' },
-    opt2: { key: 'bright', label: '고채도' },
-    pairs: [
-      { title: '레드 채도', opt1: { hex: '#C28A91', name: '더스티로즈' },   opt2: { hex: '#D8233A', name: '비비드레드' } },
-      { title: '블루 채도', opt1: { hex: '#6E8AA8', name: '그레이시블루' }, opt2: { hex: '#1B4FCB', name: '코발트블루' } },
-      { title: '그린 채도', opt1: { hex: '#7DA68C', name: '저채도그린' },   opt2: { hex: '#1FA85D', name: '고채도그린' } },
+    'warm-light': [ // 봄웜 후보 → 채도 비교
+      { title: '코랄 채도',   opt1: { hex: '#C28A91', name: '더스티코랄' }, opt2: { hex: '#FF7F50', name: '비비드코랄' } },
+      { title: '옐로우 채도', opt1: { hex: '#D4C58E', name: '스트로우' },   opt2: { hex: '#FFD700', name: '골드' } },
+      { title: '그린 채도',   opt1: { hex: '#A6B89A', name: '세이지' },     opt2: { hex: '#5DD09B', name: '스프링그린' } },
+    ],
+    'warm-dark': [ // 가을웜 후보 → 채도 비교
+      { title: '브릭 채도',   opt1: { hex: '#A5736F', name: '더스티벽돌' }, opt2: { hex: '#B5651D', name: '캐러멜' } },
+      { title: '올리브 채도', opt1: { hex: '#7A7A5B', name: '머디올리브' }, opt2: { hex: '#808000', name: '올리브' } },
+      { title: '브라운 채도', opt1: { hex: '#8B7B6F', name: '더스티브라운' },opt2: { hex: '#A0522D', name: '시에나' } },
+    ],
+    'cool-light': [ // 여름쿨 후보 → 채도 비교
+      { title: '핑크 채도',   opt1: { hex: '#C8A2B3', name: '더스티핑크' },   opt2: { hex: '#FFB6C1', name: '라이트핑크' } },
+      { title: '블루 채도',   opt1: { hex: '#7A8FA8', name: '더스티블루' },   opt2: { hex: '#88B0E8', name: '스카이블루' } },
+      { title: '라일락 채도', opt1: { hex: '#A89BB1', name: '그레이라벤더' }, opt2: { hex: '#C8A8E0', name: '라일락' } },
+    ],
+    'cool-dark': [ // 겨울쿨 후보 → 채도 비교
+      { title: '레드 채도',   opt1: { hex: '#7A4040', name: '다크와인' },    opt2: { hex: '#DC143C', name: '크림슨' } },
+      { title: '블루 채도',   opt1: { hex: '#2C3E5C', name: '슬레이트' },    opt2: { hex: '#0F4C81', name: '클래식블루' } },
+      { title: '퍼플 채도',   opt1: { hex: '#4A3A5C', name: '머디퍼플' },    opt2: { hex: '#7F00FF', name: '바이올렛' } },
     ],
   },
   5: {
-    axis: 'clarity',
-    opt1: { key: 'clear', label: '청색' },
-    opt2: { key: 'grayish', label: '탁색' },
-    pairs: [
-      { title: '민트/세이지', opt1: { hex: '#66E0C8', name: '클리어민트' },    opt2: { hex: '#A3B79A', name: '세이지그린' } },
-      { title: '라벤더',      opt1: { hex: '#C6A6F0', name: '클리어라벤더' }, opt2: { hex: '#A89BB1', name: '그레이시라벤더' } },
-      { title: '코랄',        opt1: { hex: '#FF8868', name: '클리어코랄' },   opt2: { hex: '#D8A795', name: '살몬베이지' } },
+    spring: [ // 봄웜 후보 → 청탁 비교
+      { title: '코랄 청탁',   opt1: { hex: '#FF8868', name: '클리어코랄' },   opt2: { hex: '#D8A795', name: '살몬베이지' } },
+      { title: '옐로우 청탁', opt1: { hex: '#FFE066', name: '클리어옐로우' }, opt2: { hex: '#D4C58E', name: '스트로우' } },
+      { title: '그린 청탁',   opt1: { hex: '#5DD09B', name: '클리어그린' },   opt2: { hex: '#A6B89A', name: '세이지' } },
+    ],
+    summer: [ // 여름쿨 후보 → 청탁 비교
+      { title: '라벤더 청탁', opt1: { hex: '#C6A6F0', name: '클리어라벤더' }, opt2: { hex: '#A89BB1', name: '그레이라벤더' } },
+      { title: '핑크 청탁',   opt1: { hex: '#FF99CC', name: '클리어핑크' },   opt2: { hex: '#C8A2B3', name: '더스티핑크' } },
+      { title: '블루 청탁',   opt1: { hex: '#7AA8E5', name: '클리어블루' },   opt2: { hex: '#7A8FA8', name: '더스티블루' } },
+    ],
+    autumn: [ // 가을웜 후보 → 청탁 비교
+      { title: '브릭 청탁',     opt1: { hex: '#B5651D', name: '클리어캐러멜' }, opt2: { hex: '#8B7B6F', name: '더스티브라운' } },
+      { title: '올리브 청탁',   opt1: { hex: '#808000', name: '클리어올리브' }, opt2: { hex: '#7A7A5B', name: '머디올리브' } },
+      { title: '머스터드 청탁', opt1: { hex: '#DAA520', name: '골든머스터드' }, opt2: { hex: '#A89270', name: '더스티베이지' } },
+    ],
+    winter: [ // 겨울쿨 후보 → 청탁 비교
+      { title: '코발트 청탁', opt1: { hex: '#0F4C81', name: '클리어코발트' }, opt2: { hex: '#3D5A7A', name: '그레이블루' } },
+      { title: '마젠타 청탁', opt1: { hex: '#C71585', name: '클리어마젠타' }, opt2: { hex: '#7A4A60', name: '머디마젠타' } },
+      { title: '레드 청탁',   opt1: { hex: '#DC143C', name: '클리어크림슨' }, opt2: { hex: '#7A4040', name: '머디와인' } },
     ],
   },
+};
+
+// Human-readable context label for the side panel.
+const CONTEXT_LABELS = {
+  3: { warm: '웜 계열 명도 비교', cool: '쿨 계열 명도 비교', neutral: '뉴트럴 명도 비교' },
+  4: {
+    'warm-light': '봄웜 후보 채도 비교', 'warm-dark': '가을웜 후보 채도 비교',
+    'cool-light': '여름쿨 후보 채도 비교', 'cool-dark': '겨울쿨 후보 채도 비교',
+  },
+  5: { spring: '봄웜 청·탁 비교', summer: '여름쿨 청·탁 비교', autumn: '가을웜 청·탁 비교', winter: '겨울쿨 청·탁 비교' },
 };
 
 // ─── Global state ────────────────────────────────────────────────────────────
@@ -74,6 +124,9 @@ const STAGE1_HOVER_DURATION = 1200;
 let currentPairIdx = 0;
 let currentChoice = null; // 'opt1' | 'opt2'
 const stageResults = { 2: [], 3: [], 4: [], 5: [] }; // each is an array of 'opt1Key'|'opt2Key'
+let activePairs = [];   // pairs being shown in the current stage (context-dependent)
+let activeContextKey = 'default';
+const stageContextHistory = { 2: 'default', 3: null, 4: null, 5: null };
 
 // Accumulated attribute scores
 const scores = {
@@ -250,18 +303,56 @@ function hideCompareUI() {
   document.getElementById('clothDrape').classList.remove('visible');
 }
 
+// Decide which pool to load for the given stage, based on accumulated scores.
+function computeStageContextKey(stage) {
+  if (stage === 2) return 'default';
+
+  if (stage === 3) {
+    if (scores.warm > scores.cool) return 'warm';
+    if (scores.cool > scores.warm) return 'cool';
+    return 'neutral';
+  }
+
+  if (stage === 4) {
+    const tone  = scores.warm  >= scores.cool  ? 'warm'  : 'cool';
+    const value = scores.light >= scores.dark  ? 'light' : 'dark';
+    return `${tone}-${value}`;
+  }
+
+  if (stage === 5) {
+    const tone  = scores.warm   >= scores.cool   ? 'warm'  : 'cool';
+    const value = scores.light  >= scores.dark   ? 'light' : 'dark';
+    if (tone === 'warm' && value === 'light') return 'spring';
+    if (tone === 'warm' && value === 'dark')  return 'autumn';
+    if (tone === 'cool' && value === 'light') return 'summer';
+    return 'winter';
+  }
+
+  return 'default';
+}
+
+function loadStagePairs(stage) {
+  const ctxKey = computeStageContextKey(stage);
+  activeContextKey = ctxKey;
+  stageContextHistory[stage] = ctxKey;
+  const pool = COMPARE_POOLS[stage] && COMPARE_POOLS[stage][ctxKey];
+  // Clone so pushing bonus pairs doesn't mutate the pool.
+  activePairs = pool ? pool.map(p => ({ ...p })) : [];
+}
+
 function renderCompareStage() {
   const def = COMPARE_STAGES[currentStage];
-  if (!def) return;
-  const pair = def.pairs[currentPairIdx];
+  if (!def || activePairs.length === 0) return;
+  const pair = activePairs[currentPairIdx];
+  if (!pair) return;
 
-  document.getElementById('comparePairIdx').textContent = `${currentPairIdx + 1} / ${def.pairs.length}`;
+  document.getElementById('comparePairIdx').textContent = `${currentPairIdx + 1} / ${activePairs.length}`;
   document.getElementById('comparePairTitle').textContent = pair.title;
 
   // pair dots
   const dotsEl = document.getElementById('comparePairDots');
   dotsEl.innerHTML = '';
-  for (let i = 0; i < def.pairs.length; i++) {
+  for (let i = 0; i < activePairs.length; i++) {
     const d = document.createElement('div');
     d.className = 'pair-dot';
     if (i < stageResults[currentStage].length) d.classList.add('done');
@@ -269,13 +360,11 @@ function renderCompareStage() {
     dotsEl.appendChild(d);
   }
 
-  // options
+  // options (no warm/cool category hints — keep the choice neutral)
   document.getElementById('compareOpt1Swatch').style.background = pair.opt1.hex;
-  document.getElementById('compareOpt1Name').childNodes[0].nodeValue = pair.opt1.name;
-  document.getElementById('compareOpt1Sub').textContent = `${def.opt1.label} 후보`;
+  document.getElementById('compareOpt1Name').textContent = pair.opt1.name;
   document.getElementById('compareOpt2Swatch').style.background = pair.opt2.hex;
-  document.getElementById('compareOpt2Name').childNodes[0].nodeValue = pair.opt2.name;
-  document.getElementById('compareOpt2Sub').textContent = `${def.opt2.label} 후보`;
+  document.getElementById('compareOpt2Name').textContent = pair.opt2.name;
 
   // reset choice highlight & cloth
   document.getElementById('compareOpt1').classList.remove('active');
@@ -287,7 +376,8 @@ function renderCompareStage() {
 function showCloth(which) {
   const def = COMPARE_STAGES[currentStage];
   if (!def) return;
-  const pair = def.pairs[currentPairIdx];
+  const pair = activePairs[currentPairIdx];
+  if (!pair) return;
   const opt1El = document.getElementById('compareOpt1');
   const opt2El = document.getElementById('compareOpt2');
   const drape  = document.getElementById('clothDrape');
@@ -310,6 +400,10 @@ function showCloth(which) {
     drape.classList.remove('visible');
     currentChoice = null;
   }
+
+  // Force a fresh position calc the moment the cloth becomes visible
+  // (FaceMesh may not have fired since stage entry, leaving width/height at 0).
+  updateClothPosition();
 }
 
 function confirmCurrentPair() {
@@ -319,13 +413,11 @@ function confirmCurrentPair() {
   scores[key] = (scores[key] || 0) + 1;
   stageResults[currentStage].push(key);
 
-  // advance pair or signal stage completion
-  if (currentPairIdx < def.pairs.length - 1) {
+  if (currentPairIdx < activePairs.length - 1) {
     currentPairIdx++;
     renderCompareStage();
     setStatus(`${currentPairIdx + 1}번째 비교 — 1번/2번 손모양으로 천을 바꿔보세요`);
   } else {
-    // stage done — wait for OK to advance
     renderStageProgress();
     setStatus('이번 단계 비교 완료! OK 사인으로 다음 단계로 ✋');
     showStageProgressActions();
@@ -335,8 +427,8 @@ function confirmCurrentPair() {
 
 function isCurrentStageDone() {
   if (currentStage === 1) return !!stage1Selection;
-  const def = COMPARE_STAGES[currentStage];
-  return def ? stageResults[currentStage].length >= def.pairs.length : false;
+  if (activePairs.length === 0) return false;
+  return stageResults[currentStage].length >= activePairs.length;
 }
 
 function advanceFromCompare() {
@@ -353,6 +445,10 @@ function enterStage(stage) {
   currentStage = stage;
   currentPairIdx = 0;
   currentChoice = null;
+
+  // For compare stages, pick the context-specific pool *before* rendering.
+  if (stage >= 2 && stage <= 5) loadStagePairs(stage);
+
   updateProgress();
   renderStageCard();
   renderStageProgress();
@@ -367,7 +463,9 @@ function enterStage(stage) {
     hideStage1UI();
     if (cameraReady) showCompareUI();
     renderCompareStage();
-    setStatus(cameraReady ? '1번/2번 손모양으로 천을 비교하고, good 손모양으로 선택하세요' : '');
+    const ctxLabel = CONTEXT_LABELS[stage]?.[activeContextKey];
+    const intro = ctxLabel ? `${ctxLabel} — 1번/2번 손모양으로 천을 바꾸고 good으로 선택` : '1번/2번 손모양으로 천을 비교하고, good 손모양으로 선택하세요';
+    setStatus(cameraReady ? intro : '');
   } else if (stage > 5) {
     hideStage1UI();
     hideCompareUI();
@@ -390,8 +488,18 @@ function renderStageCard() {
   if (!t) return;
   document.getElementById('stageBadge').textContent = String(currentStage);
   document.getElementById('stageBadgeTitle').textContent = t.title;
-  document.getElementById('stageBadgeSubtitle').textContent = t.sub;
+  const ctxLabel = CONTEXT_LABELS[currentStage]?.[activeContextKey];
+  document.getElementById('stageBadgeSubtitle').textContent = ctxLabel || t.sub;
   document.getElementById('stageDescription').textContent = t.desc;
+}
+
+function stagePairsTotal(s) {
+  if (s === currentStage) return activePairs.length || 0;
+  const ctx = stageContextHistory[s];
+  if (ctx && COMPARE_POOLS[s]?.[ctx]) {
+    return COMPARE_POOLS[s][ctx].length;
+  }
+  return 3;
 }
 
 function renderStageProgress() {
@@ -402,7 +510,7 @@ function renderStageProgress() {
     row.className = 'stage-progress-row';
 
     const done = (s === 1 && stage1Selection)
-      || (s >= 2 && stageResults[s] && stageResults[s].length >= (COMPARE_STAGES[s]?.pairs.length || 3));
+      || (s >= 2 && stageResults[s]?.length >= stagePairsTotal(s) && stageResults[s].length > 0);
     if (s === currentStage) row.classList.add('current');
     else if (done) row.classList.add('done');
 
@@ -420,6 +528,9 @@ function renderStageProgress() {
       result.textContent = `${stage1Selection.tone === 'warm' ? '웜' : '쿨'} ${stage1Selection.num}`;
     } else if (s >= 2 && stageResults[s]?.length) {
       result.textContent = summarizeStageResult(s);
+    } else if (s >= 2 && s === currentStage && CONTEXT_LABELS[s]?.[activeContextKey]) {
+      // show context label preview while in progress
+      result.textContent = activeContextKey;
     }
 
     row.appendChild(num);
@@ -436,7 +547,7 @@ function summarizeStageResult(s) {
   const opt2Cnt = stageResults[s].filter(k => k === def.opt2.key).length;
   if (opt1Cnt > opt2Cnt) return def.opt1.label;
   if (opt2Cnt > opt1Cnt) return def.opt2.label;
-  return '중간';
+  return '중립';
 }
 
 function showStageProgressActions() {
@@ -517,6 +628,7 @@ function finishAndAnalyze() {
     traits: SEASON_INFO[seasonKey].traits,
     fashion: SEASON_INFO[seasonKey].fashion,
     stageResults: { ...stageResults },
+    stageContexts: { ...stageContextHistory },
   };
 
   try { localStorage.setItem('cmt_result', JSON.stringify(result)); } catch (e) {}
@@ -698,7 +810,6 @@ let frameLoopActive = false;
 let lastGestureTime = 0;
 const GESTURE_COOLDOWN = 900;
 let faceLabSample = null;
-let stableGesture = { type: null, count: 0 };
 let faceLandmarksLatest = null;
 let faceLostFrames = 0;
 
@@ -776,33 +887,40 @@ async function frameLoop() {
     if (handsInstance) await handsInstance.send({ image: videoEl });
     if (faceMeshInstance) await faceMeshInstance.send({ image: videoEl });
   } catch (_) {}
+  // Re-position the drape every frame so it tracks the face in real time.
+  // (FaceMesh may not produce a result every frame, especially with Hands
+  //  running in parallel — without this the cloth gets stuck.)
+  updateClothPosition();
   requestAnimationFrame(frameLoop);
 }
 
 function onHandResults(results) {
-  if (!ctx) return;
-  ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+  try {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
-  if (!results.multiHandLandmarks?.length) {
-    stableGesture = { type: null, count: 0 };
-    if (currentStage === 1) clearStage1Hover();
-    return;
-  }
+    if (!results.multiHandLandmarks?.length) {
+      if (currentStage === 1) clearStage1Hover();
+      return;
+    }
 
-  const lm = results.multiHandLandmarks[0];
+    const lm = results.multiHandLandmarks[0];
 
-  drawConnectors(ctx, lm, HAND_CONNECTIONS, { color: 'rgba(255,140,66,0.75)', lineWidth: 2 });
-  drawLandmarks(ctx, lm, { color: '#FF8C42', lineWidth: 1, radius: 4 });
+    drawConnectors(ctx, lm, HAND_CONNECTIONS, { color: 'rgba(255,140,66,0.75)', lineWidth: 2 });
+    drawLandmarks(ctx, lm, { color: '#FF8C42', lineWidth: 1, radius: 4 });
 
-  // Stage 1: pointing detection with hover
-  if (currentStage === 1) {
-    handleStage1Hand(lm);
-    return;
-  }
+    // Stage 1: pointing detection with hover
+    if (currentStage === 1) {
+      handleStage1Hand(lm);
+      return;
+    }
 
-  // Stage 2~5: gesture-based interaction
-  if (currentStage >= 2 && currentStage <= 5) {
-    handleCompareStageHand(lm);
+    // Stage 2~5: gesture-based interaction
+    if (currentStage >= 2 && currentStage <= 5) {
+      handleCompareStageHand(lm);
+    }
+  } catch (e) {
+    console.error('onHandResults error:', e);
   }
 }
 
@@ -888,7 +1006,7 @@ function classifyGesture(lm) {
   // Thumb-index pinch distance (normalized landmark coords)
   const dx = lm[4].x - lm[8].x;
   const dy = lm[4].y - lm[8].y;
-  const pinchDist = Math.sqrt(dx*dx + dy*dy);
+  const pinchDist = Math.sqrt(dx * dx + dy * dy);
 
   // OK sign: thumb-index tips touching, other fingers extended
   if (pinchDist < 0.07 && mid && ring && pink) return 'ok';
@@ -927,25 +1045,33 @@ function setStatus(text) {
 // ─── FaceMesh (skin sampling – optional, kept for future use) ────────────────
 function initFaceMesh() {
   try {
+    if (typeof FaceMesh === 'undefined') return;
     faceMeshInstance = new FaceMesh({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${f}` });
     faceMeshInstance.setOptions({ maxNumFaces: 1, refineLandmarks: false, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
     faceMeshInstance.onResults(onFaceResults);
-  } catch (e) { /* ignore */ }
+  } catch (e) {
+    console.warn('FaceMesh init failed:', e);
+  }
 }
 
 function onFaceResults(results) {
-  const lms = results.multiFaceLandmarks?.[0];
-  if (!lms) {
-    faceLostFrames++;
-    if (faceLostFrames > 8) {
-      faceLandmarksLatest = null;
-      updateClothPosition();
+  try {
+    const lms = results.multiFaceLandmarks?.[0];
+    if (!lms) {
+      faceLostFrames++;
+      if (faceLostFrames > 8) {
+        faceLandmarksLatest = null;
+        updateClothPosition();
+      }
+      return;
     }
+    faceLostFrames = 0;
+    faceLandmarksLatest = lms;
+    updateClothPosition();
+  } catch (e) {
+    console.error('onFaceResults error:', e);
     return;
   }
-  faceLostFrames = 0;
-  faceLandmarksLatest = lms;
-  updateClothPosition();
 
   if (!videoEl) return;
   const vw = videoEl.videoWidth || 640, vh = videoEl.videoHeight || 480;
@@ -967,21 +1093,20 @@ function onFaceResults(results) {
 }
 
 // Position the cloth drape under the user's chin using FaceMesh landmarks.
-// The video is CSS-mirrored (scaleX(-1)) so we mirror landmark x coords too.
+// The preview is CSS-mirrored (scaleX(-1)) so we mirror landmark x coords too.
 function updateClothPosition() {
   const drape = document.getElementById('clothDrape');
   const cameraArea = document.getElementById('cameraArea');
   if (!drape || !cameraArea) return;
 
-  // Hide if not in a compare stage or face is lost
+  // Hide if not in a compare stage or face isn't tracked.
   if (!(currentStage >= 2 && currentStage <= 5) || !faceLandmarksLatest) {
     drape.style.visibility = 'hidden';
     return;
   }
 
   const lm = faceLandmarksLatest;
-  // 152 = chin tip, 234 = left face boundary (user's left), 454 = right face boundary
-  const chin = lm[152];
+  const chin  = lm[152];
   const faceL = lm[234];
   const faceR = lm[454];
   if (!chin || !faceL || !faceR) {
@@ -989,23 +1114,19 @@ function updateClothPosition() {
     return;
   }
 
-  // camera area's video uses object-fit:cover, the canvas tracks the video,
-  // and landmarks are already in normalized [0..1] coords of the video frame.
-  // We position the drape inside the camera-area which is sized in CSS pixels.
   const rect = cameraArea.getBoundingClientRect();
   const camW = rect.width;
   const camH = rect.height;
+  if (camW === 0 || camH === 0) {
+    drape.style.visibility = 'hidden';
+    return;
+  }
 
-  // Mirror x (preview is flipped horizontally)
   const chinX = (1 - chin.x) * camW;
   const chinY = chin.y * camH;
-
-  // face width in CSS px
   const faceWidth = Math.abs(faceR.x - faceL.x) * camW;
-  // drape spans roughly 2.6x face width but capped to camera width
   const clothWidth  = Math.min(camW * 1.0, Math.max(faceWidth * 2.4, camW * 0.6));
   const clothHeight = Math.max(80, camH - chinY - 6);
-
   const left = Math.max(-clothWidth * 0.05, Math.min(camW - clothWidth * 0.95, chinX - clothWidth / 2));
   const top  = chinY + 4;
 

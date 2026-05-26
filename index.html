@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catch My Tone — 나만의 퍼스널컬러 진단</title>
+  <title>Catch My Tone — 온라인 퍼스널컬러 진단</title>
+  <link rel="icon" type="image/png" href="images/catch_my_tone_logo.png">
+  <link rel="apple-touch-icon" href="images/catch_my_tone_logo.png">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
@@ -13,7 +15,7 @@
   <nav class="navbar">
     <div class="container nav-container">
       <a href="index.html" class="logo">
-        <div class="logo-icon">🎨</div>
+        <img class="logo-icon" src="images/catch_my_tone_logo.png" alt="Catch My Tone">
         <span class="logo-text">Catch My Tone</span>
       </a>
       <ul class="nav-links" id="navLinks">
@@ -47,10 +49,10 @@
         <a href="about.html" class="btn btn-secondary">퍼스널컬러 알아보기</a>
       </div>
       <div class="hero-tags animate-fade-in animate-delay-4">
-        <span class="tag">🌸 봄 웜톤</span>
-        <span class="tag">🌿 여름 쿨톤</span>
-        <span class="tag">🍂 가을 웜톤</span>
-        <span class="tag">❄️ 겨울 쿨톤</span>
+        <a href="spring.html" class="tag tag-link tag-spring">🌸 봄 웜톤</a>
+        <a href="summer.html" class="tag tag-link tag-summer">🌿 여름 쿨톤</a>
+        <a href="autumn.html" class="tag tag-link tag-autumn">🍂 가을 웜톤</a>
+        <a href="winter.html" class="tag tag-link tag-winter">❄️ 겨울 쿨톤</a>
       </div>
     </div>
   </section>
@@ -128,7 +130,7 @@
         <p>봄·여름·가을·겨울 4가지 계절 타입 중 어디에 해당하는지 찾아보세요.</p>
       </div>
       <div class="seasons-grid">
-        <div class="season-card spring">
+        <a href="spring.html" class="season-card spring">
           <div class="season-emoji">🌸</div>
           <div class="season-title">봄 웜톤</div>
           <div class="season-subtitle">Spring Warm</div>
@@ -146,8 +148,9 @@
             <div class="season-swatch" style="background:#98FB98;"></div>
             <div class="season-swatch" style="background:#FFD700;"></div>
           </div>
-        </div>
-        <div class="season-card summer">
+          <span class="season-cta">3가지 세부 타입 보기 →</span>
+        </a>
+        <a href="summer.html" class="season-card summer">
           <div class="season-emoji">🌿</div>
           <div class="season-title">여름 쿨톤</div>
           <div class="season-subtitle">Summer Cool</div>
@@ -165,8 +168,9 @@
             <div class="season-swatch" style="background:#DDA0DD;"></div>
             <div class="season-swatch" style="background:#ADD8E6;"></div>
           </div>
-        </div>
-        <div class="season-card autumn">
+          <span class="season-cta">3가지 세부 타입 보기 →</span>
+        </a>
+        <a href="autumn.html" class="season-card autumn">
           <div class="season-emoji">🍂</div>
           <div class="season-title">가을 웜톤</div>
           <div class="season-subtitle">Autumn Warm</div>
@@ -184,8 +188,9 @@
             <div class="season-swatch" style="background:#6B8E23;"></div>
             <div class="season-swatch" style="background:#B8860B;"></div>
           </div>
-        </div>
-        <div class="season-card winter">
+          <span class="season-cta">3가지 세부 타입 보기 →</span>
+        </a>
+        <a href="winter.html" class="season-card winter">
           <div class="season-emoji">❄️</div>
           <div class="season-title">겨울 쿨톤</div>
           <div class="season-subtitle">Winter Cool</div>
@@ -203,7 +208,8 @@
             <div class="season-swatch" style="background:#8B008B;"></div>
             <div class="season-swatch" style="background:#E0E0FF;"></div>
           </div>
-        </div>
+          <span class="season-cta">3가지 세부 타입 보기 →</span>
+        </a>
       </div>
       <div style="text-align:center; margin-top:36px;">
         <a href="about.html" class="btn btn-secondary">퍼스널컬러 더 알아보기 →</a>
@@ -229,7 +235,10 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-brand">
-          <span class="logo-text">🎨 Catch My Tone</span>
+          <div class="logo" style="margin-bottom:8px;">
+            <img class="logo-icon" src="images/catch_my_tone_logo.png" alt="">
+            <span class="logo-text">Catch My Tone</span>
+          </div>
           <p>웹캠 기반 퍼스널컬러 진단 서비스</p>
         </div>
       </div>
