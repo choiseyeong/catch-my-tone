@@ -95,15 +95,15 @@ img { max-width: 100%; display: block; }
 .logo {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   font-weight: 700;
   font-size: 1.2rem;
   color: var(--text-dark);
 }
 
 .logo-icon {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   display: block;
   object-fit: contain;
   border-radius: 8px;
