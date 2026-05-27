@@ -1530,6 +1530,170 @@ a.season-card:hover .season-cta {
   .subtype-card { padding: 24px 20px; }
 }
 
+/* ── White Balance Calibration (modal + ROI + toast) ─────────── */
+.wb-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 12, 4, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.wb-modal-backdrop.visible { display: flex; }
+
+.wb-modal {
+  background: var(--grad-card);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 16px 56px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 212, 160, 0.5);
+}
+
+.wb-modal h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.wb-modal p {
+  font-size: 0.92rem;
+  color: var(--text-medium);
+  margin-bottom: 22px;
+  line-height: 1.65;
+}
+
+.wb-modal-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.wb-mode-option {
+  background: rgba(255, 255, 255, 0.75);
+  border: 2px solid rgba(255, 212, 160, 0.4);
+  border-radius: var(--radius-md);
+  padding: 20px 16px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.wb-mode-option:hover {
+  background: rgba(255, 248, 232, 0.95);
+  border-color: var(--orange);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.wb-mode-option .wb-mode-icon {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.wb-mode-option strong {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  font-weight: 800;
+}
+
+.wb-mode-option small {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ROI box & instruction bar on camera area (white-paper mode) */
+.wb-roi-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border: 3px dashed var(--orange);
+  border-radius: var(--radius-md);
+  z-index: 16;
+  pointer-events: none;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.4);
+  animation: wbPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes wbPulse {
+  0%, 100% { border-color: var(--orange); }
+  50%      { border-color: #FFD166; }
+}
+
+.wb-instruction-bar {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 16;
+  background: rgba(255, 251, 245, 0.96);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 212, 160, 0.6);
+  border-radius: 40px;
+  padding: 10px 14px 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+}
+
+.wb-instruction-bar span {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.wb-instruction-bar .btn {
+  padding: 8px 18px;
+  font-size: 0.85rem;
+}
+
+/* Status toast (top-right of camera area) */
+.wb-toast {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 18;
+  background: rgba(20, 12, 4, 0.78);
+  color: #fff;
+  padding: 9px 16px;
+  border-radius: 22px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.wb-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wb-toast.success {
+  background: rgba(76, 152, 80, 0.92);
+}
+
 /* ── Footer ──────────────────────────────────── */
 .footer {
   background: linear-gradient(180deg, var(--cream) 0%, #FFE8CC 100%);

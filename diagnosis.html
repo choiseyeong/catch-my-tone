@@ -72,7 +72,7 @@
           <!-- Camera placeholder (replaced with <video> when camera starts) -->
           <div class="camera-placeholder" id="cameraPlaceholder">
             <div class="camera-icon-wrap">📸</div>
-            <h3>카메라를 시작해볼까요?</h3>
+            <h3>카메라를 시작해 보세요!</h3>
             <p>
               자연광이 잘 들어오는 곳에 앉아<br>
               얼굴이 화면 중앙에 오도록 해주세요.
@@ -98,6 +98,19 @@
 
           <!-- Camera status label -->
           <div class="camera-status" id="cameraStatus" style="display:none;"></div>
+
+          <!-- White-balance ROI box (white-paper mode) -->
+          <div class="wb-roi-box" id="wbRoiBox" style="display:none;"></div>
+
+          <!-- White-balance instruction bar (white-paper mode) -->
+          <div class="wb-instruction-bar" id="wbInstructionBar" style="display:none;">
+            <span>📄 박스 안이 흰 종이로 가득 차게 해주세요</span>
+            <button class="btn btn-secondary" onclick="backToWBModeSelect()">← 이전</button>
+            <button class="btn btn-primary" onclick="performWhitePaperCalibration()">측정</button>
+          </div>
+
+          <!-- WB calibration result toast -->
+          <div class="wb-toast" id="wbToast"></div>
 
           <!-- Stage 1: Cool tone foundation swatches (left) -->
           <div class="stage0-side stage0-cool-side" id="stage1CoolSide" style="display:none;">
@@ -282,10 +295,30 @@
     </div>
   </footer>
 
+  <!-- White-balance mode selection modal -->
+  <div class="wb-modal-backdrop" id="wbModalBackdrop">
+    <div class="wb-modal">
+      <h3>💡 환경 보정 방법을 선택해주세요</h3>
+      <p>조명에 따라 진단 결과가 달라질 수 있어요. 카메라 화이트밸런스를 보정해 더 정확한 결과를 얻을 수 있어요.</p>
+      <div class="wb-modal-options">
+        <button class="wb-mode-option" onclick="chooseWBMode('white')">
+          <div class="wb-mode-icon">📄</div>
+          <strong>흰 종이로 정확하게</strong>
+          <small>화면 가운데에 흰 종이를 보여주는 방식. 정확도 ↑</small>
+        </button>
+        <button class="wb-mode-option" onclick="chooseWBMode('auto')">
+          <div class="wb-mode-icon">⚡</div>
+          <strong>자동 보정</strong>
+          <small>주변 환경 자동 분석. 추가 동작 없이 빠르게.</small>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+  <script src="vendor/mediapipe/drawing_utils/drawing_utils.js"></script>
+  <script src="vendor/mediapipe/hands/hands.js"></script>
+  <script src="vendor/mediapipe/face_mesh/face_mesh.js"></script>
   <script src="js/diagnosis.js"></script>
 </body>
 </html>

@@ -115,10 +115,13 @@ const totalUserStages = 5;
 // Stage 1
 let stage1Selection = null; // { tone: 'warm'|'cool', idx: 0..5, num: '13호'.. }
 let stage1HoveredEl = null;
-let stage1HoverTimer = null;
 let stage1HoverStartTime = 0;
+let stage1HoverLastSeen = 0;
 let stage1HoverRafId = null;
 const STAGE1_HOVER_DURATION = 1200;
+// Tolerance for transient tracking loss: a brief gesture/hand drop within this
+// window does NOT reset the dwell timer, so a steady point still completes.
+const STAGE1_HOVER_GRACE = 260;
 
 // Stage 2~5
 let currentPairIdx = 0;
@@ -167,6 +170,151 @@ function rgbToLab(r, g, b) {
   return xyzToLab(xyz.X, xyz.Y, xyz.Z);
 }
 
+// ─── White Balance (color constancy) ─────────────────────────────────────────
+// Two calibration modes:
+//   • 'white' (white-patch): the user holds a white sheet in the center ROI.
+//     Gain = target / measured_channel  →  measured_channel × gain ≈ target.
+//   • 'auto' (gray-world): the four image corners are assumed to average to a
+//     neutral gray.  Gain = mean(measured) / channel_measured.
+// Once calibrated, applyWB() rescales any extracted RGB so subsequent Lab
+// analysis is invariant to the lighting color cast.
+let wbGain = { r: 1, g: 1, b: 1 };
+let wbMode = null;          // 'white' | 'auto'
+let wbCalibrated = false;
+
+function applyWB(rgb) {
+  if (!wbCalibrated || !rgb) return rgb;
+  return {
+    r: Math.max(0, Math.min(255, Math.round(rgb.r * wbGain.r))),
+    g: Math.max(0, Math.min(255, Math.round(rgb.g * wbGain.g))),
+    b: Math.max(0, Math.min(255, Math.round(rgb.b * wbGain.b))),
+  };
+}
+
+function sampleCenterROI(sizeRatio) {
+  if (!videoEl || !videoEl.videoWidth) return null;
+  const w = videoEl.videoWidth, h = videoEl.videoHeight;
+  const sz = Math.floor(Math.min(w, h) * (sizeRatio || 0.25));
+  const x = Math.floor((w - sz) / 2);
+  const y = Math.floor((h - sz) / 2);
+  return getAverageVideoRGB(x, y, sz, sz);
+}
+
+function sampleBackgroundRGB() {
+  // Average the four corners — least likely to contain the face.
+  if (!videoEl || !videoEl.videoWidth) return null;
+  const w = videoEl.videoWidth, h = videoEl.videoHeight;
+  const sz = Math.floor(Math.min(w, h) * 0.15);
+  const pts = [
+    { x: 0, y: 0 },
+    { x: w - sz, y: 0 },
+    { x: 0, y: h - sz },
+    { x: w - sz, y: h - sz },
+  ];
+  const samples = [];
+  pts.forEach(p => {
+    const a = getAverageVideoRGB(p.x, p.y, sz, sz);
+    if (a) samples.push(a);
+  });
+  if (!samples.length) return null;
+  const sum = samples.reduce((a, s) => ({ r: a.r + s.r, g: a.g + s.g, b: a.b + s.b }),
+                              { r: 0, g: 0, b: 0 });
+  return { r: sum.r / samples.length, g: sum.g / samples.length, b: sum.b / samples.length };
+}
+
+function calibrateFromWhitePaper() {
+  const rgb = sampleCenterROI(0.25);
+  if (!rgb) return false;
+  // Use the brightest measured channel as the white target so we never have
+  // to brighten beyond 255.  Clamp the target away from extreme highlights.
+  const target = Math.min(245, Math.max(rgb.r, rgb.g, rgb.b, 180));
+  wbGain.r = target / Math.max(1, rgb.r);
+  wbGain.g = target / Math.max(1, rgb.g);
+  wbGain.b = target / Math.max(1, rgb.b);
+  wbCalibrated = true;
+  return true;
+}
+
+function calibrateFromBackground() {
+  const rgb = sampleBackgroundRGB();
+  if (!rgb) return false;
+  const gray = (rgb.r + rgb.g + rgb.b) / 3;
+  wbGain.r = gray / Math.max(1, rgb.r);
+  wbGain.g = gray / Math.max(1, rgb.g);
+  wbGain.b = gray / Math.max(1, rgb.b);
+  wbCalibrated = true;
+  return true;
+}
+
+// ─── WB modal / ROI flow ─────────────────────────────────────────────────────
+function openWBModal() {
+  document.getElementById('wbModalBackdrop').classList.add('visible');
+}
+
+function closeWBModal() {
+  document.getElementById('wbModalBackdrop').classList.remove('visible');
+}
+
+function showWhitePaperUI() {
+  document.getElementById('wbRoiBox').style.display = 'block';
+  document.getElementById('wbInstructionBar').style.display = 'flex';
+}
+
+function hideWhitePaperUI() {
+  document.getElementById('wbRoiBox').style.display = 'none';
+  document.getElementById('wbInstructionBar').style.display = 'none';
+}
+
+function showWBToast(text, success) {
+  const el = document.getElementById('wbToast');
+  if (!el) return;
+  el.textContent = text;
+  el.classList.toggle('success', !!success);
+  el.classList.add('visible');
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => el.classList.remove('visible'), 2400);
+}
+
+function finishCalibration(ok, label) {
+  showWBToast(ok ? `${label} ✓  R×${wbGain.r.toFixed(2)} G×${wbGain.g.toFixed(2)} B×${wbGain.b.toFixed(2)}`
+                 : `${label} 실패 — 기본값으로 진행`, ok);
+  // Now reveal stage 1 (was deferred while modal was up).
+  if (currentStage === 1) {
+    showStage1UI();
+    setStatus('손가락으로 파운데이션 색상을 가리켜 선택하세요 ☝️');
+  }
+}
+
+function chooseWBMode(mode) {
+  wbMode = mode;
+  closeWBModal();
+  if (mode === 'auto') {
+    // Let the camera auto-exposure settle, then sample corners.
+    setStatus('자동 보정 중…');
+    setTimeout(() => {
+      const ok = calibrateFromBackground();
+      finishCalibration(ok, '자동 보정');
+    }, 900);
+  } else if (mode === 'white') {
+    setStatus('흰 종이를 박스 안에 보여주세요');
+    showWhitePaperUI();
+  }
+}
+
+function performWhitePaperCalibration() {
+  const ok = calibrateFromWhitePaper();
+  hideWhitePaperUI();
+  finishCalibration(ok, '흰 종이 보정');
+}
+
+// "이전" — go back from white-paper step to the mode-selection modal.
+function backToWBModeSelect() {
+  hideWhitePaperUI();
+  wbMode = null;
+  openWBModal();
+  setStatus('환경 보정 방법을 선택해주세요');
+}
+
 // ─── Stage 1 (foundation picker) ─────────────────────────────────────────────
 function showStage1UI() {
   document.getElementById('stage1CoolSide').style.display = 'flex';
@@ -181,7 +329,6 @@ function hideStage1UI() {
 }
 
 function clearStage1Hover() {
-  if (stage1HoverTimer) { clearTimeout(stage1HoverTimer); stage1HoverTimer = null; }
   if (stage1HoverRafId) { cancelAnimationFrame(stage1HoverRafId); stage1HoverRafId = null; }
   if (stage1HoveredEl) {
     stage1HoveredEl.classList.remove('hovered');
@@ -190,14 +337,34 @@ function clearStage1Hover() {
     stage1HoveredEl = null;
   }
   stage1HoverStartTime = 0;
+  stage1HoverLastSeen = 0;
 }
 
-function animateStage1Hover(el) {
+// Begin (or restart) the dwell on a freshly-targeted swatch.
+function startStage1Hover(el) {
+  if (stage1HoverRafId) cancelAnimationFrame(stage1HoverRafId);
+  stage1HoveredEl = el;
+  el.classList.add('hovered');
+  stage1HoverStartTime = Date.now();
+  stage1HoverLastSeen = Date.now();
+  stage1HoverRafId = requestAnimationFrame(stage1HoverTick);
+}
+
+// Self-sustaining rAF loop: advances the progress bar and fires the selection
+// once the dwell completes.  A short grace window (STAGE1_HOVER_GRACE) keeps the
+// dwell alive across brief tracking dropouts so jitter doesn't reset it.
+function stage1HoverTick() {
+  stage1HoverRafId = null;
+  const el = stage1HoveredEl;
+  if (!el) return;
+  const now = Date.now();
+  if (now - stage1HoverLastSeen > STAGE1_HOVER_GRACE) { clearStage1Hover(); return; }
+
   const prog = el.querySelector('.stage0-hover-progress');
-  if (!prog || stage1HoveredEl !== el) return;
-  const ratio = Math.min((Date.now() - stage1HoverStartTime) / STAGE1_HOVER_DURATION, 1);
-  prog.style.transform = `scaleX(${ratio})`;
-  if (ratio < 1) stage1HoverRafId = requestAnimationFrame(() => animateStage1Hover(el));
+  const ratio = Math.min((now - stage1HoverStartTime) / STAGE1_HOVER_DURATION, 1);
+  if (prog) prog.style.transform = `scaleX(${ratio})`;
+  if (ratio >= 1) { selectStage1Swatch(el); clearStage1Hover(); return; }
+  stage1HoverRafId = requestAnimationFrame(stage1HoverTick);
 }
 
 function selectStage1Swatch(el) {
@@ -274,21 +441,18 @@ function detectStage1Pointing(lm) {
     }
   });
 
-  if (found !== stage1HoveredEl) {
-    clearStage1Hover();
-    stage1HoveredEl = found;
-    if (found) {
-      found.classList.add('hovered');
-      stage1HoverStartTime = Date.now();
-      animateStage1Hover(found);
-      stage1HoverTimer = setTimeout(() => {
-        if (stage1HoveredEl === found) {
-          selectStage1Swatch(found);
-          stage1HoveredEl = null;
-        }
-      }, STAGE1_HOVER_DURATION);
+  if (found) {
+    if (found === stage1HoveredEl) {
+      // Still on the same swatch — keep the dwell alive.
+      stage1HoverLastSeen = Date.now();
+    } else {
+      // Moved onto a new swatch — restart the dwell here.
+      clearStage1Hover();
+      startStage1Hover(found);
     }
   }
+  // If the fingertip is over no swatch, we simply stop refreshing lastSeen;
+  // the grace window in stage1HoverTick() then clears the dwell.
 }
 
 // ─── Compare stages (2~5) ────────────────────────────────────────────────────
@@ -447,7 +611,11 @@ function enterStage(stage) {
   currentChoice = null;
 
   // For compare stages, pick the context-specific pool *before* rendering.
-  if (stage >= 2 && stage <= 5) loadStagePairs(stage);
+  if (stage >= 2 && stage <= 5) {
+    loadStagePairs(stage);
+    // FaceMesh(천 추적)는 비교 단계에서만 필요 — 여기서 처음 init한다.
+    if (videoEl && !faceMeshInstance) initFaceMesh();
+  }
 
   updateProgress();
   renderStageCard();
@@ -807,6 +975,7 @@ let ctx = null;
 let handsInstance = null;
 let faceMeshInstance = null;
 let frameLoopActive = false;
+let faceTurn = false;   // 2~5단계 격프레임 토글 (hands ↔ face_mesh)
 let lastGestureTime = 0;
 const GESTURE_COOLDOWN = 900;
 let faceLabSample = null;
@@ -840,12 +1009,21 @@ async function startCamera() {
 
     await videoEl.play();
 
-    if (currentStage === 1) showStage1UI();
-    else if (currentStage >= 2 && currentStage <= 5) { showCompareUI(); renderCompareStage(); }
+    // Stage 2~5 (rare on first load, but keep behavior consistent).
+    if (currentStage >= 2 && currentStage <= 5) { showCompareUI(); renderCompareStage(); }
 
     setStatus('손 인식 모델 로딩 중…');
     initHands();
-    initFaceMesh();
+    // FaceMesh는 1단계에선 쓰지 않으므로 2단계 진입 시 init한다 (enterStage).
+    // 1단계를 hands 전용으로 두면 두 wasm 모듈 충돌 위험이 사라진다.
+    if (currentStage >= 2 && currentStage <= 5) initFaceMesh();
+
+    // Stage 1: open the WB calibration modal first.  showStage1UI() runs
+    // after the user picks a calibration mode (see finishCalibration()).
+    if (currentStage === 1) {
+      // Give the video a moment to deliver real frames before sampling.
+      setTimeout(() => openWBModal(), 350);
+    }
   } catch (err) {
     const msg = err.name === 'NotAllowedError'
       ? '카메라 권한이 거부되었어요.<br>브라우저 주소창에서 권한을 허용해주세요.'
@@ -863,7 +1041,7 @@ async function startCamera() {
 }
 
 function initHands() {
-  handsInstance = new Hands({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}` });
+  handsInstance = new Hands({ locateFile: f => `vendor/mediapipe/hands/${f}` });
   handsInstance.setOptions({
     maxNumHands: 1, modelComplexity: 1,
     minDetectionConfidence: 0.72, minTrackingConfidence: 0.55,
@@ -883,14 +1061,24 @@ async function frameLoop() {
     canvasEl.height = videoEl.videoHeight;
     ctx = canvasEl.getContext('2d');
   }
+  // Hands와 FaceMesh는 전역 상태를 공유하는 Emscripten 모듈이라 동시에 실행되면
+  // 서로를 오염시킨다("Module.arguments has been replaced…").
+  //  • 1단계: hands 전용 (FaceMesh 미사용)
+  //  • 2~5단계: 한 프레임에 한 모델만 — hands / face 를 번갈아(隔프레임) 실행해
+  //    두 wasm 이 절대 겹치지 않게 한다. 각 모델은 ~15fps 로 동작.
   try {
-    if (handsInstance) await handsInstance.send({ image: videoEl });
-    if (faceMeshInstance) await faceMeshInstance.send({ image: videoEl });
+    if (currentStage >= 2 && currentStage <= 5 && faceMeshInstance) {
+      faceTurn = !faceTurn;
+      if (faceTurn) await faceMeshInstance.send({ image: videoEl });
+      else if (handsInstance) await handsInstance.send({ image: videoEl });
+    } else if (handsInstance) {
+      await handsInstance.send({ image: videoEl });
+    }
   } catch (_) {}
   // Re-position the drape every frame so it tracks the face in real time.
-  // (FaceMesh may not produce a result every frame, especially with Hands
-  //  running in parallel — without this the cloth gets stuck.)
-  updateClothPosition();
+  // Wrapped so a drape error can never kill the whole frame loop (which would
+  // freeze hand detection).
+  try { updateClothPosition(); } catch (e) { console.error('updateClothPosition error:', e); }
   requestAnimationFrame(frameLoop);
 }
 
@@ -900,7 +1088,8 @@ function onHandResults(results) {
     ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
     if (!results.multiHandLandmarks?.length) {
-      if (currentStage === 1) clearStage1Hover();
+      // Don't reset the dwell on a single missed frame; the grace window in
+      // stage1HoverTick() clears it only after a sustained loss.
       return;
     }
 
@@ -948,12 +1137,15 @@ function handleStage1Hand(lm) {
     clearStage1Hover();
     return;
   }
-  // one → pointing for swatch hover
-  if (g === 'one') {
+  // Pointing for swatch hover.  We accept any pose with the index finger
+  // extended (not just a strict 'one') — a momentary middle-finger flicker
+  // shouldn't drop the dwell.  'ok' is excluded since it has its own handler.
+  const idxExtended = lm[8].y < lm[5].y - 0.03;
+  if (g !== 'ok' && idxExtended) {
     detectStage1Pointing(lm);
-  } else {
-    clearStage1Hover();
   }
+  // Otherwise: don't clear immediately — the grace window in stage1HoverTick()
+  // handles brief losses, so the dwell survives small tracking glitches.
 }
 
 function handleCompareStageHand(lm) {
@@ -1046,7 +1238,7 @@ function setStatus(text) {
 function initFaceMesh() {
   try {
     if (typeof FaceMesh === 'undefined') return;
-    faceMeshInstance = new FaceMesh({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${f}` });
+    faceMeshInstance = new FaceMesh({ locateFile: f => `vendor/mediapipe/face_mesh/${f}` });
     faceMeshInstance.setOptions({ maxNumFaces: 1, refineLandmarks: false, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
     faceMeshInstance.onResults(onFaceResults);
   } catch (e) {
@@ -1068,6 +1260,13 @@ function onFaceResults(results) {
     faceLostFrames = 0;
     faceLandmarksLatest = lms;
     updateClothPosition();
+    // [임시 진단] face_mesh 가 매 초 몇 번 갱신되는지 + 턱 좌표가 변하는지
+    if (!window._fc) window._fc = { n: 0, t: 0 };
+    window._fc.n++;
+    if (Date.now() - window._fc.t > 1000) {
+      console.log(`[face] ${window._fc.n}/s  chin=(${lms[152].x.toFixed(3)}, ${lms[152].y.toFixed(3)})`);
+      window._fc.n = 0; window._fc.t = Date.now();
+    }
   } catch (e) {
     console.error('onFaceResults error:', e);
     return;
@@ -1089,7 +1288,10 @@ function onFaceResults(results) {
   if (!samples.length) return;
   const avg = samples.reduce((acc,s)=>({r:acc.r+s.r,g:acc.g+s.g,b:acc.b+s.b}),{r:0,g:0,b:0});
   avg.r = Math.round(avg.r/samples.length); avg.g = Math.round(avg.g/samples.length); avg.b = Math.round(avg.b/samples.length);
-  faceLabSample = rgbToLab(avg.r, avg.g, avg.b);
+  // Apply the calibrated white-balance gain so the Lab sample is invariant
+  // to the lighting color cast (warm/cool ambient light, etc.).
+  const wb = applyWB(avg);
+  faceLabSample = rgbToLab(wb.r, wb.g, wb.b);
 }
 
 // Position the cloth drape under the user's chin using FaceMesh landmarks.
