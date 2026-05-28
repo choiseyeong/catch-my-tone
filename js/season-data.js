@@ -21,6 +21,13 @@ const SEASON_INFO = {
       { hex: '#A6C85E', name: '라임 그린' },
       { hex: '#5A81D5', name: '클리어 블루' },
     ],
+    worstColors: [
+      { hex: '#555555', name: '차콜 그레이' },
+      { hex: '#8B8680', name: '카키 그레이' },
+      { hex: '#4A3B32', name: '다크 브라운' },
+      { hex: '#A19C91', name: '시멘트 그레이' },
+    ],
+    worstDesc: '채도가 낮고 탁한 색, 어둡고 무거운 색을 쓰면 안색이 칙칙해집니다.',
     makeup: [
       { category: '립 컬러',    value: '비비드 코랄 · 핫 핑크',        desc: '선명한 코랄 레드, 웜 비비드 핑크' },
       { category: '블러셔',     value: '코랄 · 오렌지 핑크',           desc: '생기 있는 복숭아빛 볼터치' },
@@ -56,6 +63,13 @@ const SEASON_INFO = {
       { hex: '#B68964', name: '캐러멜' },
       { hex: '#E9B38F', name: '살구 핑크' },
     ],
+    worstColors: [
+      { hex: '#0000FF', name: '코발트 블루' },
+      { hex: '#800080', name: '퍼플' },
+      { hex: '#FF007F', name: '핫핑크' },
+      { hex: '#1C2841', name: '네이비' },
+    ],
+    worstDesc: '푸른 끼가 강한 극단적인 쿨톤 색상을 쓰면 질려 보이고 입술이 보라색으로 변할 수 있습니다.',
     makeup: [
       { category: '립 컬러',    value: '코랄 · 피치 핑크',              desc: '살몬 코랄, 웜 피치 계열' },
       { category: '블러셔',     value: '피치 · 코랄 핑크',              desc: '따뜻한 복숭아빛 볼터치' },
@@ -91,6 +105,13 @@ const SEASON_INFO = {
       { hex: '#E5B3C3', name: '라이트 핑크' },
       { hex: '#DFA24C', name: '웜 오렌지' },
     ],
+    worstColors: [
+      { hex: '#000000', name: '블랙' },
+      { hex: '#1A1A1A', name: '다크 차콜' },
+      { hex: '#4B0082', name: '인디고' },
+      { hex: '#3D2314', name: '딥 초콜릿' },
+    ],
+    worstDesc: '무겁고 어두운 저명도 색상을 쓰면 그림자가 져 보이고 나이 들어 보입니다.',
     makeup: [
       { category: '립 컬러',    value: '피치 · 소프트 코랄',            desc: '부드러운 살몬, 코랄 핑크' },
       { category: '블러셔',     value: '피치 · 살몬 핑크',              desc: '가볍고 화사한 복숭아빛' },
@@ -128,6 +149,13 @@ const SEASON_INFO = {
       { hex: '#B8BBC6', name: '라벤더 그레이' },
       { hex: '#6FA79F', name: '쿨 티얼' },
     ],
+    worstColors: [
+      { hex: '#FFD700', name: '골드 옐로우' },
+      { hex: '#D2691E', name: '초콜릿 오렌지' },
+      { hex: '#3B2F2F', name: '다크 브라운' },
+      { hex: '#8B4513', name: '새들 브라운' },
+    ],
+    worstDesc: '노란 끼가 강하고 어두운 색을 쓰면 얼굴이 누렇게 뜨고 답답해 보입니다.',
     makeup: [
       { category: '립 컬러',    value: '쉬어 로즈 · 누드 핑크',        desc: '연하고 부드러운 쿨 핑크' },
       { category: '블러셔',     value: '베이비 핑크 · 소프트 로즈',    desc: '가볍고 청초한 쿨 핑크' },
@@ -163,6 +191,13 @@ const SEASON_INFO = {
       { hex: '#A29AA8', name: '그레이 모브' },
       { hex: '#568678', name: '세이지 그린' },
     ],
+    worstColors: [
+      { hex: '#FF4500', name: '오렌지 레드' },
+      { hex: '#FFA500', name: '오렌지' },
+      { hex: '#9ACD32', name: '올리브 그린' },
+      { hex: '#F4A460', name: '샌드 브라운' },
+    ],
+    worstDesc: '주황, 노랑 계열의 따뜻하고 쨍한 색을 쓰면 붉은 기와 노란 기가 동시에 올라옵니다.',
     makeup: [
       { category: '립 컬러',    value: '로즈 · 모브 핑크',             desc: '쿨 톤 핑크, 베리 베이지' },
       { category: '블러셔',     value: '로즈 · 핑크',                  desc: '차분한 쿨 핑크 볼터치' },
@@ -198,6 +233,13 @@ const SEASON_INFO = {
       { hex: '#D29AAF', name: '더스티 로즈' },
       { hex: '#40566F', name: '스모키 네이비' },
     ],
+    worstColors: [
+      { hex: '#00FF00', name: '네온 그린' },
+      { hex: '#FF00FF', name: '마젠타' },
+      { hex: '#FF1493', name: '딥 핫핑크' },
+      { hex: '#FFFF00', name: '비비드 옐로우' },
+    ],
+    worstDesc: '쨍한 형광색이나 원색(고채도)을 쓰면 옷만 동동 떠다니고 얼굴이 묻힙니다.',
     makeup: [
       { category: '립 컬러',    value: '모브 · 더스티 핑크',           desc: '한 톤 눌린 쿨 핑크, 스모키 로즈' },
       { category: '블러셔',     value: '더스티 로즈 · 소프트 핑크',   desc: '차분하고 스모키한 쿨 볼터치' },
@@ -235,6 +277,13 @@ const SEASON_INFO = {
       { hex: '#526D6E', name: '딥 티얼' },
       { hex: '#AEB3A1', name: '카키 그레이' },
     ],
+    worstColors: [
+      { hex: '#FFFFFF', name: '생 화이트' },
+      { hex: '#0000FF', name: '비비드 블루' },
+      { hex: '#FF00FF', name: '퓨어 마젠타' },
+      { hex: '#000000', name: '순수 블랙' },
+    ],
+    worstDesc: '채도가 높은 쨍한 원색이나 대비감이 강한 블랙/화이트는 인상을 강하고 어색하게 만듭니다.',
     makeup: [
       { category: '립 컬러',    value: '브릭 · 테라코타 · 모브 브라운', desc: '탁한 웜 톤, 누드 브라운' },
       { category: '블러셔',     value: '오렌지 브라운 · 코랄 브라운',  desc: '차분한 웜 볼터치' },
@@ -270,6 +319,13 @@ const SEASON_INFO = {
       { hex: '#80812F', name: '올리브 그린' },
       { hex: '#D86162', name: '브릭 레드' },
     ],
+    worstColors: [
+      { hex: '#E6F2FF', name: '페일 아이스 블루' },
+      { hex: '#FFC0CB', name: '쿨 핑크' },
+      { hex: '#1F75FE', name: '브라이트 블루' },
+      { hex: '#D1E231', name: '차가운 라임' },
+    ],
+    worstDesc: '푸른 끼가 낭낭한 차가운 파스텔 톤이나 쿨톤 원색을 쓰면 안색이 창백하다 못해 질려 보입니다.',
     makeup: [
       { category: '립 컬러',    value: '벽돌 · 테라코타 · 브릭',      desc: '딥한 웜 톤, 누드 브라운' },
       { category: '블러셔',     value: '브릭 · 펌프킨',               desc: '오렌지 브라운 볼터치' },
@@ -305,6 +361,13 @@ const SEASON_INFO = {
       { hex: '#8C643D', name: '다크 브라운' },
       { hex: '#334E50', name: '딥 포레스트' },
     ],
+    worstColors: [
+      { hex: '#FFFDD0', name: '크림 옐로우' },
+      { hex: '#FFD1DC', name: '파스텔 핑크' },
+      { hex: '#E0FFFF', name: '라이트 시안' },
+      { hex: '#B0E0E6', name: '파우더 블루' },
+    ],
+    worstDesc: '흰 끼가 많이 섞인 파스텔 톤을 쓰면 팽창해 보이고, 이목구비가 흐릿해집니다.',
     makeup: [
       { category: '립 컬러',    value: '딥 브릭 · 버건디 · 테라코타', desc: '어둡고 깊은 웜 톤' },
       { category: '블러셔',     value: '딥 오렌지 브라운 · 테라코타', desc: '무게감 있는 웜 볼터치' },
@@ -342,6 +405,13 @@ const SEASON_INFO = {
       { hex: '#29403B', name: '딥 포레스트' },
       { hex: '#7DA8CA', name: '스틸 블루' },
     ],
+    worstColors: [
+      { hex: '#F5F5DC', name: '베이지' },
+      { hex: '#FFDAB9', name: '피치' },
+      { hex: '#E6E6FA', name: '연 라벤더' },
+      { hex: '#C0C0C0', name: '실버 그레이' },
+    ],
+    worstDesc: '채도가 낮은 애매한 미지근 파스텔이나, 흐리멍텅하고 희끄무레한 색을 쓰면 아파 보입니다.',
     makeup: [
       { category: '립 컬러',    value: '딥 버건디 · 다크 와인 · 플럼', desc: '어둡고 선명한 쿨 톤' },
       { category: '블러셔',     value: '딥 로즈 · 라즈베리',          desc: '깊이감 있는 쿨 핑크 볼터치' },
@@ -377,6 +447,13 @@ const SEASON_INFO = {
       { hex: '#C7CCE7', name: '라벤더' },
       { hex: '#404A5D', name: '딥 슬레이트' },
     ],
+    worstColors: [
+      { hex: '#FF8C00', name: '다크 오렌지' },
+      { hex: '#FF7F50', name: '코랄' },
+      { hex: '#E5A93B', name: '머스터드' },
+      { hex: '#808000', name: '올리브' },
+    ],
+    worstDesc: '따뜻하고 노란 끼가 다량 함유된 주황색이나 감귤색 계열은 최악의 궁합입니다.',
     makeup: [
       { category: '립 컬러',    value: '체리 · 마젠타 · 와인',        desc: '선명한 쿨 톤, 푸른 빨강' },
       { category: '블러셔',     value: '핑크 · 라즈베리',             desc: '쨍한 쿨 핑크 볼터치' },
@@ -412,6 +489,13 @@ const SEASON_INFO = {
       { hex: '#FFFFFF', name: '퓨어 화이트' },
       { hex: '#142D88', name: '딥 블루' },
     ],
+    worstColors: [
+      { hex: '#C2B280', name: '에코 베이지' },
+      { hex: '#856D4D', name: '카멜 브라운' },
+      { hex: '#6B8E23', name: '올리브 드랩' },
+      { hex: '#D2B48C', name: '황토색' },
+    ],
+    worstDesc: '애매하게 탁한 황토색, 카키색 등을 쓰면 특유의 맑고 도시적인 분위기가 사라지고 텁텁해집니다.',
     makeup: [
       { category: '립 컬러',    value: '핫 핑크 · 마젠타 · 코럴레드', desc: '선명하고 강렬한 쿨 비비드' },
       { category: '블러셔',     value: '비비드 핑크 · 라즈베리',     desc: '선명한 쿨 핑크 볼터치' },

@@ -1227,7 +1227,7 @@ a.season-card:hover .season-cta {
 
 .palette-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
@@ -1264,21 +1264,7 @@ a.season-card:hover .season-cta {
   aspect-ratio: 1;
   border-radius: var(--radius-sm);
   margin-bottom: 6px;
-  position: relative;
   box-shadow: var(--shadow-sm);
-}
-
-.avoid-color::after {
-  content: '✕';
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(0, 0, 0, 0.18);
-  border-radius: inherit;
 }
 
 .avoid-name {
