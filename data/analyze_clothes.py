@@ -41,7 +41,7 @@ TYPE_KEY = {
 }
 
 TOP_N = 3            # 옷 하나당 매칭할 타입 수 (복수 태그)
-ACHROMATIC_C = 4.5   # Lab chroma 가 이 값 미만이면 무채색으로 간주
+ACHROMATIC_C = 4.0   # Lab chroma 가 이 값 미만이면 무채색으로 간주
 
 # ─── 색공간 변환 (RGB → XYZ → Lab, D65) ───────────────────────────────────────
 def srgb_to_linear(c):

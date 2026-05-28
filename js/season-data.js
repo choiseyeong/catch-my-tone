@@ -1,0 +1,434 @@
+// 퍼스널컬러 12타입 데이터 — result.html 데모 모드에서 공유 사용
+// 팔레트(16색)는 mydocs/12 color type.md 의 각 타입 assort 색상 기반
+// worstKey: 반대 타입 (봄↔겨울, 여름↔가을, 밝음↔딥 대응)
+
+const SEASON_INFO = {
+
+  // ── 봄 웜톤 ────────────────────────────────────────────────────────────────
+
+  'spring-bright': {
+    name: '봄 브라이트',
+    nameEn: 'Spring Bright',
+    season: 'spring',
+    worstKey: 'winter-deep',
+    description: '따뜻한 색 중에서도 채도가 높고 맑은 색이 잘 어울려요.<br>화사하고 생기 넘치는 비비드 웜 컬러가 얼굴에 활기를 불어넣어요.',
+    palette: ['#F8F0B8','#EEC2C8','#BFE4E1','#A6D2E7','#D66BA1','#C33385','#B82D65','#F0D85D','#E8B94B','#E2A135','#D65A31','#A6C85E','#4F8B4B','#2F5E3D','#5A81D5','#2447B8'],
+    bestColors: [
+      { hex: '#D65A31', name: '비비드 코랄' },
+      { hex: '#D66BA1', name: '비비드 핑크' },
+      { hex: '#E8B94B', name: '웜 골드' },
+      { hex: '#F0D85D', name: '선샤인 옐로우' },
+      { hex: '#A6C85E', name: '라임 그린' },
+      { hex: '#5A81D5', name: '클리어 블루' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '비비드 코랄 · 핫 핑크',        desc: '선명한 코랄 레드, 웜 비비드 핑크' },
+      { category: '블러셔',     value: '코랄 · 오렌지 핑크',           desc: '생기 있는 복숭아빛 볼터치' },
+      { category: '아이섀도우', value: '골드 · 오렌지 브론즈 · 코랄',  desc: '맑고 따뜻한 비비드 어스 톤' },
+      { category: '파운데이션', value: '옐로우 베이지 계열',           desc: '13~15호 밝은 웜 언더톤' },
+    ],
+    makeupAvoid: '쿨한 퍼플·블루·와인 계열은 얼굴과 동떨어져 보일 수 있어요.',
+    traits: [
+      '피부 베이스에 <strong>노란기·복숭아빛</strong>이 돌아요.',
+      '채도 높고 맑은 색을 입으면 <strong>얼굴에 생기</strong>가 돌고 또렷해 보여요.',
+      '<strong>골드·옐로우골드</strong> 액세서리가 가장 잘 어울려요.',
+      '비비드 코랄·핑크·옐로우에서 <strong>특히 빛나요</strong>.',
+      '순백보다 <strong>크림·아이보리</strong>가 더 자연스럽게 어울려요.',
+    ],
+    fashion: {
+      best:  { colors: ['#F8F0B8','#EEC2C8','#BFE4E1','#E8B94B','#A6C85E'], desc: '버터 옐로우, 라이트 핑크, 민트, 웜 골드, 라임 그린' },
+      point: { colors: ['#D65A31','#D66BA1','#C33385','#5A81D5'],            desc: '비비드 코랄, 비비드 핑크, 핫 핑크, 클리어 블루' },
+    },
+  },
+
+  'spring-true': {
+    name: '봄 트루',
+    nameEn: 'Spring True',
+    season: 'spring',
+    worstKey: 'winter-true',
+    description: '따뜻한 온도감이 핵심인 봄 타입이에요.<br>탁하거나 어둡지 않은 따뜻하고 부드러운 웜 컬러에서 가장 자연스럽게 빛나요.',
+    palette: ['#F5E3D4','#F0D5BF','#EBC889','#E0B15F','#C09B74','#B8CE58','#7E8D3B','#B3B6A9','#A8B09C','#756F74','#3A3538','#E9B38F','#B68964','#6C3736','#5B2E2D','#88B879'],
+    bestColors: [
+      { hex: '#E0B15F', name: '아프리코트' },
+      { hex: '#EBC889', name: '웜 베이지' },
+      { hex: '#88B879', name: '소프트 그린' },
+      { hex: '#B8CE58', name: '옐로우 그린' },
+      { hex: '#B68964', name: '캐러멜' },
+      { hex: '#E9B38F', name: '살구 핑크' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '코랄 · 피치 핑크',              desc: '살몬 코랄, 웜 피치 계열' },
+      { category: '블러셔',     value: '피치 · 코랄 핑크',              desc: '따뜻한 복숭아빛 볼터치' },
+      { category: '아이섀도우', value: '골드 · 브론즈 · 오렌지 브라운', desc: '따뜻한 어스 톤' },
+      { category: '파운데이션', value: '옐로우 베이지 계열',            desc: '15~17호 웜 언더톤' },
+    ],
+    makeupAvoid: '쿨한 장밋빛 핑크, 퍼플, 블루 계열 메이크업은 피부와 동떨어져 보일 수 있어요.',
+    traits: [
+      '피부 베이스에 <strong>노란기·복숭아빛</strong>이 돌아요.',
+      '따뜻하고 부드러운 웜 컬러에서 <strong>피부가 환해지고 생기</strong> 있어 보여요.',
+      '<strong>골드 액세서리</strong>가 실버보다 훨씬 잘 어울려요.',
+      '아이보리·크림색 옷이 순백색보다 더 자연스럽게 어울려요.',
+      '따뜻한 파스텔, 복숭아·살몬 계열에서 <strong>특히 빛나요</strong>.',
+    ],
+    fashion: {
+      best:  { colors: ['#F5E3D4','#F0D5BF','#EBC889','#E9B38F','#B3B6A9'], desc: '피치 크림, 웜 아이보리, 웜 베이지, 살구, 카키 그레이' },
+      point: { colors: ['#E0B15F','#B8CE58','#B68964','#88B879'],            desc: '아프리코트, 옐로우 그린, 캐러멜, 소프트 그린' },
+    },
+  },
+
+  'spring-light': {
+    name: '봄 라이트',
+    nameEn: 'Spring Light',
+    season: 'spring',
+    worstKey: 'winter-bright',
+    description: '밝고 가벼운 파스텔 웜 컬러가 잘 어울려요.<br>진하거나 강한 색보다 맑고 연한 색을 썼을 때 얼굴이 부드럽고 화사해 보여요.',
+    palette: ['#EDC1B7','#E8AAA1','#C2C2B5','#A3A891','#E5B3C3','#D9558E','#D12D76','#F4E979','#EFD16D','#E7B75D','#DFA24C','#A9C777','#70A652','#256F3F','#A7CCE4','#8FBDE0'],
+    bestColors: [
+      { hex: '#EDC1B7', name: '피치 베이지' },
+      { hex: '#EFD16D', name: '버터 옐로우' },
+      { hex: '#A9C777', name: '라임 연두' },
+      { hex: '#A7CCE4', name: '파우더 블루' },
+      { hex: '#E5B3C3', name: '라이트 핑크' },
+      { hex: '#DFA24C', name: '웜 오렌지' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '피치 · 소프트 코랄',            desc: '부드러운 살몬, 코랄 핑크' },
+      { category: '블러셔',     value: '피치 · 살몬 핑크',              desc: '가볍고 화사한 복숭아빛' },
+      { category: '아이섀도우', value: '골드 베이지 · 피치 · 코랄',     desc: '맑고 가벼운 웜 톤' },
+      { category: '파운데이션', value: '라이트 옐로우 베이지',          desc: '13~15호 밝고 가벼운 웜 언더톤' },
+    ],
+    makeupAvoid: '쿨한 장밋빛 핑크, 퍼플, 진한 블루 계열은 피부와 동떨어져 보일 수 있어요.',
+    traits: [
+      '피부 베이스에 <strong>노란기·복숭아빛</strong>이 도는 밝은 피부 타입이에요.',
+      '맑고 연한 파스텔 웜 컬러에서 <strong>부드럽고 화사한</strong> 인상이 살아나요.',
+      '<strong>골드·로즈골드</strong> 액세서리가 잘 어울려요.',
+      '너무 진하거나 탁한 색은 얼굴을 무겁게 보이게 해요.',
+      '따뜻한 파스텔, 피치·민트·버터 계열에서 <strong>특히 빛나요</strong>.',
+    ],
+    fashion: {
+      best:  { colors: ['#EDC1B7','#C2C2B5','#EFD16D','#A9C777','#A7CCE4'], desc: '피치 베이지, 밀키 그레이, 버터 옐로우, 라임 연두, 파우더 블루' },
+      point: { colors: ['#D9558E','#E8AAA1','#DFA24C','#70A652'],            desc: '핫 핑크, 코랄 베이지, 웜 오렌지, 연두 그린' },
+    },
+  },
+
+  // ── 여름 쿨톤 ────────────────────────────────────────────────────────────────
+
+  'summer-light': {
+    name: '여름 라이트',
+    nameEn: 'Summer Light',
+    season: 'summer',
+    worstKey: 'autumn-deep',
+    description: '밝고 차가운 파스텔 색이 잘 어울려요.<br>연하고 부드러운 쿨 컬러에서 우아하고 청초한 매력이 살아나요.',
+    palette: ['#B8BBC6','#7F8492','#4C5367','#182E43','#B9D8CE','#6FA79F','#1D4A3F','#8F7887','#66576C','#362334','#17434C','#5D9AB3','#5592AD','#1E405B','#D6C8A7','#D2CC76'],
+    bestColors: [
+      { hex: '#5592AD', name: '쿨 블루' },
+      { hex: '#B9D8CE', name: '파우더 민트' },
+      { hex: '#5D9AB3', name: '스틸 블루' },
+      { hex: '#8F7887', name: '더스티 모브' },
+      { hex: '#B8BBC6', name: '라벤더 그레이' },
+      { hex: '#6FA79F', name: '쿨 티얼' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '쉬어 로즈 · 누드 핑크',        desc: '연하고 부드러운 쿨 핑크' },
+      { category: '블러셔',     value: '베이비 핑크 · 소프트 로즈',    desc: '가볍고 청초한 쿨 핑크' },
+      { category: '아이섀도우', value: '라벤더 · 그레이 · 소프트 모브', desc: '맑고 가벼운 쿨 톤' },
+      { category: '파운데이션', value: '핑크 베이지 계열',             desc: '13~15호 밝은 쿨 언더톤' },
+    ],
+    makeupAvoid: '강한 오렌지·골드·짙은 브라운 계열은 피부를 칙칙하게 보이게 할 수 있어요.',
+    traits: [
+      '피부에 <strong>붉은기·푸른기</strong>가 도는 밝은 쿨 베이스예요.',
+      '맑고 연한 파스텔 쿨 컬러에서 <strong>청초하고 우아한</strong> 인상이 살아나요.',
+      '<strong>실버·화이트골드</strong> 액세서리가 자연스럽게 어울려요.',
+      '강한 원색보다 <strong>부드러운 파스텔 쿨 컬러</strong>가 더 잘 어울려요.',
+      '검정보다 <strong>네이비·다크그레이</strong>가 더 우아하게 떨어져요.',
+    ],
+    fashion: {
+      best:  { colors: ['#B8BBC6','#B9D8CE','#D6C8A7','#8F7887','#D2CC76'], desc: '라벤더 그레이, 파우더 민트, 그레이 베이지, 더스티 모브, 쿨 카키' },
+      point: { colors: ['#5592AD','#5D9AB3','#4C5367','#66576C'],            desc: '쿨 블루, 스틸 블루, 딥 네이비 그레이, 더스티 퍼플' },
+    },
+  },
+
+  'summer-true': {
+    name: '여름 트루',
+    nameEn: 'Summer True',
+    season: 'summer',
+    worstKey: 'autumn-true',
+    description: '차가운 온도감이 핵심인 여름 타입이에요.<br>차분하면서도 깨끗한 쿨 컬러에서 가장 세련되고 자연스럽게 빛나요.',
+    palette: ['#E2E0E6','#C9C6CD','#B4B1B8','#827E87','#D5AEC7','#B86F9C','#993B7E','#E8E8A6','#898E86','#5E625E','#3C383D','#8BB7AE','#568678','#183040','#BBB5BE','#A29AA8'],
+    bestColors: [
+      { hex: '#D5AEC7', name: '소프트 모브' },
+      { hex: '#B86F9C', name: '모브 핑크' },
+      { hex: '#8BB7AE', name: '쿨 티얼' },
+      { hex: '#E2E0E6', name: '라이트 라벤더' },
+      { hex: '#A29AA8', name: '그레이 모브' },
+      { hex: '#568678', name: '세이지 그린' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '로즈 · 모브 핑크',             desc: '쿨 톤 핑크, 베리 베이지' },
+      { category: '블러셔',     value: '로즈 · 핑크',                  desc: '차분한 쿨 핑크 볼터치' },
+      { category: '아이섀도우', value: '라벤더 · 그레이 · 모브',       desc: '쿨 톤 뉴트럴' },
+      { category: '파운데이션', value: '핑크 베이지 계열',             desc: '15~19호 쿨 언더톤' },
+    ],
+    makeupAvoid: '강한 오렌지/골드·짙은 브라운 계열은 피부를 칙칙하게 보이게 할 수 있어요.',
+    traits: [
+      '피부에 <strong>붉은기·푸른기</strong>가 도는 쿨 베이스예요.',
+      '강한 원색보다 <strong>부드러운 파스텔</strong>이 더 잘 어울려요.',
+      '<strong>실버 액세서리</strong>가 골드보다 자연스럽게 어울려요.',
+      '검정보다 <strong>네이비·그레이</strong>가 더 우아하게 떨어져요.',
+      '쨍한 색보다 <strong>그레이가 살짝 섞인 톤</strong>에서 빛나요.',
+    ],
+    fashion: {
+      best:  { colors: ['#E2E0E6','#C9C6CD','#BBB5BE','#D5AEC7','#A29AA8'], desc: '라이트 라벤더, 쿨 그레이, 미스트 그레이, 소프트 모브, 그레이 모브' },
+      point: { colors: ['#B86F9C','#8BB7AE','#568678','#827E87'],            desc: '모브 핑크, 쿨 티얼, 세이지 그린, 미디엄 그레이' },
+    },
+  },
+
+  'summer-mute': {
+    name: '여름 뮤트',
+    nameEn: 'Summer Mute',
+    season: 'summer',
+    worstKey: 'autumn-mute',
+    description: '채도가 낮고 회색기가 섞인 쿨 컬러가 잘 어울려요.<br>한 톤 눌린 색에서 편안하고 분위기 있는 쿨 매력이 나와요.',
+    palette: ['#E4E4E4','#D6D3D0','#C6C2C1','#999897','#E1D9A9','#B3C9B6','#30444C','#ADACAD','#757375','#6A696B','#474753','#9BB7B2','#637A87','#40566F','#E4B8C9','#D29AAF'],
+    bestColors: [
+      { hex: '#9BB7B2', name: '파우더 블루그레이' },
+      { hex: '#E4B8C9', name: '파우더 핑크' },
+      { hex: '#B3C9B6', name: '세이지 그린' },
+      { hex: '#637A87', name: '더스티 블루' },
+      { hex: '#D29AAF', name: '더스티 로즈' },
+      { hex: '#40566F', name: '스모키 네이비' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '모브 · 더스티 핑크',           desc: '한 톤 눌린 쿨 핑크, 스모키 로즈' },
+      { category: '블러셔',     value: '더스티 로즈 · 소프트 핑크',   desc: '차분하고 스모키한 쿨 볼터치' },
+      { category: '아이섀도우', value: '그레이 · 스모키 모브 · 라벤더', desc: '차분하고 깊이감 있는 쿨 톤' },
+      { category: '파운데이션', value: '핑크 베이지 계열',             desc: '17~19호 쿨 언더톤' },
+    ],
+    makeupAvoid: '강한 오렌지·골드·짙은 브라운 계열은 피부를 칙칙하게 보이게 할 수 있어요.',
+    traits: [
+      '피부에 <strong>붉은기·푸른기</strong>가 도는 쿨 베이스예요.',
+      '채도가 낮고 <strong>그레이가 섞인 스모키 쿨 컬러</strong>에서 분위기가 살아나요.',
+      '<strong>실버·매트 실버</strong> 액세서리가 잘 어울려요.',
+      '선명한 원색보다 <strong>눌린 쿨 어스 톤</strong>이 더 잘 어울려요.',
+      '쨍한 색보다 <strong>더스티하게 탁한 색</strong>에서 특히 빛나요.',
+    ],
+    fashion: {
+      best:  { colors: ['#E4E4E4','#D6D3D0','#E1D9A9','#B3C9B6','#E4B8C9'], desc: '라이트 그레이, 워밍 그레이, 그레이 옐로우, 세이지 그린, 파우더 핑크' },
+      point: { colors: ['#9BB7B2','#637A87','#40566F','#D29AAF'],            desc: '파우더 블루그레이, 더스티 블루, 스모키 네이비, 더스티 로즈' },
+    },
+  },
+
+  // ── 가을 웜톤 ────────────────────────────────────────────────────────────────
+
+  'autumn-mute': {
+    name: '가을 뮤트',
+    nameEn: 'Autumn Mute',
+    season: 'autumn',
+    worstKey: 'summer-mute',
+    description: '따뜻하면서도 부드럽고 탁한 어스 톤이 잘 어울려요.<br>자연스럽게 눌린 색에서 고급스럽고 편안한 분위기가 살아나요.',
+    palette: ['#D3D1D6','#A5A3A6','#BDB9AD','#9C9887','#B7D2CC','#9DBAAE','#526D6E','#AEB3A1','#929584','#5B565E','#464A4E','#8ABFC1','#395566','#2F3F40','#D2B58F','#A9988B'],
+    bestColors: [
+      { hex: '#D2B58F', name: '웜 샌드' },
+      { hex: '#A9988B', name: '웜 베이지' },
+      { hex: '#9C9887', name: '카키 베이지' },
+      { hex: '#9DBAAE', name: '세이지 그린' },
+      { hex: '#526D6E', name: '딥 티얼' },
+      { hex: '#AEB3A1', name: '카키 그레이' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '브릭 · 테라코타 · 모브 브라운', desc: '탁한 웜 톤, 누드 브라운' },
+      { category: '블러셔',     value: '오렌지 브라운 · 코랄 브라운',  desc: '차분한 웜 볼터치' },
+      { category: '아이섀도우', value: '카키 · 브라운 · 골드 브론즈',  desc: '깊이감 있는 어스 톤' },
+      { category: '파운데이션', value: '딥 옐로우 베이지',             desc: '19~23호 웜 언더톤' },
+    ],
+    makeupAvoid: '쨍한 파스텔 핑크, 쿨 퍼플, 푸른 톤 립스틱은 어색하게 동떨어져 보일 수 있어요.',
+    traits: [
+      '피부에 <strong>황금빛·구릿빛</strong>이 도는 웜 베이스예요.',
+      '<strong>탁하고 눌린 어스 톤</strong>에서 고급스러운 분위기가 살아나요.',
+      '<strong>골드·앤티크 골드</strong> 액세서리와 궁합이 좋아요.',
+      '선명하거나 밝은 색보다 <strong>자연스럽게 바랜 듯한 색</strong>이 더 잘 어울려요.',
+      '가을 낙엽처럼 <strong>브라운·카키·세이지 그린</strong> 계열에 강해요.',
+    ],
+    fashion: {
+      best:  { colors: ['#D3D1D6','#BDB9AD','#D2B58F','#AEB3A1','#9DBAAE'], desc: '라이트 그레이, 카키 베이지, 웜 샌드, 카키 그레이, 세이지 그린' },
+      point: { colors: ['#9C9887','#526D6E','#2F3F40','#A9988B'],            desc: '카키 베이지, 딥 티얼, 딥 포레스트, 웜 베이지' },
+    },
+  },
+
+  'autumn-true': {
+    name: '가을 트루',
+    nameEn: 'Autumn True',
+    season: 'autumn',
+    worstKey: 'summer-true',
+    description: '따뜻한 온도감이 핵심인 가을 타입이에요.<br>봄보다 더 깊고 차분한 웜 어스 컬러에서 가장 분위기 있게 빛나요.',
+    palette: ['#F0EDEA','#D8CDC2','#D8CBA9','#D1BE82','#E37E70','#D86162','#C33343','#F0C4C2','#AFAEAB','#696A72','#4D3E4B','#A2A878','#80812F','#4F473B','#C4B198','#6D5E5D'],
+    bestColors: [
+      { hex: '#D1BE82', name: '머스터드' },
+      { hex: '#E37E70', name: '테라코타' },
+      { hex: '#A2A878', name: '웜 올리브' },
+      { hex: '#C4B198', name: '웜 탄' },
+      { hex: '#80812F', name: '올리브 그린' },
+      { hex: '#D86162', name: '브릭 레드' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '벽돌 · 테라코타 · 브릭',      desc: '딥한 웜 톤, 누드 브라운' },
+      { category: '블러셔',     value: '브릭 · 펌프킨',               desc: '오렌지 브라운 볼터치' },
+      { category: '아이섀도우', value: '브라운 · 카키 · 골드 브론즈', desc: '깊이감 있는 어스 톤' },
+      { category: '파운데이션', value: '딥 옐로우 베이지',            desc: '21~25호 웜 언더톤' },
+    ],
+    makeupAvoid: '쨍한 파스텔 핑크, 푸른 톤 립스틱은 어색하게 동떨어져 보일 수 있어요.',
+    traits: [
+      '피부에 <strong>황금빛·구릿빛</strong>이 도는 깊은 웜이에요.',
+      '<strong>가라앉은 어스 톤</strong>에서 분위기와 깊이가 살아나요.',
+      '검정보다 <strong>딥 브라운</strong>이 더 자연스럽게 떨어져요.',
+      '<strong>골드·앤티크 골드</strong> 액세서리와 궁합이 좋아요.',
+      '가을 단풍처럼 <strong>레드·오렌지·올리브</strong> 계열에 강해요.',
+    ],
+    fashion: {
+      best:  { colors: ['#F0EDEA','#D8CDC2','#D8CBA9','#C4B198','#AFAEAB'], desc: '웜 화이트, 웜 그레이, 카키 베이지, 웜 탄, 그레이 베이지' },
+      point: { colors: ['#D1BE82','#E37E70','#A2A878','#80812F'],            desc: '머스터드, 테라코타, 웜 올리브, 올리브 그린' },
+    },
+  },
+
+  'autumn-deep': {
+    name: '가을 딥',
+    nameEn: 'Autumn Deep',
+    season: 'autumn',
+    worstKey: 'summer-light',
+    description: '어둡고 깊은 웜 컬러가 잘 어울려요.<br>밝고 가벼운 색보다 깊이감 있는 색에서 얼굴 윤곽과 분위기가 살아나요.',
+    palette: ['#E7DFDF','#BDB4AA','#C6AD86','#A3825D','#87915C','#5F6A2D','#2F2D1C','#999A9E','#D6DEB0','#CC999A','#98BEC2','#5C9997','#334E50','#203E38','#C8B463','#8C643D'],
+    bestColors: [
+      { hex: '#A3825D', name: '캐멜' },
+      { hex: '#87915C', name: '웜 올리브' },
+      { hex: '#5F6A2D', name: '딥 올리브' },
+      { hex: '#C8B463', name: '골든 올리브' },
+      { hex: '#8C643D', name: '다크 브라운' },
+      { hex: '#334E50', name: '딥 포레스트' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '딥 브릭 · 버건디 · 테라코타', desc: '어둡고 깊은 웜 톤' },
+      { category: '블러셔',     value: '딥 오렌지 브라운 · 테라코타', desc: '무게감 있는 웜 볼터치' },
+      { category: '아이섀도우', value: '딥 브라운 · 카키 · 다크 골드', desc: '깊이감 있는 다크 어스 톤' },
+      { category: '파운데이션', value: '딥 옐로우 베이지',            desc: '23~27호 딥 웜 언더톤' },
+    ],
+    makeupAvoid: '쨍한 파스텔 핑크, 밝은 쿨 핑크, 푸른 톤 립스틱은 어색하게 동떨어져 보일 수 있어요.',
+    traits: [
+      '피부에 <strong>황금빛·구릿빛</strong>이 도는 진하고 깊은 웜이에요.',
+      '어둡고 <strong>깊이감 있는 어스 톤</strong>에서 얼굴 윤곽이 살아나요.',
+      '<strong>딥 골드·앤티크 브론즈</strong> 액세서리가 가장 잘 어울려요.',
+      '밝거나 가벼운 색보다 <strong>깊고 진한 웜 컬러</strong>에서 빛나요.',
+      '딥 브라운·올리브·카키에서 <strong>강하고 분위기 있는 매력</strong>이 나와요.',
+    ],
+    fashion: {
+      best:  { colors: ['#E7DFDF','#BDB4AA','#C6AD86','#D6DEB0','#C8B463'], desc: '웜 화이트, 웜 그레이, 웜 탄, 카키 그린, 골든 올리브' },
+      point: { colors: ['#A3825D','#87915C','#5F6A2D','#8C643D'],            desc: '캐멜, 웜 올리브, 딥 올리브, 다크 브라운' },
+    },
+  },
+
+  // ── 겨울 쿨톤 ────────────────────────────────────────────────────────────────
+
+  'winter-deep': {
+    name: '겨울 딥',
+    nameEn: 'Winter Deep',
+    season: 'winter',
+    worstKey: 'spring-bright',
+    description: '차갑고 어두우며 깊은 쿨 컬러가 잘 어울려요.<br>무게감 있고 선명한 색에서 얼굴의 인상이 또렷하고 강렬해져요.',
+    palette: ['#FFFFFF','#D9DCE3','#A8ADBD','#252535','#7FAF9F','#29403B','#182D35','#F0EEA3','#ECE0E8','#C4D8E8','#B0BED9','#7DA8CA','#38658A','#243C81','#C7618A','#B34B7C'],
+    bestColors: [
+      { hex: '#252535', name: '딥 네이비' },
+      { hex: '#38658A', name: '클래식 블루' },
+      { hex: '#C7618A', name: '쿨 핑크레드' },
+      { hex: '#243C81', name: '딥 인디고' },
+      { hex: '#29403B', name: '딥 포레스트' },
+      { hex: '#7DA8CA', name: '스틸 블루' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '딥 버건디 · 다크 와인 · 플럼', desc: '어둡고 선명한 쿨 톤' },
+      { category: '블러셔',     value: '딥 로즈 · 라즈베리',          desc: '깊이감 있는 쿨 핑크 볼터치' },
+      { category: '아이섀도우', value: '딥 플럼 · 차콜 · 다크 네이비', desc: '강한 대비, 딥 쿨 컬러' },
+      { category: '파운데이션', value: '핑크/뉴트럴 베이지',          desc: '17~21호 쿨 언더톤' },
+    ],
+    makeupAvoid: '베이지·골드·오렌지 계열은 얼굴이 칙칙해 보일 수 있어요.',
+    traits: [
+      '피부에 <strong>푸른기·붉은기</strong>가 강한 쿨 베이스예요.',
+      '어둡고 <strong>무게감 있는 딥 쿨 컬러</strong>에서 얼굴 인상이 또렷해져요.',
+      '<strong>실버·플래티넘</strong> 액세서리가 골드보다 잘 어울려요.',
+      '<strong>딥 네이비·딥 버건디</strong>가 검정보다 더 세련되게 떨어져요.',
+      '강한 대비와 깊은 채도의 색에서 <strong>도시적이고 강렬한 매력</strong>이 나와요.',
+    ],
+    fashion: {
+      best:  { colors: ['#FFFFFF','#D9DCE3','#A8ADBD','#C4D8E8','#B0BED9'], desc: '퓨어 화이트, 아이스 그레이, 블루 그레이, 아이스 블루, 페리윙클' },
+      point: { colors: ['#252535','#38658A','#C7618A','#243C81'],            desc: '딥 네이비, 클래식 블루, 쿨 핑크레드, 딥 인디고' },
+    },
+  },
+
+  'winter-true': {
+    name: '겨울 트루',
+    nameEn: 'Winter True',
+    season: 'winter',
+    worstKey: 'spring-true',
+    description: '차가운 온도감이 핵심인 겨울 타입이에요.<br>맑고 차가운 색, 대비가 분명한 조합에서 가장 도시적이고 세련되게 빛나요.',
+    palette: ['#E5E8EE','#CCD0D9','#9FA4AF','#404A5D','#F4D7EA','#D27BB2','#C4519E','#F0E0EF','#EEF2A8','#C2E4EC','#C7CCE7','#B88BB9','#A94888','#74406B','#83C6AF','#5BA66B'],
+    bestColors: [
+      { hex: '#A94888', name: '쿨 마젠타' },
+      { hex: '#D27BB2', name: '쿨 로즈' },
+      { hex: '#B88BB9', name: '라일락' },
+      { hex: '#83C6AF', name: '에메랄드 민트' },
+      { hex: '#C7CCE7', name: '라벤더' },
+      { hex: '#404A5D', name: '딥 슬레이트' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '체리 · 마젠타 · 와인',        desc: '선명한 쿨 톤, 푸른 빨강' },
+      { category: '블러셔',     value: '핑크 · 라즈베리',             desc: '쨍한 쿨 핑크 볼터치' },
+      { category: '아이섀도우', value: '플럼 · 차콜 · 실버 화이트',   desc: '강한 대비, 쿨 컬러' },
+      { category: '파운데이션', value: '핑크/뉴트럴 베이지',          desc: '17~21호 쿨 언더톤' },
+    ],
+    makeupAvoid: '베이지·골드·오렌지 계열은 얼굴이 칙칙해 보일 수 있어요.',
+    traits: [
+      '피부에 <strong>푸른기·붉은기</strong>가 강한 쿨 베이스예요.',
+      '대비가 큰 <strong>선명한 컬러</strong>일수록 얼굴이 또렷해져요.',
+      '<strong>실버·플래티넘</strong> 액세서리가 골드보다 잘 어울려요.',
+      '<strong>퓨어 화이트와 딥 네이비</strong>가 가장 자연스러워요.',
+      '강한 채도·강한 명도 대비의 옷에서 <strong>도시적인 매력</strong>이 나와요.',
+    ],
+    fashion: {
+      best:  { colors: ['#E5E8EE','#CCD0D9','#F0E0EF','#C7CCE7','#B88BB9'], desc: '아이스 화이트, 쿨 그레이, 라이트 라벤더, 라벤더, 라일락' },
+      point: { colors: ['#A94888','#D27BB2','#83C6AF','#5BA66B'],            desc: '쿨 마젠타, 쿨 로즈, 에메랄드 민트, 쿨 그린' },
+    },
+  },
+
+  'winter-bright': {
+    name: '겨울 브라이트',
+    nameEn: 'Winter Bright',
+    season: 'winter',
+    worstKey: 'spring-light',
+    description: '차갑고 선명한 고채도 쿨 컬러가 잘 어울려요.<br>또렷한 비비드 컬러에서 얼굴이 맑고 강렬하게 살아나요.',
+    palette: ['#FFFFFF','#E6E6EB','#BFC1C9','#999DAA','#5DBA65','#43807F','#001F19','#F4F0A3','#EFE1E8','#BEE6E8','#B8C7EA','#5EB2D8','#4476D9','#142D88','#E9DC45','#DFAF50'],
+    bestColors: [
+      { hex: '#4476D9', name: '로열 블루' },
+      { hex: '#5DBA65', name: '에메랄드 그린' },
+      { hex: '#E9DC45', name: '레몬 옐로우' },
+      { hex: '#5EB2D8', name: '비비드 스카이' },
+      { hex: '#FFFFFF', name: '퓨어 화이트' },
+      { hex: '#142D88', name: '딥 블루' },
+    ],
+    makeup: [
+      { category: '립 컬러',    value: '핫 핑크 · 마젠타 · 코럴레드', desc: '선명하고 강렬한 쿨 비비드' },
+      { category: '블러셔',     value: '비비드 핑크 · 라즈베리',     desc: '선명한 쿨 핑크 볼터치' },
+      { category: '아이섀도우', value: '실버 · 아이시 블루 · 클리어', desc: '맑고 강렬한 쿨 컬러' },
+      { category: '파운데이션', value: '핑크 베이지 계열',            desc: '15~19호 쿨 언더톤' },
+    ],
+    makeupAvoid: '베이지·골드·오렌지 계열은 얼굴이 칙칙해 보일 수 있어요.',
+    traits: [
+      '피부에 <strong>푸른기·붉은기</strong>가 강한 쿨 베이스예요.',
+      '맑고 <strong>채도 높은 비비드 쿨 컬러</strong>에서 얼굴이 더욱 또렷하고 강렬해져요.',
+      '<strong>실버·크롬</strong> 액세서리가 가장 잘 어울려요.',
+      '탁한 색보다 <strong>선명하고 깨끗한 쿨 컬러</strong>가 훨씬 잘 맞아요.',
+      '<strong>로열 블루·에메랄드·레몬 옐로우</strong>에서 시크하고 강렬한 매력이 나와요.',
+    ],
+    fashion: {
+      best:  { colors: ['#FFFFFF','#E6E6EB','#EFE1E8','#BEE6E8','#B8C7EA'], desc: '퓨어 화이트, 아이스 화이트, 아이스 핑크, 아이스 민트, 아이스 블루' },
+      point: { colors: ['#4476D9','#5DBA65','#E9DC45','#5EB2D8'],            desc: '로열 블루, 에메랄드 그린, 레몬 옐로우, 비비드 스카이' },
+    },
+  },
+};

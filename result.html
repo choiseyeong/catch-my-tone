@@ -122,11 +122,19 @@
       </div>
 
       <!-- Fashion Recommendations -->
-      <div class="result-card" style="margin-bottom:0;">
+      <div class="result-card" style="margin-bottom:28px;">
         <h3><span>👗</span> 패션 컬러 추천</h3>
         <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-top:4px;" id="fashionGrid">
           <!-- filled by JS -->
         </div>
+      </div>
+
+      <!-- Clothes Recommendations -->
+      <div class="result-card" id="clothesSection" style="margin-bottom:0; display:none;">
+        <h3><span>🛍️</span> 내 톤에 어울리는 옷 추천 <span id="clothesTypeTag" style="font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-left:auto; letter-spacing:0;"></span></h3>
+        <div class="clothes-grid" id="clothesGrid"></div>
+        <p id="clothesEmpty" style="display:none; text-align:center; color:var(--text-muted); font-size:0.88rem; padding:20px 0 4px;">이 타입에 매칭된 상품이 없어요.</p>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-top:16px; text-align:right; line-height:1.5;">이미지 클릭 시 상품 페이지로 이동</p>
       </div>
 
       <!-- Actions -->
@@ -154,6 +162,34 @@
     </div>
   </footer>
 
+  <!-- Dev preview panel — 항상 표시 -->
+  <div id="devPanel" style="position:fixed; bottom:20px; right:20px; z-index:9999; background:rgba(24,24,24,0.96); color:#fff; padding:14px 16px; border-radius:14px; font-size:0.82rem; box-shadow:0 8px 32px rgba(0,0,0,0.55); backdrop-filter:blur(10px); min-width:210px; border:1px solid rgba(255,140,66,0.25);">
+    <div style="font-weight:700; margin-bottom:10px; color:#ff8c42; font-size:0.84rem; letter-spacing:0.02em;">🔧 DEV 미리보기</div>
+    <select id="devTypeSelect" onchange="loadDemoType(this.value)" style="width:100%; padding:7px 8px; border-radius:8px; border:1px solid rgba(255,140,66,0.4); background:#2c2c2c; color:#fff; font-size:0.82rem; cursor:pointer; outline:none;">
+      <optgroup label="봄 웜톤">
+        <option value="spring-bright">봄웜 브라이트</option>
+        <option value="spring-true">봄웜 트루</option>
+        <option value="spring-light">봄웜 라이트</option>
+      </optgroup>
+      <optgroup label="여름 쿨톤">
+        <option value="summer-light">여름쿨 라이트</option>
+        <option value="summer-true">여름쿨 트루</option>
+        <option value="summer-mute">여름쿨 뮤트</option>
+      </optgroup>
+      <optgroup label="가을 웜톤">
+        <option value="autumn-mute">가을웜 뮤트</option>
+        <option value="autumn-true">가을웜 트루</option>
+        <option value="autumn-deep">가을웜 딥</option>
+      </optgroup>
+      <optgroup label="겨울 쿨톤">
+        <option value="winter-bright">겨울쿨 브라이트</option>
+        <option value="winter-true">겨울쿨 트루</option>
+        <option value="winter-deep">겨울쿨 딥</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <script src="js/season-data.js"></script>
   <script src="js/main.js"></script>
   <script>
     const SEASON_GRADIENTS = {
@@ -163,6 +199,64 @@
       winter: 'linear-gradient(135deg, #1A3A7A, #4A4ABF, #C71585)',
     };
 
+    // 한글 세부타입 → cloth_analysis.json type key
+    const SUBTYPE_TO_KEY = {
+      '봄웜 라이트':    'spring-light',
+      '봄웜 브라이트':  'spring-bright',
+      '봄웜 트루':      'spring-true',
+      '여름쿨 라이트':  'summer-light',
+      '여름쿨 뮤트':    'summer-mute',
+      '여름쿨 트루':    'summer-true',
+      '가을웜 뮤트':    'autumn-mute',
+      '가을웜 딥':      'autumn-deep',
+      '가을웜 트루':    'autumn-true',
+      '겨울쿨 브라이트': 'winter-bright',
+      '겨울쿨 딥':      'winter-deep',
+      '겨울쿨 트루':    'winter-true',
+    };
+
+    // 데모 미리보기용 preset (type key → mock result data)
+    const DEMO_PRESETS = {
+      'spring-bright': { season:'spring', subtype:'봄웜 브라이트', scores:{warm:3,cool:0,light:2,dark:1,bright:3,muted:0,clear:3,grayish:0} },
+      'spring-true':   { season:'spring', subtype:'봄웜 트루',     scores:{warm:3,cool:0,light:2,dark:1,bright:2,muted:1,clear:2,grayish:1} },
+      'spring-light':  { season:'spring', subtype:'봄웜 라이트',   scores:{warm:3,cool:0,light:3,dark:0,bright:1,muted:2,clear:3,grayish:0} },
+      'summer-light':  { season:'summer', subtype:'여름쿨 라이트', scores:{warm:0,cool:3,light:3,dark:0,bright:0,muted:3,clear:2,grayish:1} },
+      'summer-true':   { season:'summer', subtype:'여름쿨 트루',   scores:{warm:0,cool:3,light:2,dark:1,bright:1,muted:2,clear:2,grayish:1} },
+      'summer-mute':   { season:'summer', subtype:'여름쿨 뮤트',   scores:{warm:0,cool:3,light:2,dark:1,bright:0,muted:3,clear:0,grayish:3} },
+      'autumn-mute':   { season:'autumn', subtype:'가을웜 뮤트',   scores:{warm:3,cool:0,light:1,dark:2,bright:0,muted:3,clear:0,grayish:3} },
+      'autumn-true':   { season:'autumn', subtype:'가을웜 트루',   scores:{warm:3,cool:0,light:1,dark:2,bright:1,muted:2,clear:2,grayish:1} },
+      'autumn-deep':   { season:'autumn', subtype:'가을웜 딥',     scores:{warm:3,cool:0,light:0,dark:3,bright:0,muted:3,clear:1,grayish:2} },
+      'winter-bright': { season:'winter', subtype:'겨울쿨 브라이트', scores:{warm:0,cool:3,light:1,dark:2,bright:3,muted:0,clear:3,grayish:0} },
+      'winter-true':   { season:'winter', subtype:'겨울쿨 트루',   scores:{warm:0,cool:3,light:1,dark:2,bright:2,muted:1,clear:2,grayish:1} },
+      'winter-deep':   { season:'winter', subtype:'겨울쿨 딥',     scores:{warm:0,cool:3,light:0,dark:3,bright:1,muted:2,clear:3,grayish:0} },
+    };
+
+    function buildDemoData(typeKey) {
+      const preset = DEMO_PRESETS[typeKey];
+      const si = (typeof SEASON_INFO !== 'undefined') ? SEASON_INFO[typeKey] : null;
+      if (!preset || !si) return null;
+      const worstSi = SEASON_INFO[si.worstKey] || {};
+      return {
+        key: typeKey,
+        season: si.season,
+        worstKey: si.worstKey,
+        name: si.name,
+        nameEn: si.nameEn,
+        worstName: worstSi.name,
+        description: si.description,
+        subtype: preset.subtype,
+        confidence: 75,
+        scores: preset.scores,
+        palette: si.palette,
+        bestColors: si.bestColors,
+        worstColors: worstSi.bestColors,
+        makeup: si.makeup,
+        makeupAvoid: si.makeupAvoid,
+        traits: si.traits,
+        fashion: si.fashion,
+      };
+    }
+
     function escapeHtml(s) {
       return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
@@ -171,10 +265,10 @@
       const wrap = document.getElementById('scoreBreakdown');
       if (!wrap || !scores) return;
       const axes = [
-        { label: '웜 vs 쿨',   a: 'warm',   b: 'cool',    aLabel: '웜',     bLabel: '쿨' },
-        { label: '밝음 vs 어두움', a: 'light',  b: 'dark',    aLabel: '밝음',   bLabel: '어두움' },
+        { label: '웜 vs 쿨',        a: 'warm',   b: 'cool',    aLabel: '웜',     bLabel: '쿨' },
+        { label: '밝음 vs 어두움',   a: 'light',  b: 'dark',    aLabel: '밝음',   bLabel: '어두움' },
         { label: '선명 vs 부드러움', a: 'bright', b: 'muted',   aLabel: '선명',   bLabel: '부드러움' },
-        { label: '청색 vs 탁색', a: 'clear',  b: 'grayish', aLabel: '청',     bLabel: '탁' },
+        { label: '청색 vs 탁색',     a: 'clear',  b: 'grayish', aLabel: '청',     bLabel: '탁' },
       ];
       wrap.innerHTML = '';
       axes.forEach(ax => {
@@ -183,7 +277,6 @@
         const total = aVal + bVal || 1;
         const aPct = Math.round((aVal / total) * 100);
         const dominant = aVal > bVal ? ax.aLabel : (bVal > aVal ? ax.bLabel : '동률');
-
         const row = document.createElement('div');
         row.className = 'score-row';
         row.innerHTML = `
@@ -254,10 +347,9 @@
       const wrap = document.getElementById('fashionGrid');
       if (!wrap) return;
       const swatchHtml = arr => arr.map(c => `<div style="width:38px; height:38px; border-radius:8px; background:${c}; box-shadow:var(--shadow-sm);"></div>`).join('');
-      const worstSwatchHtml = (worstColors || []).slice(0,4).map(c =>
+      const worstSwatchHtml = (worstColors || []).slice(0, 4).map(c =>
         `<div style="width:38px; height:38px; border-radius:8px; background:${c.hex}; box-shadow:var(--shadow-sm); opacity:0.7;"></div>`
       ).join('');
-
       wrap.innerHTML = `
         <div style="text-align:center;">
           <div style="font-size:0.82rem; font-weight:700; color:var(--orange); margin-bottom:10px; letter-spacing:0.05em;">베스트 컬러</div>
@@ -272,33 +364,116 @@
         <div style="text-align:center;">
           <div style="font-size:0.82rem; font-weight:700; color:#C0605A; margin-bottom:10px; letter-spacing:0.05em;">피할 컬러</div>
           <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">${worstSwatchHtml}</div>
-          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">${(worstColors || []).slice(0,4).map(c => escapeHtml(c.name)).join(', ')}</p>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px; line-height:1.5;">${(worstColors || []).slice(0, 4).map(c => escapeHtml(c.name)).join(', ')}</p>
         </div>
       `;
     }
 
-    (function render() {
-      let data = null;
-      try { data = JSON.parse(localStorage.getItem('cmt_result')); } catch (e) {}
-      if (!data) return;
+    // ── 옷 추천 렌더링 ────────────────────────────────────────────────────────
+    async function renderClothes(subtype, seasonKey) {
+      const section = document.getElementById('clothesSection');
+      if (!section) return;
 
-      // Title
+      const typeKey = SUBTYPE_TO_KEY[subtype] || null;
+
+      let jsonData;
+      try {
+        const resp = await fetch('data/cloth_analysis.json');
+        jsonData = await resp.json();
+      } catch (_) {
+        return; // 로컬 파일 서버 없이 file:// 로 열면 fetch 실패 — 조용히 숨김
+      }
+
+      const all = jsonData.items || [];
+
+      // 반대 계절 맵 (worst palette 기준)
+      const OPPOSITE = { spring: 'winter', summer: 'autumn', autumn: 'summer', winter: 'spring' };
+      const oppSeason = OPPOSITE[seasonKey] || null;
+
+      // scores[typeKey] 오름차순으로 전체 정렬 → 실제로 typeKey 팔레트에 가장 가까운 옷 우선
+      // 반대 계절 팔레트보다 거리가 먼 항목만 포함 (피해야 할 색상 제외)
+      let items = [];
+      if (typeKey) {
+        items = all
+          .filter(it => {
+            if (!it.scores) return false;                    // 무채색 scores 없음 → 별도 처리
+            const myScore = it.scores[typeKey] ?? 999;
+            if (!oppSeason) return true;
+            const oppMin = Math.min(
+              ...Object.keys(it.scores).filter(k => k.startsWith(oppSeason)).map(k => it.scores[k])
+            );
+            return myScore <= oppMin;                        // 반대 계절보다 가깝거나 같아야 포함
+          })
+          .sort((a, b) => (a.scores[typeKey] ?? 999) - (b.scores[typeKey] ?? 999));
+
+        // 6개 미만이면 무채색 아이템으로 보충 (typeKey가 types에 포함된 것)
+        if (items.length < 6) {
+          const usedIds = new Set(items.map(it => it.id));
+          const achro = all
+            .filter(it => it.achromatic && it.types.includes(typeKey) && !usedIds.has(it.id));
+          items = [...items, ...achro];
+        }
+      }
+
+      items = items.slice(0, 6);
+
+      section.style.display = '';
+      const grid = document.getElementById('clothesGrid');
+      const emptyEl = document.getElementById('clothesEmpty');
+      const tagEl = document.getElementById('clothesTypeTag');
+
+      if (tagEl && typeKey) tagEl.textContent = typeKey;
+
+      if (!items.length) {
+        grid.style.display = 'none';
+        emptyEl.style.display = '';
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+      grid.innerHTML = '';
+      items.forEach(it => {
+        const card = document.createElement('a');
+        card.href = it.product_url || '#';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'clothes-card';
+        card.innerHTML = `
+          <img class="clothes-card-img"
+               src="${escapeHtml(it.image_url)}"
+               alt="${escapeHtml(it.name)}"
+               loading="lazy"
+               onerror="this.style.background='#eee';this.removeAttribute('src');">
+          <div class="clothes-card-body">
+            <div class="clothes-card-brand">${escapeHtml(it.brand)}</div>
+            <div class="clothes-card-name">${escapeHtml(it.name)}</div>
+            <div class="clothes-card-footer">
+              <span class="clothes-card-price">${it.price ? it.price.toLocaleString() + '원' : ''}</span>
+              <span class="clothes-card-swatch" style="background:${escapeHtml(it.dominant_hex)};" title="${escapeHtml(it.dominant_hex)}"></span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // ── 공통 렌더 ─────────────────────────────────────────────────────────────
+    function applyResultData(data) {
       if (data.name) document.getElementById('resultSeason').textContent = data.name;
       if (data.nameEn) document.getElementById('resultSeasonEn').textContent = data.nameEn;
       if (data.subtype) document.getElementById('resultSubtype').textContent = data.subtype;
       else document.getElementById('resultSubtype').style.display = 'none';
       if (data.description) document.getElementById('resultTagline').innerHTML = data.description;
 
-      // Title gradient by season
-      if (data.key && SEASON_GRADIENTS[data.key]) {
+      const gradKey = data.season || (data.key ? data.key.split('-')[0] : null);
+      if (gradKey && SEASON_GRADIENTS[gradKey]) {
         const el = document.getElementById('resultSeason');
-        el.style.background = SEASON_GRADIENTS[data.key];
+        el.style.background = SEASON_GRADIENTS[gradKey];
         el.style.webkitBackgroundClip = 'text';
         el.style.webkitTextFillColor = 'transparent';
         el.style.backgroundClip = 'text';
       }
 
-      // Confidence
       if (typeof data.confidence === 'number') {
         const pct = Math.max(0, Math.min(100, data.confidence));
         document.getElementById('resultConfidence').textContent = pct + '%';
@@ -309,7 +484,6 @@
                       '결과가 미묘했어요. 자연광에서 다시 진단해보세요.';
       }
 
-      // Palette preview
       if (Array.isArray(data.palette)) {
         const prev = document.getElementById('resultPalettePreview');
         prev.innerHTML = '';
@@ -321,26 +495,52 @@
         });
       }
 
-      // Best / worst
       renderBestColors(data.bestColors);
       renderWorstColors(data.worstColors);
       if (data.worstName) document.getElementById('worstSeasonLabel').textContent = `(${data.worstName} 계열)`;
       if (data.worstName) document.getElementById('worstColorsDesc').textContent =
         `${data.worstName} 계열의 색은 얼굴 가까이에서 피부를 칙칙하거나 창백하게 보이게 할 수 있어요. 하의나 액세서리로만 가볍게 활용해보세요.`;
 
-      // Traits + makeup
       if (data.name) document.getElementById('traitsSeasonLabel').textContent = data.name;
       renderTraits(data.traits);
       renderMakeup(data.makeup);
       const avoidEl = document.getElementById('makeupAvoid');
       if (avoidEl && data.makeupAvoid) avoidEl.textContent = data.makeupAvoid;
 
-      // Score breakdown
       renderAxisScores(data.scores);
-
-      // Fashion
       if (data.fashion) renderFashion(data.fashion, data.worstColors);
+
+      renderClothes(data.subtype, data.season || data.key.split('-')[0]);
+    }
+
+    // ── 진입점 ────────────────────────────────────────────────────────────────
+    (function init() {
+      const params = new URLSearchParams(location.search);
+      const demoType = params.get('demo');
+
+      // 데모 모드: ?demo=spring-bright
+      if (demoType) {
+        const demo = buildDemoData(demoType);
+        if (demo) {
+          try { localStorage.setItem('cmt_result', JSON.stringify(demo)); } catch (_) {}
+          applyResultData(demo);
+          const sel = document.getElementById('devTypeSelect');
+          if (sel) sel.value = demoType;
+          return;
+        }
+      }
+
+      // 일반 모드: localStorage
+      let data = null;
+      try { data = JSON.parse(localStorage.getItem('cmt_result')); } catch (_) {}
+      if (data) applyResultData(data);
     })();
+
+    function loadDemoType(typeKey) {
+      const url = new URL(location.href);
+      url.searchParams.set('demo', typeKey);
+      location.href = url.toString();
+    }
 
     function shareResult() {
       const data = JSON.parse(localStorage.getItem('cmt_result') || '{}');

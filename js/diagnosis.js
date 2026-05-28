@@ -760,8 +760,17 @@ function finishAndAnalyze() {
   // 7단계: 세부 타입
   const subtype = determineSubtype(seasonKey, { tone, value, chroma, clarity });
 
-  // worst (대표 톤의 정반대 계열)
-  const worstKey = { spring: 'winter', summer: 'autumn', autumn: 'summer', winter: 'spring' }[seasonKey];
+  // 세부타입 한글명 → 12타입 영문 키
+  const SUBTYPE_TO_KEY = {
+    '봄웜 브라이트': 'spring-bright', '봄웜 트루': 'spring-true', '봄웜 라이트': 'spring-light',
+    '여름쿨 라이트': 'summer-light',  '여름쿨 트루': 'summer-true', '여름쿨 뮤트': 'summer-mute',
+    '가을웜 뮤트':  'autumn-mute',   '가을웜 트루': 'autumn-true', '가을웜 딥': 'autumn-deep',
+    '겨울쿨 딥':    'winter-deep',   '겨울쿨 트루': 'winter-true', '겨울쿨 브라이트': 'winter-bright',
+  };
+  const typeKey  = SUBTYPE_TO_KEY[subtype] || seasonKey;
+  const si       = SEASON_INFO[typeKey] || SEASON_INFO[seasonKey] || {};
+  const worstKey = si.worstKey || seasonKey;
+  const wsi      = SEASON_INFO[worstKey] || {};
 
   // 신뢰도 계산: 4개 축의 우세도 평균
   const axes = [
@@ -778,23 +787,25 @@ function finishAndAnalyze() {
   const confidence = Math.round((confidenceSum / axes.length) * 50 + 50); // 50~100 range
 
   const result = {
-    key: seasonKey,
+    key: typeKey,
+    season: seasonKey,
     worstKey,
-    name: SEASON_INFO[seasonKey].name,
-    nameEn: SEASON_INFO[seasonKey].nameEn,
-    worstName: SEASON_INFO[worstKey].name,
-    description: SEASON_INFO[seasonKey].description,
+    name: si.name,
+    nameEn: si.nameEn,
+    worstName: wsi.name,
+    description: si.description,
     subtype,
     confidence,
     scores: { ...scores },
     derived: { tone, value, chroma, clarity },
     foundation: stage1Selection,
-    palette: SEASON_INFO[seasonKey].palette,
-    bestColors: SEASON_INFO[seasonKey].bestColors,
-    worstColors: SEASON_INFO[worstKey].bestColors,
-    makeup: SEASON_INFO[seasonKey].makeup,
-    traits: SEASON_INFO[seasonKey].traits,
-    fashion: SEASON_INFO[seasonKey].fashion,
+    palette: si.palette,
+    bestColors: si.bestColors,
+    worstColors: wsi.bestColors,
+    makeup: si.makeup,
+    makeupAvoid: si.makeupAvoid,
+    traits: si.traits,
+    fashion: si.fashion,
     stageResults: { ...stageResults },
     stageContexts: { ...stageContextHistory },
   };
@@ -828,145 +839,7 @@ function determineSubtype(seasonKey, der) {
   return '';
 }
 
-// ─── Season info (best/worst palettes, makeup, etc.) ─────────────────────────
-const SEASON_INFO = {
-  spring: {
-    name: '봄 웜톤',
-    nameEn: 'Spring Warm',
-    description: '밝고 생기 넘치는 따뜻한 색상이 당신에게 잘 어울려요.<br>화사하고 사랑스러운 봄꽃 같은 팔레트를 만나보세요.',
-    palette: ['#FFB347', '#FF8C69', '#FFDAB9', '#98FB98', '#FFD700', '#FF69B4', '#FFA07A'],
-    bestColors: [
-      { hex: '#FFB347', name: '피치 오렌지' },
-      { hex: '#FF8C69', name: '살몬 핑크' },
-      { hex: '#FFD700', name: '선샤인 옐로우' },
-      { hex: '#FFDAB9', name: '피치 크림' },
-      { hex: '#98FB98', name: '민트 그린' },
-      { hex: '#FF69B4', name: '핫 핑크' },
-      { hex: '#FFA07A', name: '라이트 살몬' },
-      { hex: '#FFFACD', name: '레몬 쉬폰' },
-    ],
-    makeup: [
-      { category: '립 컬러',    value: '코랄 · 피치 핑크',          desc: '살몬 코랄, 웜 피치 계열' },
-      { category: '블러셔',     value: '피치 · 코랄 핑크',          desc: '따뜻한 복숭아빛 볼터치' },
-      { category: '아이섀도우', value: '골드 · 브론즈 · 오렌지 브라운', desc: '따뜻한 어스 톤' },
-      { category: '파운데이션', value: '옐로우 베이지 계열',         desc: '13~17호 웜 언더톤' },
-    ],
-    makeupAvoid: '쿨한 장밋빛 핑크, 퍼플, 블루 계열 메이크업은 피부와 동떨어져 보일 수 있어요.',
-    traits: [
-      '피부 베이스에 <strong>노란기·복숭아빛</strong>이 돌아요.',
-      '밝고 화사한 색상을 입으면 <strong>피부가 환해지고 생기</strong> 있어 보여요.',
-      '<strong>골드 액세서리</strong>가 실버보다 훨씬 잘 어울려요.',
-      '아이보리·크림색 옷이 순백색보다 더 자연스럽게 어울려요.',
-      '따뜻한 파스텔, 복숭아·살몬 계열에서 <strong>특히 빛나요</strong>.',
-    ],
-    fashion: {
-      best:  { colors: ['#FFB347','#FFDAB9','#98FB98','#FFF8DC','#FFFFE0'], desc: '복숭아, 아이보리, 민트, 크림, 옐로우' },
-      point: { colors: ['#FF8C69','#FF69B4','#FFA07A','#DAA520'],            desc: '살몬, 핫핑크, 라이트살몬, 골드' },
-    },
-  },
-  summer: {
-    name: '여름 쿨톤',
-    nameEn: 'Summer Cool',
-    description: '부드럽고 시원한 파스텔 컬러가 당신에게 잘 어울려요.<br>차분하고 우아한 여름 바다 같은 팔레트를 만나보세요.',
-    palette: ['#B0C4DE', '#DDA0DD', '#F8C8DC', '#AFCBE3', '#D8BFD8', '#FFB6C1', '#C0D9D9'],
-    bestColors: [
-      { hex: '#B0C4DE', name: '라이트 스틸 블루' },
-      { hex: '#DDA0DD', name: '플럼 라이트' },
-      { hex: '#F8C8DC', name: '베이비 핑크' },
-      { hex: '#AFCBE3', name: '소프트 스카이' },
-      { hex: '#D8BFD8', name: '시슬' },
-      { hex: '#FFB6C1', name: '라이트 핑크' },
-      { hex: '#C0D9D9', name: '파우더 아쿠아' },
-      { hex: '#F0E6F6', name: '라일락' },
-    ],
-    makeup: [
-      { category: '립 컬러',    value: '로즈 · 모브 핑크',     desc: '쿨 톤 핑크, 베리 베이지' },
-      { category: '블러셔',     value: '로즈 · 핑크',          desc: '차분한 쿨 핑크 볼터치' },
-      { category: '아이섀도우', value: '라벤더 · 그레이 · 모브', desc: '쿨 톤 뉴트럴' },
-      { category: '파운데이션', value: '핑크 베이지 계열',     desc: '15~19호 쿨 언더톤' },
-    ],
-    makeupAvoid: '강한 오렌지/골드·짙은 브라운 계열은 피부를 칙칙하게 보이게 할 수 있어요.',
-    traits: [
-      '피부에 <strong>붉은기·푸른기</strong>가 도는 쿨 베이스예요.',
-      '강한 원색보다 <strong>부드러운 파스텔</strong>이 더 잘 어울려요.',
-      '<strong>실버 액세서리</strong>가 골드보다 자연스럽게 어울려요.',
-      '검정보다 <strong>네이비·그레이</strong>가 더 우아하게 떨어져요.',
-      '쨍한 색보다 <strong>그레이가 살짝 섞인 톤</strong>에서 빛나요.',
-    ],
-    fashion: {
-      best:  { colors: ['#B0C4DE','#F8C8DC','#D8BFD8','#C0D9D9','#F0E6F6'], desc: '소프트 블루, 베이비 핑크, 시슬, 아쿠아, 라일락' },
-      point: { colors: ['#DDA0DD','#FFB6C1','#AFCBE3','#9F8FBF'],            desc: '플럼, 라이트 핑크, 스카이, 라벤더' },
-    },
-  },
-  autumn: {
-    name: '가을 웜톤',
-    nameEn: 'Autumn Warm',
-    description: '차분하고 깊이 있는 흙빛 컬러가 당신에게 잘 어울려요.<br>고급스럽고 분위기 있는 가을 단풍 같은 팔레트를 만나보세요.',
-    palette: ['#B5651D', '#CD853F', '#8B6F47', '#A0522D', '#DAA520', '#808000', '#A52A2A'],
-    bestColors: [
-      { hex: '#B5651D', name: '캐러멜' },
-      { hex: '#CD853F', name: '페루' },
-      { hex: '#8B6F47', name: '월넛' },
-      { hex: '#A0522D', name: '시에나' },
-      { hex: '#DAA520', name: '머스터드 골드' },
-      { hex: '#808000', name: '올리브' },
-      { hex: '#A52A2A', name: '벽돌 레드' },
-      { hex: '#D2B48C', name: '탄' },
-    ],
-    makeup: [
-      { category: '립 컬러',    value: '벽돌 · 테라코타 · 브릭',    desc: '딥한 웜 톤, 누드 브라운' },
-      { category: '블러셔',     value: '브릭 · 펌프킨',             desc: '오렌지 브라운 볼터치' },
-      { category: '아이섀도우', value: '브라운 · 카키 · 골드 브론즈', desc: '깊이감 있는 어스 톤' },
-      { category: '파운데이션', value: '딥 옐로우 베이지',          desc: '21~25호 웜 언더톤' },
-    ],
-    makeupAvoid: '쨍한 파스텔 핑크, 푸른 톤 립스틱은 어색하게 동떨어져 보일 수 있어요.',
-    traits: [
-      '피부에 <strong>황금빛·구릿빛</strong>이 도는 깊은 웜이에요.',
-      '<strong>가라앉은 어스 톤</strong>에서 분위기와 깊이가 살아나요.',
-      '검정보다 <strong>딥 브라운</strong>이 더 자연스럽게 떨어져요.',
-      '<strong>골드·앤티크 골드</strong> 액세서리와 궁합이 좋아요.',
-      '가을 단풍처럼 <strong>레드·오렌지·올리브</strong> 계열에 강해요.',
-    ],
-    fashion: {
-      best:  { colors: ['#B5651D','#CD853F','#8B6F47','#808000','#D2B48C'], desc: '캐러멜, 페루, 월넛, 올리브, 탄' },
-      point: { colors: ['#A0522D','#DAA520','#A52A2A','#6B4226'],            desc: '시에나, 머스터드, 벽돌, 다크 브라운' },
-    },
-  },
-  winter: {
-    name: '겨울 쿨톤',
-    nameEn: 'Winter Cool',
-    description: '선명하고 강한 쿨 컬러가 당신에게 잘 어울려요.<br>도시적이고 시크한 겨울 밤 같은 팔레트를 만나보세요.',
-    palette: ['#0F4C81', '#C71585', '#000080', '#DC143C', '#FFFFFF', '#1A1A1A', '#7F00FF'],
-    bestColors: [
-      { hex: '#0F4C81', name: '클래식 블루' },
-      { hex: '#C71585', name: '마젠타' },
-      { hex: '#000080', name: '네이비' },
-      { hex: '#DC143C', name: '크림슨' },
-      { hex: '#FFFFFF', name: '퓨어 화이트' },
-      { hex: '#1A1A1A', name: '잉크 블랙' },
-      { hex: '#7F00FF', name: '바이올렛' },
-      { hex: '#00CED1', name: '다크 터쿼이즈' },
-    ],
-    makeup: [
-      { category: '립 컬러',    value: '체리 · 마젠타 · 와인',    desc: '선명한 쿨 톤, 푸른 빨강' },
-      { category: '블러셔',     value: '핑크 · 라즈베리',         desc: '쨍한 쿨 핑크 볼터치' },
-      { category: '아이섀도우', value: '플럼 · 차콜 · 실버 화이트', desc: '강한 대비, 쿨 컬러' },
-      { category: '파운데이션', value: '핑크/뉴트럴 베이지',      desc: '17~21호 쿨 언더톤' },
-    ],
-    makeupAvoid: '베이지·골드·오렌지 계열은 얼굴이 칙칙해 보일 수 있어요.',
-    traits: [
-      '피부에 <strong>푸른기·붉은기</strong>가 강한 쿨 베이스예요.',
-      '대비가 큰 <strong>선명한 컬러</strong>일수록 얼굴이 또렷해져요.',
-      '<strong>실버·플래티넘</strong> 액세서리가 골드보다 잘 어울려요.',
-      '<strong>퓨어 화이트와 잉크 블랙</strong>이 가장 자연스러워요.',
-      '강한 채도·강한 명도 대비의 옷에서 <strong>도시적인 매력</strong>이 나와요.',
-    ],
-    fashion: {
-      best:  { colors: ['#0F4C81','#000080','#FFFFFF','#1A1A1A','#DC143C'], desc: '클래식블루, 네이비, 퓨어화이트, 잉크블랙, 크림슨' },
-      point: { colors: ['#C71585','#7F00FF','#00CED1','#FF1493'],            desc: '마젠타, 바이올렛, 터쿼이즈, 핫핑크' },
-    },
-  },
-};
+// ─── Season info — season-data.js 에서 로드 (diagnosis.html 에서 먼저 include) ──
 
 // ─── Hand gesture detection ──────────────────────────────────────────────────
 let videoEl = null;
