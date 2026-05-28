@@ -81,15 +81,15 @@
 
         <!-- Best Colors -->
         <div class="result-card">
-          <h3><span>🌟</span> 베스트 컬러 (대표 톤)</h3>
+          <h3><span>🌟</span> 대표 톤 (Best!)</h3>
           <div class="palette-grid" id="bestColorsGrid"></div>
         </div>
 
         <!-- Worst Colors -->
-        <div class="result-card">
+        <div class="result-card" style="display:flex; flex-direction:column;">
           <h3><span>🚫</span> 워스트 컬러</h3>
           <div class="avoid-grid" id="worstColorsGrid"></div>
-          <div class="info-box" style="margin-top:16px; margin-bottom:0;">
+          <div class="info-box" style="margin-top:auto; margin-bottom:0;">
             <div class="info-box-icon">💡</div>
             <p id="worstColorsDesc">정반대 계열의 색은 얼굴에서 멀리, 하의나 액세서리로만 활용해보세요.</p>
           </div>
@@ -127,7 +127,7 @@
         </div>
 
         <!-- Makeup -->
-        <div class="result-card">
+        <div class="result-card" style="display:flex; flex-direction:column;">
           <h3><span>💄</span> 추천 메이크업 컬러</h3>
           <div class="makeup-grid" id="makeupGrid"></div>
           <div style="margin-top:16px; padding:14px; background:rgba(255,248,240,0.8); border-radius:10px; border:1px solid rgba(255,212,160,0.3);">
@@ -193,10 +193,10 @@
   <script src="js/main.js"></script>
   <script>
     const SEASON_GRADIENTS = {
-      spring: 'linear-gradient(135deg, #E8702A, #FFB340, #FFD166)',
-      summer: 'linear-gradient(135deg, #8A7AB8, #B8AFD8, #DFC4E8)',
-      autumn: 'linear-gradient(135deg, #8B4513, #B5651D, #DAA520)',
-      winter: 'linear-gradient(135deg, #1A3A7A, #4A4ABF, #C71585)',
+      spring: 'linear-gradient(135deg, #E0304A, #FF8090, #FFB8C8)',
+      summer: 'linear-gradient(135deg, #6A5090, #9B7BB5, #D4C0E8)',
+      autumn: 'linear-gradient(135deg, #8B3808, #BF5C0E, #E8A830)',
+      winter: 'linear-gradient(135deg, #1A3E90, #2E6EC8, #7AB0E8)',
     };
 
     // 한글 세부타입 → cloth_analysis.json type key
@@ -503,6 +503,8 @@
         el.style.webkitTextFillColor = 'transparent';
         el.style.backgroundClip = 'text';
       }
+
+      if (gradKey) document.body.dataset.season = gradKey;
 
       if (typeof data.confidence === 'number') {
         const pct = Math.max(0, Math.min(100, data.confidence));

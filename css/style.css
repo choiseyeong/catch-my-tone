@@ -1215,7 +1215,7 @@ a.season-card:hover .season-cta {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-dark);
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1237,7 +1237,7 @@ a.season-card:hover .season-cta {
 
 .palette-color {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 3/2;
   border-radius: var(--radius-sm);
   margin-bottom: 6px;
   box-shadow: var(--shadow-sm);
@@ -2390,4 +2390,222 @@ a.season-card:hover .season-cta {
   border-radius: 50%;
   border: 1.5px solid rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
+}
+
+/* ── Result Page: Season Themes & Animated Hero ───── */
+
+/* 오브 표류 애니메이션: 각자 다른 경로로 사방 이동 */
+@keyframes orbDrift1 {
+  0%   { transform: translate(   0%,    0%) scale(1.00); }
+  20%  { transform: translate(  30%,  -35%) scale(1.10); }
+  40%  { transform: translate(  45%,   20%) scale(0.92); }
+  60%  { transform: translate(  15%,   40%) scale(1.08); }
+  80%  { transform: translate( -20%,   25%) scale(0.95); }
+  100% { transform: translate(   0%,    0%) scale(1.00); }
+}
+
+@keyframes orbDrift2 {
+  0%   { transform: translate(   0%,    0%) scale(1.00); }
+  20%  { transform: translate( -35%,   28%) scale(0.91); }
+  40%  { transform: translate( -20%,  -38%) scale(1.11); }
+  60%  { transform: translate(  25%,  -22%) scale(0.93); }
+  80%  { transform: translate(  38%,   15%) scale(1.07); }
+  100% { transform: translate(   0%,    0%) scale(1.00); }
+}
+
+@keyframes orbDrift3 {
+  0%   { transform: translate(   0%,    0%) scale(1.00); }
+  33%  { transform: translate( -25%,   30%) scale(1.12); }
+  66%  { transform: translate(  30%,  -25%) scale(0.90); }
+  100% { transform: translate(   0%,    0%) scale(1.00); }
+}
+
+/* 상단 중앙 확산 오브 (::before on hero-bg) */
+body[data-season] .result-hero-bg::before {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  width: 70%;
+  height: 70%;
+  top: -10%;
+  left: 15%;
+  animation: orbDrift3 10s ease-in-out infinite;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* result-hero 내부 blob-1·2: 가시 영역 내 재배치 + 표류 애니메이션 */
+.result-hero .blob-1 {
+  top: 5%;
+  right: 5%;
+  bottom: auto;
+  left: auto;
+  animation: orbDrift1 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.result-hero .blob-2 {
+  bottom: 5%;
+  left: 5%;
+  top: auto;
+  right: auto;
+  animation: orbDrift2 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ── Spring 봄 웜톤: cherry blossom rose-coral-peach ── */
+body[data-season="spring"] {
+  --orange:          #FF6478;
+  --orange-dark:     #E0304A;
+  --soft-orange:     #FFB0BC;
+  --yellow-soft:     #FFE8EC;
+  --yellow:          #FFB0B8;
+  --yellow-dark:     #E83050;
+  --warm-white:      #FFF8FA;
+  --cream:           #FFE8EE;
+  --peach-light:     #FFE4EA;
+  --peach:           #FFBCCA;
+  --border:          #FFBCCA;
+  --grad-btn:        linear-gradient(135deg, #FF6478 0%, #FF9FA8 60%, #FFD0C8 100%);
+  --grad-btn-hover:  linear-gradient(135deg, #E0304A 0%, #FF6880 60%, #FFA0A8 100%);
+  --grad-card:       linear-gradient(145deg, #FFFFFF 0%, #FFF8FA 100%);
+  --grad-bg:         linear-gradient(160deg, #FFFBFD 0%, #FFF0F4 50%, #FFFCF8 100%);
+  --shadow-sm:       0 2px 8px rgba(255, 100, 120, 0.12);
+  --shadow-md:       0 4px 20px rgba(255, 100, 120, 0.18);
+  --shadow-lg:       0 8px 40px rgba(255, 100, 120, 0.28);
+}
+
+body[data-season="spring"] .result-hero-bg {
+  background: linear-gradient(145deg,
+    #FFB8CC 0%, #FF9AB0 18%, #FFD4BC 36%,
+    #FFC0CE 54%, #FFAABE 72%, #FFD0C0 100%);
+}
+
+body[data-season="spring"] .result-hero-bg::before {
+  background: rgba(255, 148, 172, 0.52);
+}
+
+body[data-season="spring"] .blob-1 {
+  background: radial-gradient(circle, rgba(255, 190, 210, 0.45) 0%, transparent 70%);
+}
+body[data-season="spring"] .blob-2 {
+  background: radial-gradient(circle, rgba(255, 140, 160, 0.30) 0%, transparent 70%);
+}
+
+/* ── Summer 여름 쿨톤: wisteria lavender-mauve-rose ── */
+body[data-season="summer"] {
+  --orange:          #9178B5;
+  --orange-dark:     #6A5090;
+  --soft-orange:     #C0A8D8;
+  --yellow-soft:     #F0EAFF;
+  --yellow:          #D4C0EC;
+  --yellow-dark:     #7A60A8;
+  --warm-white:      #FDFBFF;
+  --cream:           #F4EEFF;
+  --peach-light:     #F0EAFF;
+  --peach:           #D8C8F0;
+  --border:          #CCB8E8;
+  --grad-btn:        linear-gradient(135deg, #9178B5 0%, #C0A0D0 60%, #DEC8E8 100%);
+  --grad-btn-hover:  linear-gradient(135deg, #6A5090 0%, #9870B0 60%, #C090C8 100%);
+  --grad-card:       linear-gradient(145deg, #FFFFFF 0%, #F8F4FF 100%);
+  --grad-bg:         linear-gradient(160deg, #FDFBFF 0%, #F5F0FF 50%, #FDF8FF 100%);
+  --shadow-sm:       0 2px 8px rgba(145, 120, 181, 0.12);
+  --shadow-md:       0 4px 20px rgba(145, 120, 181, 0.18);
+  --shadow-lg:       0 8px 40px rgba(145, 120, 181, 0.28);
+}
+
+body[data-season="summer"] .result-hero-bg {
+  background: linear-gradient(145deg,
+    #F8F2FF 0%, #EEE0F8 18%, #F8E8F4 36%,
+    #F0EAFF 54%, #E8D6F5 72%, #FBF5FF 100%);
+}
+
+body[data-season="summer"] .result-hero-bg::before {
+  background: rgba(185, 148, 220, 0.48);
+}
+
+body[data-season="summer"] .blob-1 {
+  background: radial-gradient(circle, rgba(210, 190, 240, 0.45) 0%, transparent 70%);
+}
+body[data-season="summer"] .blob-2 {
+  background: radial-gradient(circle, rgba(180, 150, 215, 0.30) 0%, transparent 70%);
+}
+
+/* ── Autumn 가을 웜톤: amber-terracotta-golden rust ── */
+body[data-season="autumn"] {
+  --orange:          #BF5C0E;
+  --orange-dark:     #8B3808;
+  --soft-orange:     #D48A3A;
+  --yellow-soft:     #FFF0DC;
+  --yellow:          #E8B860;
+  --yellow-dark:     #A04808;
+  --warm-white:      #FFFBF5;
+  --cream:           #FFF3E0;
+  --peach-light:     #FFF0DC;
+  --peach:           #F0C880;
+  --border:          #E8B868;
+  --grad-btn:        linear-gradient(135deg, #BF5C0E 0%, #D48A3A 60%, #E8B050 100%);
+  --grad-btn-hover:  linear-gradient(135deg, #8B3808 0%, #B05018 60%, #C87830 100%);
+  --grad-card:       linear-gradient(145deg, #FFFFFF 0%, #FFFAF2 100%);
+  --grad-bg:         linear-gradient(160deg, #FFFBF5 0%, #FFF4E4 50%, #FFFAEA 100%);
+  --shadow-sm:       0 2px 8px rgba(191, 92, 14, 0.12);
+  --shadow-md:       0 4px 20px rgba(191, 92, 14, 0.18);
+  --shadow-lg:       0 8px 40px rgba(191, 92, 14, 0.28);
+}
+
+body[data-season="autumn"] .result-hero-bg {
+  background: linear-gradient(145deg,
+    #F8D0A0 0%, #E8A848 18%, #F5C878 36%,
+    #F8D8A8 54%, #E4AA50 72%, #F0C870 100%);
+}
+
+body[data-season="autumn"] .result-hero-bg::before {
+  background: rgba(224, 160, 64, 0.52);
+}
+
+body[data-season="autumn"] .blob-1 {
+  background: radial-gradient(circle, rgba(230, 180, 80, 0.45) 0%, transparent 70%);
+}
+body[data-season="autumn"] .blob-2 {
+  background: radial-gradient(circle, rgba(200, 120, 40, 0.30) 0%, transparent 70%);
+}
+
+/* ── Winter 겨울 쿨톤: icy steel-blue-navy frost ── */
+body[data-season="winter"] {
+  --orange:          #2E6EC8;
+  --orange-dark:     #1A3E90;
+  --soft-orange:     #6898D8;
+  --yellow-soft:     #E8F0FF;
+  --yellow:          #A8C8F0;
+  --yellow-dark:     #1A50A0;
+  --warm-white:      #F8FCFF;
+  --cream:           #EDF4FF;
+  --peach-light:     #E8F0FF;
+  --peach:           #C4D8F4;
+  --border:          #AECAEE;
+  --grad-btn:        linear-gradient(135deg, #2E6EC8 0%, #6898D8 60%, #98BCEC 100%);
+  --grad-btn-hover:  linear-gradient(135deg, #1A3E90 0%, #2E60B8 60%, #5080C8 100%);
+  --grad-card:       linear-gradient(145deg, #FFFFFF 0%, #F0F5FF 100%);
+  --grad-bg:         linear-gradient(160deg, #FAFCFF 0%, #EEF4FF 50%, #F8FBFF 100%);
+  --shadow-sm:       0 2px 8px rgba(46, 110, 200, 0.12);
+  --shadow-md:       0 4px 20px rgba(46, 110, 200, 0.18);
+  --shadow-lg:       0 8px 40px rgba(46, 110, 200, 0.28);
+}
+
+body[data-season="winter"] .result-hero-bg {
+  background: linear-gradient(145deg,
+    #B8D4FC 0%, #96B4EC 18%, #AACAF8 36%,
+    #C4D8FC 54%, #98BAEC 72%, #B0CCF5 100%);
+}
+
+body[data-season="winter"] .result-hero-bg::before {
+  background: rgba(120, 180, 240, 0.50);
+}
+
+body[data-season="winter"] .blob-1 {
+  background: radial-gradient(circle, rgba(160, 205, 245, 0.45) 0%, transparent 70%);
+}
+body[data-season="winter"] .blob-2 {
+  background: radial-gradient(circle, rgba(100, 155, 225, 0.30) 0%, transparent 70%);
 }
