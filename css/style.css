@@ -1332,9 +1332,56 @@ a.season-card:hover .season-cta {
   margin-bottom: 4px;
 }
 
-.makeup-desc {
-  font-size: 0.8rem;
+.makeup-product-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 6px 7px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+
+.makeup-product-link:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.makeup-product-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #eeeeee;
+  display: block;
+}
+
+.makeup-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.makeup-product-info-name {
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.makeup-product-info-shade {
+  font-size: 0.69rem;
   color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .result-actions {
@@ -2609,3 +2656,4 @@ body[data-season="winter"] .blob-1 {
 body[data-season="winter"] .blob-2 {
   background: radial-gradient(circle, rgba(100, 155, 225, 0.30) 0%, transparent 70%);
 }
+

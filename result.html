@@ -134,6 +134,7 @@
             <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:4px; font-weight:600;">AVOID</div>
             <div id="makeupAvoid" style="font-size:0.88rem; color:var(--text-medium);">쿨한 장밋빛 핑크, 퍼플, 블루 계열 메이크업은 피부와 동떨어져 보일 수 있어요.</div>
           </div>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:12px; text-align:right; line-height:1.5;">제품 클릭 시 구매 페이지로 이동</p>
         </div>
       </div>
 
@@ -328,17 +329,41 @@
       });
     }
 
-    function renderMakeup(items) {
+    const MAKEUP_CAT_MAP = { '립 컬러': 'lip', '블러셔': 'blusher', '아이섀도우': 'eyeshadow', '파운데이션': 'foundation' };
+    let _makeupDataCache = null;
+
+    async function renderMakeup(items, typeKey) {
       const wrap = document.getElementById('makeupGrid');
       if (!wrap || !items) return;
+
+      let products = null;
+      if (typeKey) {
+        try {
+          if (!_makeupDataCache) _makeupDataCache = await fetch('data/makeup_data.json').then(r => r.json());
+          products = _makeupDataCache[typeKey] || null;
+        } catch(e) {}
+      }
+
       wrap.innerHTML = '';
       items.forEach(m => {
+        const catKey = MAKEUP_CAT_MAP[m.category];
+        const prod = products && catKey ? products[catKey] : null;
+        const prodHtml = prod ? `
+          <a class="makeup-product-link" href="${escapeHtml(prod.url || '#')}" target="_blank" rel="noopener noreferrer">
+            ${prod.image_url
+              ? `<img class="makeup-product-thumb" src="${escapeHtml(prod.image_url)}" alt="${escapeHtml(prod.name)}" loading="lazy" onerror="this.style.background='#eee';this.removeAttribute('src');">`
+              : `<div class="makeup-product-thumb"></div>`}
+            <div class="makeup-product-info">
+              <div class="makeup-product-info-name">${escapeHtml(prod.brand)} ${escapeHtml(prod.name)}</div>
+              <div class="makeup-product-info-shade">${escapeHtml(prod.shade)}</div>
+            </div>
+          </a>` : '';
         const it = document.createElement('div');
         it.className = 'makeup-item';
         it.innerHTML = `
           <div class="makeup-category">${escapeHtml(m.category)}</div>
           <div class="makeup-value">${escapeHtml(m.value)}</div>
-          <div class="makeup-desc">${escapeHtml(m.desc)}</div>
+          ${prodHtml}
         `;
         wrap.appendChild(it);
       });
@@ -534,7 +559,7 @@ document.getElementById('worstColorsDesc').textContent = data.worstDesc ||
 
       if (data.name) document.getElementById('traitsSeasonLabel').textContent = data.name;
       renderTraits(data.traits);
-      renderMakeup(data.makeup);
+      renderMakeup(data.makeup, data.key);
       const avoidEl = document.getElementById('makeupAvoid');
       if (avoidEl && data.makeupAvoid) avoidEl.textContent = data.makeupAvoid;
 
