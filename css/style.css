@@ -1887,6 +1887,11 @@ a.season-card:hover .season-cta {
   white-space: nowrap;
 }
 
+/* compare 단계에서 options bar 위로 올림 */
+.camera-status.above-options-bar {
+  bottom: 90px;
+}
+
 /* ── Stage 0: Foundation Color Picker ────────────────── */
 .stage0-side {
   position: absolute;

@@ -471,6 +471,7 @@ function detectStage1Pointing(lm) {
 function showCompareUI() {
   document.getElementById('compareInfoBar').style.display = 'flex';
   document.getElementById('compareOptionsBar').style.display = 'flex';
+  document.getElementById('cameraStatus').classList.add('above-options-bar');
 }
 
 function hideCompareUI() {
@@ -478,6 +479,7 @@ function hideCompareUI() {
   document.getElementById('compareOptionsBar').style.display = 'none';
   document.getElementById('clothDrape').classList.remove('visible');
   clothSmoothLeft = clothSmoothTop = clothSmoothW = clothSmoothH = -1;
+  document.getElementById('cameraStatus').classList.remove('above-options-bar');
 }
 
 // Decide which pool to load for the given stage, based on accumulated scores.
@@ -1014,12 +1016,11 @@ function handleStage1Hand(lm) {
   if (g === 'palm') {
     clearStage1Hover();
     if (!palmHoldStartTime) palmHoldStartTime = Date.now();
-    const held = Date.now() - palmHoldStartTime;
-    const remainSec = Math.ceil((PALM_HOLD_DURATION - held) / 1000);
-    if (remainSec !== palmHoldLastRemainder) {
-      palmHoldLastRemainder = remainSec;
-      setStatus(`🖐 ${remainSec}초 유지하면 선택이 초기화돼요`);
+    if (palmHoldLastRemainder < 0) {
+      palmHoldLastRemainder = 1;
+      setStatus(`🖐 1초 유지하면 선택이 초기화돼요`);
     }
+    const held = Date.now() - palmHoldStartTime;
     if (held >= PALM_HOLD_DURATION) {
       palmHoldStartTime = 0;
       palmHoldLastRemainder = -1;
@@ -1079,10 +1080,9 @@ function handleCompareStageHand(lm) {
     if (!palmHoldStartTime) palmHoldStartTime = Date.now();
     const held = Date.now() - palmHoldStartTime;
     if (currentChoice !== null) {
-      const remainSec = Math.ceil((PALM_HOLD_DURATION - held) / 1000);
-      if (remainSec !== palmHoldLastRemainder) {
-        palmHoldLastRemainder = remainSec;
-        setStatus(`🖐 ${remainSec}초 유지하면 초기화돼요`);
+      if (palmHoldLastRemainder < 0) {
+        palmHoldLastRemainder = 1;
+        setStatus(`🖐 1초 유지하면 초기화돼요`);
       }
       if (held >= PALM_HOLD_DURATION) {
         palmHoldStartTime = 0;
