@@ -123,6 +123,18 @@ const STAGE1_HOVER_DURATION = 1200;
 // window does NOT reset the dwell timer, so a steady point still completes.
 const STAGE1_HOVER_GRACE = 260;
 
+// Palm hold: open palm must be sustained this long before reset triggers.
+const PALM_HOLD_DURATION = 1500; // ms
+let palmHoldStartTime = 0;
+let palmHoldLastRemainder = -1; // for throttled status-bar updates
+
+// Cloth drape: EMA (exponential moving average) smoothing state.
+// Resets to -1 whenever the drape is hidden so the first visible frame snaps
+// to the correct position without sliding in from (0,0).
+let clothSmoothLeft = -1, clothSmoothTop = -1;
+let clothSmoothW    = -1, clothSmoothH   = -1;
+const CLOTH_SMOOTH = 0.22; // lerp factor per frame (0 = no movement, 1 = instant)
+
 // Stage 2~5
 let currentPairIdx = 0;
 let currentChoice = null; // 'opt1' | 'opt2'
@@ -465,6 +477,7 @@ function hideCompareUI() {
   document.getElementById('compareInfoBar').style.display = 'none';
   document.getElementById('compareOptionsBar').style.display = 'none';
   document.getElementById('clothDrape').classList.remove('visible');
+  clothSmoothLeft = clothSmoothTop = clothSmoothW = clothSmoothH = -1;
 }
 
 // Decide which pool to load for the given stage, based on accumulated scores.
@@ -563,6 +576,8 @@ function showCloth(which) {
     opt2El.classList.remove('active');
     drape.classList.remove('visible');
     currentChoice = null;
+    // Reset EMA so next show snaps immediately to the face position.
+    clothSmoothLeft = clothSmoothTop = clothSmoothW = clothSmoothH = -1;
   }
 
   // Force a fresh position calc the moment the cloth becomes visible
@@ -962,6 +977,11 @@ function onHandResults(results) {
     ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
     if (!results.multiHandLandmarks?.length) {
+      // Clear palm hold when hand is lost — prevents false-trigger on re-detection.
+      if (palmHoldStartTime) {
+        palmHoldStartTime = 0;
+        palmHoldLastRemainder = -1;
+      }
       // Don't reset the dwell on a single missed frame; the grace window in
       // stage1HoverTick() clears it only after a sustained loss.
       return;
@@ -989,17 +1009,36 @@ function onHandResults(results) {
 
 function handleStage1Hand(lm) {
   const g = classifyGesture(lm);
-  // palm → reset
+
+  // palm → require PALM_HOLD_DURATION sustained hold before reset
   if (g === 'palm') {
-    const now = Date.now();
-    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
-      lastGestureTime = now;
-      showGestureFeedback('초기화 🖐');
-      resetStage1();
-    }
     clearStage1Hover();
+    if (!palmHoldStartTime) palmHoldStartTime = Date.now();
+    const held = Date.now() - palmHoldStartTime;
+    const remainSec = Math.ceil((PALM_HOLD_DURATION - held) / 1000);
+    if (remainSec !== palmHoldLastRemainder) {
+      palmHoldLastRemainder = remainSec;
+      setStatus(`🖐 ${remainSec}초 유지하면 선택이 초기화돼요`);
+    }
+    if (held >= PALM_HOLD_DURATION) {
+      palmHoldStartTime = 0;
+      palmHoldLastRemainder = -1;
+      const now = Date.now();
+      if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+        lastGestureTime = now;
+        showGestureFeedback('초기화 🖐');
+        resetStage1();
+        setStatus('손가락으로 파운데이션 색상을 가리켜 선택하세요 ☝️');
+      }
+    }
     return;
   }
+  // Non-palm: clear hold state
+  if (palmHoldStartTime) {
+    palmHoldStartTime = 0;
+    palmHoldLastRemainder = -1;
+  }
+
   // ok → advance
   if (g === 'ok' && stage1Selection) {
     const now = Date.now();
@@ -1025,15 +1064,37 @@ function handleStage1Hand(lm) {
 function handleCompareStageHand(lm) {
   const g = classifyGesture(lm);
 
+  // Non-palm gesture: clear palm hold state
+  if (g !== 'palm' && palmHoldStartTime) {
+    palmHoldStartTime = 0;
+    palmHoldLastRemainder = -1;
+  }
+
   // Live cloth toggle (no cooldown) for 'one' / 'two'
-  if (g === 'one' && currentChoice !== 'opt1') showCloth('opt1');
-  else if (g === 'two' && currentChoice !== 'opt2') showCloth('opt2');
-  else if (g === 'palm' && currentChoice !== null) {
-    const now = Date.now();
-    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
-      lastGestureTime = now;
-      showGestureFeedback('초기화 🖐');
-      showCloth(null);
+  if (g === 'one' && currentChoice !== 'opt1') {
+    showCloth('opt1');
+  } else if (g === 'two' && currentChoice !== 'opt2') {
+    showCloth('opt2');
+  } else if (g === 'palm') {
+    if (!palmHoldStartTime) palmHoldStartTime = Date.now();
+    const held = Date.now() - palmHoldStartTime;
+    if (currentChoice !== null) {
+      const remainSec = Math.ceil((PALM_HOLD_DURATION - held) / 1000);
+      if (remainSec !== palmHoldLastRemainder) {
+        palmHoldLastRemainder = remainSec;
+        setStatus(`🖐 ${remainSec}초 유지하면 초기화돼요`);
+      }
+      if (held >= PALM_HOLD_DURATION) {
+        palmHoldStartTime = 0;
+        palmHoldLastRemainder = -1;
+        const now = Date.now();
+        if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+          lastGestureTime = now;
+          showGestureFeedback('초기화 🖐');
+          showCloth(null);
+          setStatus(`${currentPairIdx + 1}번째 비교 — 1번/2번 손모양으로 천을 바꿔보세요`);
+        }
+      }
     }
     return;
   }
@@ -1125,92 +1186,94 @@ function onFaceResults(results) {
     const lms = results.multiFaceLandmarks?.[0];
     if (!lms) {
       faceLostFrames++;
-      if (faceLostFrames > 8) {
-        faceLandmarksLatest = null;
-        updateClothPosition();
-      }
+      if (faceLostFrames > 8) faceLandmarksLatest = null;
       return;
     }
     faceLostFrames = 0;
     faceLandmarksLatest = lms;
-    updateClothPosition();
-    // [임시 진단] face_mesh 가 매 초 몇 번 갱신되는지 + 턱 좌표가 변하는지
-    if (!window._fc) window._fc = { n: 0, t: 0 };
-    window._fc.n++;
-    if (Date.now() - window._fc.t > 1000) {
-      console.log(`[face] ${window._fc.n}/s  chin=(${lms[152].x.toFixed(3)}, ${lms[152].y.toFixed(3)})`);
-      window._fc.n = 0; window._fc.t = Date.now();
-    }
+
+    // Skin color sampling — must stay inside try so `lms` is in scope.
+    if (!videoEl) return;
+    const vw = videoEl.videoWidth || 640, vh = videoEl.videoHeight || 480;
+    let minX=1,minY=1,maxX=0,maxY=0;
+    lms.forEach(p => { minX = Math.min(minX,p.x); minY = Math.min(minY,p.y); maxX = Math.max(maxX,p.x); maxY = Math.max(maxY,p.y); });
+    const w = (maxX-minX)*vw, h = (maxY-minY)*vh;
+    const cx = (minX+maxX)/2*vw, cy = (minY+maxY)/2*vh;
+    const sz = Math.max(10, Math.floor(Math.min(w,h)*0.12));
+    const pts = [{x:cx - w*0.22, y:cy - h*0.05},{x:cx + w*0.22, y:cy - h*0.05},{x:cx, y:cy + h*0.15}];
+    const samples = [];
+    pts.forEach(p => {
+      const avg = getAverageVideoRGB(Math.round(p.x - sz/2), Math.round(p.y - sz/2), sz, sz);
+      if (avg) samples.push(avg);
+    });
+    if (!samples.length) return;
+    const avg = samples.reduce((acc,s)=>({r:acc.r+s.r,g:acc.g+s.g,b:acc.b+s.b}),{r:0,g:0,b:0});
+    avg.r = Math.round(avg.r/samples.length); avg.g = Math.round(avg.g/samples.length); avg.b = Math.round(avg.b/samples.length);
+    const wb = applyWB(avg);
+    faceLabSample = rgbToLab(wb.r, wb.g, wb.b);
   } catch (e) {
     console.error('onFaceResults error:', e);
-    return;
   }
-
-  if (!videoEl) return;
-  const vw = videoEl.videoWidth || 640, vh = videoEl.videoHeight || 480;
-  let minX=1,minY=1,maxX=0,maxY=0;
-  lms.forEach(p => { minX = Math.min(minX,p.x); minY = Math.min(minY,p.y); maxX = Math.max(maxX,p.x); maxY = Math.max(maxY,p.y); });
-  const w = (maxX-minX)*vw, h = (maxY-minY)*vh;
-  const cx = (minX+maxX)/2*vw, cy = (minY+maxY)/2*vh;
-  const sz = Math.max(10, Math.floor(Math.min(w,h)*0.12));
-  const pts = [{x:cx - w*0.22, y:cy - h*0.05},{x:cx + w*0.22, y:cy - h*0.05},{x:cx, y:cy + h*0.15}];
-  const samples = [];
-  pts.forEach(p => {
-    const avg = getAverageVideoRGB(Math.round(p.x - sz/2), Math.round(p.y - sz/2), sz, sz);
-    if (avg) samples.push(avg);
-  });
-  if (!samples.length) return;
-  const avg = samples.reduce((acc,s)=>({r:acc.r+s.r,g:acc.g+s.g,b:acc.b+s.b}),{r:0,g:0,b:0});
-  avg.r = Math.round(avg.r/samples.length); avg.g = Math.round(avg.g/samples.length); avg.b = Math.round(avg.b/samples.length);
-  // Apply the calibrated white-balance gain so the Lab sample is invariant
-  // to the lighting color cast (warm/cool ambient light, etc.).
-  const wb = applyWB(avg);
-  faceLabSample = rgbToLab(wb.r, wb.g, wb.b);
 }
 
 // Position the cloth drape under the user's chin using FaceMesh landmarks.
-// The preview is CSS-mirrored (scaleX(-1)) so we mirror landmark x coords too.
+// Visibility (show/hide) is controlled solely by the .visible CSS class in
+// showCloth() — this function only updates geometry so the drape tracks the
+// face every frame, whether or not it is currently visible to the user.
+// The video/canvas are CSS-mirrored (scaleX(-1)), so landmark x is mirrored.
 function updateClothPosition() {
   const drape = document.getElementById('clothDrape');
   const cameraArea = document.getElementById('cameraArea');
   if (!drape || !cameraArea) return;
 
-  // Hide if not in a compare stage or face isn't tracked.
-  if (!(currentStage >= 2 && currentStage <= 5) || !faceLandmarksLatest) {
-    drape.style.visibility = 'hidden';
-    return;
-  }
+  // Only update geometry during compare stages when face is tracked.
+  if (!(currentStage >= 2 && currentStage <= 5) || !faceLandmarksLatest) return;
 
   const lm = faceLandmarksLatest;
   const chin  = lm[152];
   const faceL = lm[234];
   const faceR = lm[454];
-  if (!chin || !faceL || !faceR) {
-    drape.style.visibility = 'hidden';
-    return;
-  }
+  if (!chin || !faceL || !faceR) return;
 
   const rect = cameraArea.getBoundingClientRect();
   const camW = rect.width;
   const camH = rect.height;
-  if (camW === 0 || camH === 0) {
-    drape.style.visibility = 'hidden';
-    return;
-  }
+  if (camW === 0 || camH === 0) return;
 
   const chinX = (1 - chin.x) * camW;
   const chinY = chin.y * camH;
   const faceWidth = Math.abs(faceR.x - faceL.x) * camW;
-  const clothWidth  = Math.min(camW * 1.0, Math.max(faceWidth * 2.4, camW * 0.6));
-  const clothHeight = Math.max(80, camH - chinY - 6);
-  const left = Math.max(-clothWidth * 0.05, Math.min(camW - clothWidth * 0.95, chinX - clothWidth / 2));
-  const top  = chinY + 4;
 
-  drape.style.visibility = 'visible';
-  drape.style.width  = clothWidth + 'px';
-  drape.style.height = clothHeight + 'px';
-  drape.style.left   = left + 'px';
-  drape.style.top    = top + 'px';
+  // Cloth width: 2.8× face width, clamped to 72%–100% of camera width
+  const clothWidth = Math.min(camW, Math.max(faceWidth * 2.8, camW * 0.72));
+
+  // Cloth height: proportional to face height (forehead→chin),
+  // clamped to 80px–45% of camera height so it looks like a draped fabric,
+  // not an oversized block that fills the whole lower screen.
+  const forehead = lm[10];
+  const faceHeightRatio = forehead ? Math.abs(chin.y - forehead.y) : 0.18;
+  const clothHeight = Math.max(80, Math.min(camH * 0.45, faceHeightRatio * camH * 1.7));
+
+  const targetLeft = Math.max(-clothWidth * 0.05,
+    Math.min(camW - clothWidth * 0.95, chinX - clothWidth / 2));
+  const targetTop = chinY + 4;
+
+  // EMA smoothing: snap on first appearance (clothSmoothLeft = -1 after hide),
+  // interpolate on subsequent frames so drape glides smoothly with face movement.
+  if (clothSmoothLeft < 0) {
+    clothSmoothLeft = targetLeft;  clothSmoothTop = targetTop;
+    clothSmoothW    = clothWidth;  clothSmoothH   = clothHeight;
+  } else {
+    clothSmoothLeft += (targetLeft  - clothSmoothLeft) * CLOTH_SMOOTH;
+    clothSmoothTop  += (targetTop   - clothSmoothTop)  * CLOTH_SMOOTH;
+    clothSmoothW    += (clothWidth  - clothSmoothW)    * CLOTH_SMOOTH;
+    clothSmoothH    += (clothHeight - clothSmoothH)    * CLOTH_SMOOTH;
+  }
+
+  drape.style.width  = clothSmoothW.toFixed(1)    + 'px';
+  drape.style.height = clothSmoothH.toFixed(1)    + 'px';
+  drape.style.left   = clothSmoothLeft.toFixed(1) + 'px';
+  drape.style.top    = clothSmoothTop.toFixed(1)  + 'px';
 }
 
 function getAverageVideoRGB(x, y, w, h) {
