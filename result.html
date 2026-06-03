@@ -49,7 +49,7 @@
       </p>
 
       <!-- Reliability -->
-      <div style="max-width:360px; margin:0 auto 28px; background:rgba(255,255,255,0.7); padding:16px 20px; border-radius:14px; backdrop-filter:blur(8px);">
+      <div id="confidenceSection" style="max-width:360px; margin:0 auto 28px; background:rgba(255,255,255,0.7); padding:16px 20px; border-radius:14px; backdrop-filter:blur(8px);">
         <div style="display:flex; justify-content:space-between; font-size:0.88rem; margin-bottom:8px;">
           <span style="color:var(--text-medium); font-weight:600;">진단 신뢰도</span>
           <span id="resultConfidence" style="color:var(--orange); font-weight:700;">82%</span>
@@ -142,6 +142,13 @@
       <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); line-height:1.7; padding:0 20px 20px;">
         이 결과는 참고용이에요. 당신의 취향이 언제나 먼저입니다.
       </p>
+
+      <!-- Type Browser -->
+      <div class="result-card" style="margin-bottom:28px;">
+        <h3><span>🎨</span> 다른 퍼스널컬러 타입 살펴보기</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin:8px 0 20px; line-height:1.6;">12가지 타입의 팔레트·특징·추천 아이템을 자유롭게 둘러보세요.</p>
+        <div id="typeBrowserGrid"></div>
+      </div>
 
       <!-- Actions -->
       <div class="result-actions">
@@ -574,19 +581,108 @@ document.getElementById('worstColorsDesc').textContent = data.worstDesc ||
       renderClothes(data.subtype, data.season || data.key.split('-')[0]);
     }
 
+    // ── 타입 브라우저 ─────────────────────────────────────────────────────────
+    const TYPE_BROWSER_GROUPS = [
+      { label: '봄 웜톤',  keys: ['spring-bright', 'spring-true',  'spring-light'] },
+      { label: '여름 쿨톤', keys: ['summer-light',  'summer-true',  'summer-mute']  },
+      { label: '가을 웜톤', keys: ['autumn-mute',   'autumn-true',  'autumn-deep']  },
+      { label: '겨울 쿨톤', keys: ['winter-deep',   'winter-true',  'winter-bright'] },
+    ];
+
+    function renderTypeBrowser(myTypeKey, currentTypeKey) {
+      const wrap = document.getElementById('typeBrowserGrid');
+      if (!wrap || typeof SEASON_INFO === 'undefined') return;
+      wrap.innerHTML = '';
+
+      TYPE_BROWSER_GROUPS.forEach(group => {
+        const col = document.createElement('div');
+        col.className = 'type-browser-col';
+
+        const label = document.createElement('div');
+        label.className = 'type-browser-season-label';
+        label.textContent = group.label;
+        col.appendChild(label);
+
+        group.keys.forEach(typeKey => {
+          const si = SEASON_INFO[typeKey];
+          if (!si) return;
+
+          const isMyType   = typeKey === myTypeKey;
+          const isCurrent  = typeKey === currentTypeKey;
+          const isClickable = !isCurrent;
+
+          const card = document.createElement(isClickable ? 'a' : 'div');
+          card.className = 'type-browser-card' +
+            (isMyType  ? ' is-my-type' : '') +
+            (isCurrent && !isMyType ? ' is-current' : '');
+
+          if (isClickable) {
+            // 내 타입이면 browse 파라미터 없이 (신뢰도 표시), 다른 타입이면 browse=1
+            card.href = isMyType
+              ? 'result.html'
+              : `result.html?demo=${typeKey}&browse=1`;
+          }
+
+          if (isMyType) {
+            const badge = document.createElement('div');
+            badge.className = 'type-browser-badge';
+            badge.textContent = '내 타입';
+            card.appendChild(badge);
+          }
+
+          const swatches = document.createElement('div');
+          swatches.className = 'type-browser-swatches';
+          (si.bestColors || []).slice(0, 4).map(c => c.hex).forEach(hex => {
+            const dot = document.createElement('div');
+            dot.className = 'type-browser-swatch';
+            dot.style.background = hex;
+            swatches.appendChild(dot);
+          });
+          card.appendChild(swatches);
+
+          const name = document.createElement('div');
+          name.className = 'type-browser-name';
+          name.textContent = si.name || typeKey;
+          card.appendChild(name);
+
+          col.appendChild(card);
+        });
+
+        wrap.appendChild(col);
+      });
+    }
+
     // ── 진입점 ────────────────────────────────────────────────────────────────
     (function init() {
       const params = new URLSearchParams(location.search);
       const demoType = params.get('demo');
+      const isBrowse = params.get('browse') === '1';
+
+      // 진단받은 내 타입: localStorage에서 먼저 읽어둠 (demo 덮어쓰기 전에)
+      let myTypeKey = null;
+      try {
+        const stored = JSON.parse(localStorage.getItem('cmt_result'));
+        if (stored && stored.key) myTypeKey = stored.key;
+      } catch (_) {}
+
+      // 브라우저 모드: 신뢰도 섹션 숨김
+      if (isBrowse) {
+        const conf = document.getElementById('confidenceSection');
+        if (conf) conf.style.display = 'none';
+      }
 
       // 데모 모드: ?demo=spring-bright
       if (demoType) {
         const demo = buildDemoData(demoType);
         if (demo) {
-          try { localStorage.setItem('cmt_result', JSON.stringify(demo)); } catch (_) {}
+          // browse 모드에서는 localStorage를 덮어쓰지 않아 내 타입 보존
+          if (!isBrowse) {
+            try { localStorage.setItem('cmt_result', JSON.stringify(demo)); } catch (_) {}
+          }
           applyResultData(demo);
           const sel = document.getElementById('devTypeSelect');
           if (sel) sel.value = demoType;
+          renderTypeBrowser(myTypeKey, demoType);
           return;
         }
       }
@@ -594,7 +690,10 @@ document.getElementById('worstColorsDesc').textContent = data.worstDesc ||
       // 일반 모드: localStorage
       let data = null;
       try { data = JSON.parse(localStorage.getItem('cmt_result')); } catch (_) {}
-      if (data) applyResultData(data);
+      if (data) {
+        applyResultData(data);
+        renderTypeBrowser(data.key, data.key);
+      }
     })();
 
     function loadDemoType(typeKey) {

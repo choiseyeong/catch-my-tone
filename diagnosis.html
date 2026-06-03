@@ -244,32 +244,21 @@
             <div class="gesture-guide" id="gestureGuide">
               <div class="gesture-item">
                 <div class="gesture-icon">☝️</div>
-                <div class="gesture-text">
-                  <strong>검지로 가리키기</strong>
-                  1.2초 유지하면 자동 선택
-                </div>
+                <div class="gesture-text"><strong>검지로 가리키기</strong>1.2초 유지하면 자동 선택</div>
               </div>
               <div class="gesture-item">
                 <div class="gesture-icon">🖐</div>
-                <div class="gesture-text">
-                  <strong>손바닥 펼치기</strong>
-                  1.5초 유지 시 초기화
-                </div>
+                <div class="gesture-text"><strong>손바닥 펼치기</strong>1.5초 유지 시 초기화</div>
               </div>
               <div class="gesture-item">
                 <div class="gesture-icon">👌</div>
-                <div class="gesture-text">
-                  <strong>OK 사인</strong>
-                  선택 후 다음 단계로
-                </div>
+                <div class="gesture-text"><strong>OK 사인</strong>선택 후 다음 단계로</div>
               </div>
             </div>
           </div>
 
-          <!-- Stage progress list -->
-          <div class="panel-card">
-            <h4>전체 진행 상황</h4>
-            <div class="stage-progress-list" id="stageProgressList"></div>
+          <!-- Stage action buttons (next / analyze) -->
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
             <button class="btn btn-primary next-stage-btn" id="nextStageBtn" onclick="advanceFromCompare()" style="display:none;" disabled>다음 단계 →</button>
             <button class="btn btn-primary next-stage-btn" id="analyzeBtn" onclick="finishAndAnalyze()" style="display:none;" disabled>결과 분석하기 →</button>
           </div>

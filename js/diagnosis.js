@@ -621,6 +621,32 @@ function advanceFromCompare() {
   }
 }
 
+function goBackStage() {
+  if (currentStage <= 1) return;
+  const targetStage = currentStage - 1;
+
+  // Undo current stage's accumulated scores
+  stageResults[currentStage].forEach(key => {
+    if (scores[key] > 0) scores[key]--;
+  });
+  stageResults[currentStage] = [];
+  stageContextHistory[currentStage] = null;
+
+  // Undo target stage's scores — will be rebuilt as user re-does that stage
+  if (targetStage >= 2) {
+    stageResults[targetStage].forEach(key => {
+      if (scores[key] > 0) scores[key]--;
+    });
+    stageResults[targetStage] = [];
+    stageContextHistory[targetStage] = null;
+  } else {
+    // Returning to stage 1 — clear its visual selection
+    resetStage1();
+  }
+
+  enterStage(targetStage);
+}
+
 // ─── Stage transitions / progress UI ─────────────────────────────────────────
 function enterStage(stage) {
   currentStage = stage;
@@ -656,7 +682,28 @@ function enterStage(stage) {
     hideCompareUI();
   }
 
+  updateGestureGuide(stage);
   showStageProgressActions();
+}
+
+function updateGestureGuide(stage) {
+  const el = document.getElementById('gestureGuide');
+  if (!el) return;
+  const items = stage === 1 ? [
+    { icon: '☝️',    title: '검지로 가리키기',  desc: '1.2초 유지하면 자동 선택' },
+    { icon: '🖐',    title: '손바닥 펼치기',    desc: '1.5초 유지 시 초기화'    },
+    { icon: '👌',    title: 'OK 사인',          desc: '선택 후 다음 단계로'     },
+  ] : [
+    { icon: '☝️✌️', title: '1번 / 2번 손모양', desc: '천 색상 바꾸기'         },
+    { icon: '👍',    title: '엄지척',           desc: '이 색상으로 선택 확정'   },
+    { icon: '3️⃣',  title: '세 손가락',         desc: '이전 단계로 돌아가기'    },
+    { icon: '👌',    title: 'OK 사인',          desc: '다음 단계로'            },
+  ];
+  el.innerHTML = items.map(i => `
+    <div class="gesture-item">
+      <div class="gesture-icon">${i.icon}</div>
+      <div class="gesture-text"><strong>${i.title}</strong>${i.desc}</div>
+    </div>`).join('');
 }
 
 function updateProgress() {
@@ -689,7 +736,7 @@ function stagePairsTotal(s) {
 
 function renderStageProgress() {
   const wrap = document.getElementById('stageProgressList');
-  wrap.innerHTML = '';
+  if (!wrap) return;
   for (let s = 1; s <= totalUserStages; s++) {
     const row = document.createElement('div');
     row.className = 'stage-progress-row';
@@ -1065,38 +1112,11 @@ function handleStage1Hand(lm) {
 function handleCompareStageHand(lm) {
   const g = classifyGesture(lm);
 
-  // Non-palm gesture: clear palm hold state
-  if (g !== 'palm' && palmHoldStartTime) {
-    palmHoldStartTime = 0;
-    palmHoldLastRemainder = -1;
-  }
-
   // Live cloth toggle (no cooldown) for 'one' / 'two'
   if (g === 'one' && currentChoice !== 'opt1') {
     showCloth('opt1');
   } else if (g === 'two' && currentChoice !== 'opt2') {
     showCloth('opt2');
-  } else if (g === 'palm') {
-    if (!palmHoldStartTime) palmHoldStartTime = Date.now();
-    const held = Date.now() - palmHoldStartTime;
-    if (currentChoice !== null) {
-      if (palmHoldLastRemainder < 0) {
-        palmHoldLastRemainder = 1;
-        setStatus(`🖐 1초 유지하면 초기화돼요`);
-      }
-      if (held >= PALM_HOLD_DURATION) {
-        palmHoldStartTime = 0;
-        palmHoldLastRemainder = -1;
-        const now = Date.now();
-        if (now - lastGestureTime >= GESTURE_COOLDOWN) {
-          lastGestureTime = now;
-          showGestureFeedback('초기화 🖐');
-          showCloth(null);
-          setStatus(`${currentPairIdx + 1}번째 비교 — 1번/2번 손모양으로 천을 바꿔보세요`);
-        }
-      }
-    }
-    return;
   }
 
   // good → confirm choice (cooldown)
@@ -1120,6 +1140,17 @@ function handleCompareStageHand(lm) {
     }
     return;
   }
+
+  // three → go back to previous stage (cooldown)
+  if (g === 'three') {
+    const now = Date.now();
+    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+      lastGestureTime = now;
+      showGestureFeedback('이전 단계 ↩');
+      setTimeout(() => goBackStage(), 280);
+    }
+    return;
+  }
 }
 
 function classifyGesture(lm) {
@@ -1128,7 +1159,15 @@ function classifyGesture(lm) {
   const mid  = up(12, 9);
   const ring = up(16, 13);
   const pink = up(20, 17);
-  const thumbUp = lm[4].y < lm[2].y - 0.05;
+
+  // Strict thumbs-up: tip must be well above MCP and above wrist
+  const thumbUp = lm[4].y < lm[2].y - 0.10 && lm[4].y < lm[0].y;
+
+  // Strict curled: each finger tip must be below its PIP (middle joint)
+  const idxCurled  = lm[8].y  > lm[6].y;
+  const midCurled  = lm[12].y > lm[10].y;
+  const ringCurled = lm[16].y > lm[14].y;
+  const pinkCurled = lm[20].y > lm[18].y;
 
   // Thumb-index pinch distance (normalized landmark coords)
   const dx = lm[4].x - lm[8].x;
@@ -1138,11 +1177,15 @@ function classifyGesture(lm) {
   // OK sign: thumb-index tips touching, other fingers extended
   if (pinchDist < 0.07 && mid && ring && pink) return 'ok';
 
-  // Open palm — all four fingers extended (+thumb up usually)
+  // Open palm — all four fingers extended
   if (idx && mid && ring && pink) return 'palm';
 
-  // Thumbs up — only thumb extended
-  if (thumbUp && !idx && !mid && !ring && !pink) return 'good';
+  // Three fingers (index+middle+ring up, pinky not extended) → go back
+  if (idx && mid && ring && !pink) return 'three';
+
+  // Thumbs up — thumb clearly extended, all other fingers fully curled past PIP
+  if (thumbUp && !idx && !mid && !ring && !pink &&
+      idxCurled && midCurled && ringCurled && pinkCurled) return 'good';
 
   // Two-finger (peace) — index + middle extended only
   if (idx && mid && !ring && !pink) return 'two';
