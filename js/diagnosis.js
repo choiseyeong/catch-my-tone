@@ -696,7 +696,7 @@ function updateGestureGuide(stage) {
   ] : [
     { icon: '☝️✌️', title: '1번 / 2번 손모양', desc: '천 색상 바꾸기'         },
     { icon: '👍',    title: '엄지척',           desc: '이 색상으로 선택 확정'   },
-    { icon: '3️⃣',  title: '세 손가락',         desc: '이전 단계로 돌아가기'    },
+    { icon: '👈',    title: '왼쪽 가리키기',       desc: '이전 단계로 돌아가기'    },
     { icon: '👌',    title: 'OK 사인',          desc: '다음 단계로'            },
   ];
   el.innerHTML = items.map(i => `
@@ -1141,12 +1141,12 @@ function handleCompareStageHand(lm) {
     return;
   }
 
-  // three → go back to previous stage (cooldown)
-  if (g === 'three') {
+  // back (👈) → go back to previous stage (cooldown)
+  if (g === 'back') {
     const now = Date.now();
     if (now - lastGestureTime >= GESTURE_COOLDOWN) {
       lastGestureTime = now;
-      showGestureFeedback('이전 단계 ↩');
+      showGestureFeedback('이전 단계 👈');
       setTimeout(() => goBackStage(), 280);
     }
     return;
@@ -1180,8 +1180,19 @@ function classifyGesture(lm) {
   // Open palm — all four fingers extended
   if (idx && mid && ring && pink) return 'palm';
 
-  // Three fingers (index+middle+ring up, pinky not extended) → go back
-  if (idx && mid && ring && !pink) return 'three';
+  // Back-point (👈): index finger pointing horizontally to user's left
+  // Raw (unmirrored) coords: lm[8].x > lm[5].x = tip is to user's left.
+  // lxDelta > 0.15: clear leftward extension required (raised from 0.10).
+  // lxDelta > 1.5 * lyDelta: angle must be within ~34° of horizontal (raised from 45°).
+  // !idxCurled: index tip must be above its PIP joint = finger actually extended outward.
+  // midCurled && ringCurled && pinkCurled: other fingers tightly curled past PIP (stricter than !up()).
+  // pinchDist > 0.15: excludes OK/near-OK states where index curls toward thumb.
+  const lxDelta = lm[8].x - lm[5].x;
+  const lyDelta = Math.abs(lm[8].y - lm[5].y);
+  if (lxDelta > 0.15 && lxDelta > 1.5 * lyDelta &&
+      pinchDist > 0.15 &&
+      !idxCurled &&
+      midCurled && ringCurled && pinkCurled) return 'back';
 
   // Thumbs up — thumb clearly extended, all other fingers fully curled past PIP
   if (thumbUp && !idx && !mid && !ring && !pink &&

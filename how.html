@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>어떻게 작동하나요? — Catch My Tone</title>
+  <link rel="icon" type="image/png" href="images/catch_my_tone_logo.png">
+  <link rel="apple-touch-icon" href="images/catch_my_tone_logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── HOW? 페이지 전용 스타일 ────────────────────────────────────────────── */
+    .how-section { padding: 72px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .how-section:last-child { border-bottom: none; }
+
+    .how-num {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--orange);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .section-divider {
+      width: 40px;
+      height: 3px;
+      background: var(--grad-btn);
+      border-radius: 2px;
+      margin: 12px 0 28px;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .how-grid.rev { direction: rtl; }
+    .how-grid.rev > * { direction: ltr; }
+    @media (max-width: 768px) {
+      .how-grid { grid-template-columns: 1fr; gap: 32px; }
+      .how-grid.rev { direction: ltr; }
+      .how-section { padding: 48px 0; }
+    }
+
+    .how-text h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 18px;
+      line-height: 1.35;
+    }
+    .how-text p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-medium);
+      margin-bottom: 14px;
+    }
+    .how-text p:last-child { margin-bottom: 0; }
+    .how-text strong { color: var(--text-dark); font-weight: 700; }
+
+    .how-visual-box {
+      background: rgba(255,179,71,0.05);
+      border: 1.5px solid rgba(255,179,71,0.2);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .how-chip {
+      display: inline-block;
+      background: rgba(255,179,71,0.15);
+      color: var(--orange);
+      border-radius: 6px;
+      padding: 1px 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    /* TOC 그리드 */
+    .how-toc-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 640px) { .how-toc-grid { grid-template-columns: repeat(3, 1fr); } }
+    .how-toc-card {
+      background: white;
+      border: 1.5px solid rgba(255,179,71,0.2);
+      border-radius: var(--radius-md);
+      padding: 16px 10px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 0.82rem;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      display: block;
+      line-height: 1.4;
+    }
+    .how-toc-card:hover {
+      border-color: var(--orange);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255,140,0,0.12);
+      color: var(--orange);
+    }
+    .how-toc-icon { font-size: 1.5rem; margin-bottom: 6px; display: block; }
+
+    /* 얼굴 다이어그램 */
+    .face-oval-wrap {
+      width: 116px;
+      height: 144px;
+      border: 2.5px dashed rgba(200,180,160,0.55);
+      border-radius: 50% 50% 48% 48% / 50% 50% 46% 46%;
+      position: relative;
+      background: rgba(255,235,215,0.2);
+      flex-shrink: 0;
+    }
+    .face-dot-sm {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255,140,0,0.35);
+      border-radius: 50%;
+    }
+    .face-chin-marker {
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: var(--orange);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(255,140,0,0.2);
+    }
+    .face-cloth-strip {
+      width: 136px;
+      height: 34px;
+      border-radius: 0 0 14px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: rgba(0,0,0,0.55);
+    }
+
+    /* 손동작 카드 */
+    .gesture-full-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+    @media (max-width: 480px) { .gesture-full-grid { grid-template-columns: repeat(2, 1fr); } }
+    .gesture-full-card {
+      background: white;
+      border: 1px solid rgba(255,179,71,0.22);
+      border-radius: 10px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+    .gesture-full-card .g-icon { font-size: 1.65rem; margin-bottom: 4px; display: block; }
+    .gesture-full-card .g-name { font-size: 0.78rem; font-weight: 700; color: var(--text-dark); display: block; }
+    .gesture-full-card .g-action { font-size: 0.67rem; color: var(--text-muted); margin-top: 3px; line-height: 1.4; display: block; }
+
+    /* 단계 흐름 */
+    .step-flow {
+      display: flex;
+      align-items: stretch;
+      width: 100%;
+    }
+    .step-item {
+      background: white;
+      border: 1.5px solid rgba(255,179,71,0.35);
+      border-radius: 10px;
+      padding: 10px 6px;
+      text-align: center;
+      flex: 1;
+    }
+    .step-item.result-step {
+      background: var(--grad-btn);
+      border-color: transparent;
+    }
+    .step-item .sn {
+      font-size: 0.6rem;
+      color: var(--orange);
+      font-weight: 800;
+      display: block;
+    }
+    .step-item.result-step .sn { color: rgba(255,255,255,0.8); }
+    .step-item .sl {
+      font-size: 0.75rem;
+      color: var(--text-dark);
+      font-weight: 700;
+      display: block;
+      margin-top: 2px;
+    }
+    .step-item.result-step .sl { color: white; }
+    .step-item .sd {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      display: block;
+      line-height: 1.35;
+    }
+    .step-item.result-step .sd { color: rgba(255,255,255,0.75); }
+    .step-sep {
+      display: flex;
+      align-items: center;
+      padding: 0 3px;
+      color: rgba(255,140,0,0.5);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    /* 12타입 미니 그리드 */
+    .type-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      width: 100%;
+    }
+    .type-mini-card {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 8px;
+      padding: 8px 4px;
+      text-align: center;
+    }
+    .type-mini-swatches {
+      display: flex;
+      gap: 2px;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+    .type-mini-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+    .type-mini-name {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    /* CIEDE2000 시각화 */
+    .ciede-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.07);
+      width: 100%;
+    }
+    .ciede-swatch {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .ciede-mid {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+    .ciede-dist-label { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; }
+    .ciede-dist-track { width: 100%; height: 5px; background: #f0f0f0; border-radius: 3px; }
+    .ciede-dist-fill { height: 100%; border-radius: 3px; }
+    .ciede-verdict { font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+
+    /* 진단 단계 설명 박스 */
+    .stage-explain-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .stage-explain-icon {
+      width: 30px;
+      height: 30px;
+      background: rgba(255,179,71,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img class="logo-icon" src="images/catch_my_tone_logo.png" alt="Catch My Tone">
+        <span class="logo-text">Catch My Tone</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">홈</a></li>
+        <li><a href="about.html" class="nav-link">퍼스널컬러란?</a></li>
+        <li><a href="how.html" class="nav-link active">HOW?</a></li>
+        <li><a href="diagnosis.html" class="nav-link nav-btn">진단하기</a></li>
+      </ul>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="page-hero" style="padding-bottom:40px;">
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+    <div class="container">
+      <div class="hero-badge">🔬 기술 소개</div>
+      <h1>어떻게 작동하나요?</h1>
+      <p>Catch My Tone은 AI 기술을 활용해 당신의 퍼스널컬러를 진단해요.<br>그 원리를 쉽게 풀어드릴게요.</p>
+    </div>
+  </section>
+
+  <!-- TOC 빠른 이동 -->
+  <section class="section" style="padding-top:40px; padding-bottom:0;">
+    <div class="container">
+      <div class="how-toc-grid">
+        <a href="#face" class="how-toc-card">
+          <span class="how-toc-icon">🎯</span>얼굴 인식
+        </a>
+        <a href="#gesture" class="how-toc-card">
+          <span class="how-toc-icon">🤚</span>손동작 인식
+        </a>
+        <a href="#calibration" class="how-toc-card">
+          <span class="how-toc-icon">🎨</span>카메라 색 보정
+        </a>
+        <a href="#algorithm" class="how-toc-card">
+          <span class="how-toc-icon">🧬</span>진단 알고리즘
+        </a>
+        <a href="#clothes" class="how-toc-card">
+          <span class="how-toc-icon">👗</span>옷 추천 방식
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 01 얼굴 인식 & 가상 드레이핑 ─────────────────────────────────────── -->
+  <section id="face" class="how-section section">
+    <div class="container">
+      <span class="how-num">01 — 얼굴 인식 &amp; 가상 드레이핑</span>
+      <div class="section-divider"></div>
+      <div class="how-grid">
+
+        <div class="how-text">
+          <h2>얼굴에 실시간으로<br>색상 천을 붙여요</h2>
+          <p>진단이 시작되면 AI가 카메라 영상에서 <strong>얼굴의 468개 랜드마크</strong>를 실시간으로 추적해요. 눈·코·입 위치는 물론, 얼굴 윤곽 전체를 정밀하게 잡아냅니다.</p>
+          <p>그 중 <strong>턱 끝 랜드마크(#152)</strong>를 기준으로 가상 색상 천의 위치와 크기를 자동으로 계산해요. 얼굴이 크게 잡히면 천도 크게, 멀어지면 작게 자동 조정됩니다.</p>
+          <p>고개를 움직여도 천이 자연스럽게 따라오는 건 <strong>EMA 스무딩</strong> 덕분이에요. 위치를 급격하게 바꾸지 않고 부드럽게 보간해 흔들림 없이 안정적으로 보여줘요.</p>
+        </div>
+
+        <div class="how-visual-box">
+          <!-- 얼굴 & 천 다이어그램 -->
+          <div style="display:flex; flex-direction:column; align-items:center; gap:0;">
+            <div style="font-size:0.72rem; color:var(--text-muted); font-weight:600; margin-bottom:10px; text-align:center;">
+              🎯 468개 랜드마크 추적
+            </div>
+            <div class="face-oval-wrap">
+              <!-- 랜드마크 점들 -->
+              <div class="face-dot-sm" style="top:22%; left:22%;"></div>
+              <div class="face-dot-sm" style="top:22%; left:72%;"></div>
+              <div class="face-dot-sm" style="top:28%; left:35%;"></div>
+              <div class="face-dot-sm" style="top:28%; left:60%;"></div>
+              <div class="face-dot-sm" style="top:14%; left:46%;"></div>
+              <div class="face-dot-sm" style="top:36%; left:25%;"></div>
+              <div class="face-dot-sm" style="top:36%; left:69%;"></div>
+              <div class="face-dot-sm" style="top:48%; left:46%;"></div>
+              <div class="face-dot-sm" style="top:53%; left:36%;"></div>
+              <div class="face-dot-sm" style="top:53%; left:58%;"></div>
+              <div class="face-dot-sm" style="top:63%; left:34%;"></div>
+              <div class="face-dot-sm" style="top:65%; left:48%;"></div>
+              <div class="face-dot-sm" style="top:63%; left:62%;"></div>
+              <div class="face-dot-sm" style="top:44%; left:16%;"></div>
+              <div class="face-dot-sm" style="top:44%; left:80%;"></div>
+              <div class="face-dot-sm" style="top:54%; left:19%;"></div>
+              <div class="face-dot-sm" style="top:54%; left:77%;"></div>
+              <div class="face-dot-sm" style="top:10%; left:30%;"></div>
+              <div class="face-dot-sm" style="top:10%; left:62%;"></div>
+              <!-- 턱 끝 랜드마크 (주황 강조) -->
+              <div class="face-chin-marker"></div>
+            </div>
+            <div style="font-size:0.65rem; color:var(--orange); font-weight:700; margin:7px 0 0; text-align:center;">
+              ▲ #152 턱 끝 랜드마크
+            </div>
+            <div class="face-cloth-strip" style="background:rgba(255,182,193,0.6);">
+              퍼스널컬러 천
+            </div>
+          </div>
+          <!-- EMA 설명 박스 -->
+          <div style="width:100%; background:white; border-radius:8px; padding:12px 14px; border:1px solid rgba(0,0,0,0.06);">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--text-dark); margin-bottom:6px;">EMA 스무딩이란?</div>
+            <div style="font-size:0.78rem; color:var(--text-medium); line-height:1.65;">
+              새 위치를 바로 적용하지 않고, 이전 위치와 가중치를 합산해 조금씩 이동해요.<br>
+              <span class="how-chip">흔들림 없이 부드럽게 따라와요</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 손동작 인식 ──────────────────────────────────────────────────────── -->
+  <section id="gesture" class="how-section section">
+    <div class="container">
+      <span class="how-num">02 — 손동작 인식</span>
+      <div class="section-divider"></div>
+      <div class="how-grid rev">
+
+        <div class="how-text">
+          <h2>손으로 직접<br>진단을 컨트롤해요</h2>
+          <p>손가락 관절 <strong>21개 위치</strong>를 실시간으로 추적해 6가지 손동작을 구분해요. 단순히 손가락이 올라갔는지만 보는 게 아니라, <strong>각 관절의 정확한 각도와 거리</strong>를 계산해서 확실한 동작일 때만 인식됩니다.</p>
+          <p>예를 들어 엄지척 👍는 엄지가 손목보다 높이 올라오고, 나머지 손가락이 <strong>중간 관절 아래로 완전히 접혀야</strong>만 인식돼요. 덕분에 무심코 손을 쥐거나 조금 펼치는 동작에서는 오작동하지 않아요.</p>
+          <p>단계에 따라 활성화되는 동작이 달라요. <strong>초기화(🖐)는 1단계에서만</strong>, <strong>이전 단계(👈)는 2~5단계에서만</strong> 작동해요.</p>
+        </div>
+
+        <div class="how-visual-box">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-dark); text-align:center; margin-bottom:2px;">
+            인식되는 6가지 손동작
+          </div>
+          <div class="gesture-full-grid">
+            <div class="gesture-full-card">
+              <span class="g-icon">☝️</span>
+              <span class="g-name">검지 가리키기</span>
+              <span class="g-action">색상 스와치 선택<br>/ 1번 천 보기</span>
+            </div>
+            <div class="gesture-full-card">
+              <span class="g-icon">✌️</span>
+              <span class="g-name">두 손가락</span>
+              <span class="g-action">2번 천 보기</span>
+            </div>
+            <div class="gesture-full-card">
+              <span class="g-icon">👍</span>
+              <span class="g-name">엄지척</span>
+              <span class="g-action">지금 색상으로<br>선택 확정</span>
+            </div>
+            <div class="gesture-full-card">
+              <span class="g-icon">👈</span>
+              <span class="g-name">왼쪽 가리키기</span>
+              <span class="g-action">이전 단계로<br>되돌아가기</span>
+            </div>
+            <div class="gesture-full-card">
+              <span class="g-icon">🖐</span>
+              <span class="g-name">손바닥 펼치기</span>
+              <span class="g-action">1.5초 유지 시<br>파운데이션 초기화</span>
+            </div>
+            <div class="gesture-full-card">
+              <span class="g-icon">👌</span>
+              <span class="g-name">OK 사인</span>
+              <span class="g-action">다음 단계로<br>넘어가기</span>
+            </div>
+          </div>
+          <div style="width:100%; background:white; border-radius:8px; padding:10px 14px; border:1px solid rgba(0,0,0,0.06);">
+            <div style="font-size:0.72rem; color:var(--text-muted); line-height:1.65;">
+              💡 인식이 안 될 땐 손을 카메라 방향으로 천천히 가져오거나, 배경과 손 색상이 구분되는 곳에서 해보세요.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03 카메라 색 보정 ──────────────────────────────────────────────────── -->
+  <section id="calibration" class="how-section section">
+    <div class="container">
+      <span class="how-num">03 — 카메라 색 보정</span>
+      <div class="section-divider"></div>
+      <div class="how-grid">
+
+        <div class="how-text">
+          <h2>조명에 속지 않도록<br>색을 바로잡아요</h2>
+          <p>같은 색이라도 형광등 아래서는 파랗게, 따뜻한 조명 아래서는 노랗게 보여요. 카메라가 기록하는 색과 실제 피부색이 달라지는 거예요.</p>
+          <p>퍼스널컬러 진단은 정확한 색 비교가 핵심이기 때문에, Catch My Tone은 진단 전에 <strong>화이트밸런스 보정</strong>을 통해 이 오차를 줄여요.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:18px;">
+            <div class="stage-explain-row">
+              <div class="stage-explain-icon">📄</div>
+              <div>
+                <div style="font-weight:700; font-size:0.9rem; color:var(--text-dark);">흰 종이로 정확하게</div>
+                <div style="font-size:0.85rem; color:var(--text-medium); margin-top:2px; line-height:1.65;">화면 중앙에 흰 종이를 보여주면 카메라가 "이게 흰색이야"를 학습해 색 왜곡을 교정해요. 가장 정확한 방법이에요.</div>
+              </div>
+            </div>
+            <div class="stage-explain-row">
+              <div class="stage-explain-icon">⚡</div>
+              <div>
+                <div style="font-weight:700; font-size:0.9rem; color:var(--text-dark);">자동 보정</div>
+                <div style="font-size:0.85rem; color:var(--text-medium); margin-top:2px; line-height:1.65;">주변 환경을 자동으로 분석해 보정값을 계산해요. 별도 준비 없이 빠르게 시작할 수 있어요.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="how-visual-box">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-dark); text-align:center;">
+            같은 피부색, 다른 조명 — 카메라가 보는 방식
+          </div>
+          <!-- 조명별 색 변화 비교 -->
+          <div style="display:flex; gap:8px; width:100%;">
+            <div style="flex:1; text-align:center;">
+              <div style="height:62px; border-radius:10px; background:#CDB5C4; border:1px solid rgba(0,0,0,0.07);"></div>
+              <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-weight:600; line-height:1.4;">형광등 아래<br>파랗게 치우침</div>
+            </div>
+            <div style="flex:1; text-align:center;">
+              <div style="height:62px; border-radius:10px; background:#E8A898; border:1px solid rgba(0,0,0,0.07);"></div>
+              <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-weight:600; line-height:1.4;">자연광 아래<br>실제 피부색</div>
+            </div>
+            <div style="flex:1; text-align:center;">
+              <div style="height:62px; border-radius:10px; background:#E8C898; border:1px solid rgba(0,0,0,0.07);"></div>
+              <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-weight:600; line-height:1.4;">따뜻한 조명<br>노랗게 치우침</div>
+            </div>
+          </div>
+          <!-- 보정 후 -->
+          <div style="display:flex; align-items:center; gap:8px; width:100%; margin-top:-4px;">
+            <div style="flex:1; height:1px; background:rgba(255,140,0,0.3);"></div>
+            <div style="font-size:0.72rem; color:var(--orange); font-weight:700; white-space:nowrap;">화이트밸런스 보정 후</div>
+            <div style="flex:1; height:1px; background:rgba(255,140,0,0.3);"></div>
+          </div>
+          <div style="width:100%;">
+            <div style="height:50px; border-radius:10px; background:#E8A898; border:2px solid rgba(255,140,0,0.35); display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:700; color:rgba(0,0,0,0.5);">
+              모두 실제 피부색으로 통일 ✅
+            </div>
+          </div>
+          <div style="width:100%; background:white; border-radius:8px; padding:10px 14px; border:1px solid rgba(0,0,0,0.06);">
+            <div style="font-size:0.72rem; color:var(--text-muted); line-height:1.65;">
+              💡 자연광이 드는 환경이 가장 정확해요. 흐린 날이라면 흰 종이 보정을 추천해요.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 04 퍼스널컬러 진단 알고리즘 ───────────────────────────────────────── -->
+  <section id="algorithm" class="how-section section">
+    <div class="container">
+      <span class="how-num">04 — 퍼스널컬러 진단 알고리즘</span>
+      <div class="section-divider"></div>
+      <div class="how-grid rev">
+
+        <div class="how-text">
+          <h2>5단계 비교로<br>12가지 타입을 찾아요</h2>
+          <p><strong>1단계</strong>에서 파운데이션 베이스(웜/쿨)를 선택하면, 이후 4단계에 걸쳐 두 가지 색상 천을 번갈아 얼굴에 대보면서 비교해요.</p>
+          <p>단계마다 더 잘 어울린다고 느낀 색을 선택하면 점수가 쌓여요. 마지막에 <strong>가장 점수가 높은 타입</strong>이 내 퍼스널컬러가 됩니다.</p>
+          <p>비교는 웜/쿨 → 계절 → 밝기와 채도 순으로 점점 좁혀지도록 설계됐어요. 최종적으로 <strong>봄·여름·가을·겨울 각 3가지 세부 타입</strong> 중 하나가 결정돼요.</p>
+          <p style="margin-top:18px; font-size:0.85rem; color:var(--text-muted);">선택이 틀렸다면 👈 왼쪽 가리키기로 이전 단계로 되돌아갈 수 있어요.</p>
+        </div>
+
+        <div class="how-visual-box">
+          <!-- 단계 흐름 -->
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-dark); text-align:center; margin-bottom:4px;">진단 흐름</div>
+          <div class="step-flow">
+            <div class="step-item">
+              <span class="sn">1단계</span>
+              <span class="sl">베이스</span>
+              <span class="sd">웜 / 쿨</span>
+            </div>
+            <div class="step-sep">›</div>
+            <div class="step-item">
+              <span class="sn">2단계</span>
+              <span class="sl">계절</span>
+              <span class="sd">봄·겨울<br>여름·가을</span>
+            </div>
+            <div class="step-sep">›</div>
+            <div class="step-item">
+              <span class="sn">3단계</span>
+              <span class="sl">온도감</span>
+              <span class="sd">맑음 /<br>차분함</span>
+            </div>
+            <div class="step-sep">›</div>
+            <div class="step-item">
+              <span class="sn">4단계</span>
+              <span class="sl">밝기</span>
+              <span class="sd">라이트 /<br>딥</span>
+            </div>
+            <div class="step-sep">›</div>
+            <div class="step-item">
+              <span class="sn">5단계</span>
+              <span class="sl">채도</span>
+              <span class="sd">비비드 /<br>뮤트</span>
+            </div>
+            <div class="step-sep">›</div>
+            <div class="step-item result-step">
+              <span class="sn">결과</span>
+              <span class="sl">12가지</span>
+              <span class="sd">내 타입!</span>
+            </div>
+          </div>
+
+          <!-- 12타입 미니 그리드 -->
+          <div style="font-size:0.72rem; color:var(--text-muted); font-weight:600; text-align:center;">결과로 나올 수 있는 12가지 세부 타입</div>
+          <div class="type-mini-grid">
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#D65A31;"></div>
+                <div class="type-mini-swatch" style="background:#D66BA1;"></div>
+                <div class="type-mini-swatch" style="background:#E8B94B;"></div>
+                <div class="type-mini-swatch" style="background:#A6C85E;"></div>
+              </div>
+              <div class="type-mini-name">봄 브라이트</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#E0B15F;"></div>
+                <div class="type-mini-swatch" style="background:#E9B38F;"></div>
+                <div class="type-mini-swatch" style="background:#88B879;"></div>
+                <div class="type-mini-swatch" style="background:#B8CE58;"></div>
+              </div>
+              <div class="type-mini-name">봄 트루</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#EDC1B7;"></div>
+                <div class="type-mini-swatch" style="background:#EFD16D;"></div>
+                <div class="type-mini-swatch" style="background:#A9C777;"></div>
+                <div class="type-mini-swatch" style="background:#A7CCE4;"></div>
+              </div>
+              <div class="type-mini-name">봄 라이트</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#5592AD;"></div>
+                <div class="type-mini-swatch" style="background:#B9D8CE;"></div>
+                <div class="type-mini-swatch" style="background:#8F7887;"></div>
+                <div class="type-mini-swatch" style="background:#6FA79F;"></div>
+              </div>
+              <div class="type-mini-name">여름 라이트</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#D5AEC7;"></div>
+                <div class="type-mini-swatch" style="background:#B86F9C;"></div>
+                <div class="type-mini-swatch" style="background:#8BB7AE;"></div>
+                <div class="type-mini-swatch" style="background:#568678;"></div>
+              </div>
+              <div class="type-mini-name">여름 트루</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#9BB7B2;"></div>
+                <div class="type-mini-swatch" style="background:#E4B8C9;"></div>
+                <div class="type-mini-swatch" style="background:#637A87;"></div>
+                <div class="type-mini-swatch" style="background:#D29AAF;"></div>
+              </div>
+              <div class="type-mini-name">여름 뮤트</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#D2B58F;"></div>
+                <div class="type-mini-swatch" style="background:#9C9887;"></div>
+                <div class="type-mini-swatch" style="background:#9DBAAE;"></div>
+                <div class="type-mini-swatch" style="background:#AEB3A1;"></div>
+              </div>
+              <div class="type-mini-name">가을 뮤트</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#D1BE82;"></div>
+                <div class="type-mini-swatch" style="background:#E37E70;"></div>
+                <div class="type-mini-swatch" style="background:#A2A878;"></div>
+                <div class="type-mini-swatch" style="background:#D86162;"></div>
+              </div>
+              <div class="type-mini-name">가을 트루</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#A3825D;"></div>
+                <div class="type-mini-swatch" style="background:#5F6A2D;"></div>
+                <div class="type-mini-swatch" style="background:#C8B463;"></div>
+                <div class="type-mini-swatch" style="background:#334E50;"></div>
+              </div>
+              <div class="type-mini-name">가을 딥</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#252535;"></div>
+                <div class="type-mini-swatch" style="background:#38658A;"></div>
+                <div class="type-mini-swatch" style="background:#C7618A;"></div>
+                <div class="type-mini-swatch" style="background:#7DA8CA;"></div>
+              </div>
+              <div class="type-mini-name">겨울 딥</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#A94888;"></div>
+                <div class="type-mini-swatch" style="background:#D27BB2;"></div>
+                <div class="type-mini-swatch" style="background:#83C6AF;"></div>
+                <div class="type-mini-swatch" style="background:#404A5D;"></div>
+              </div>
+              <div class="type-mini-name">겨울 트루</div>
+            </div>
+            <div class="type-mini-card">
+              <div class="type-mini-swatches">
+                <div class="type-mini-swatch" style="background:#4476D9;"></div>
+                <div class="type-mini-swatch" style="background:#5DBA65;"></div>
+                <div class="type-mini-swatch" style="background:#E9DC45;"></div>
+                <div class="type-mini-swatch" style="background:#5EB2D8;"></div>
+              </div>
+              <div class="type-mini-name">겨울 브라이트</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 05 옷 색상 매칭 & 추천 ─────────────────────────────────────────────── -->
+  <section id="clothes" class="how-section section">
+    <div class="container">
+      <span class="how-num">05 — 옷 색상 매칭 &amp; 추천</span>
+      <div class="section-divider"></div>
+      <div class="how-grid">
+
+        <div class="how-text">
+          <h2>눈이 느끼는 색 차이로<br>옷을 골라요</h2>
+          <p>옷을 추천할 때 단순히 RGB 숫자를 비교하지 않아요. <strong>CIEDE2000</strong>이라는 방식을 사용해요. 이건 사람의 눈이 실제로 느끼는 색의 차이를 수치로 나타내는 공식이에요.</p>
+          <p>예를 들어, RGB상 차이가 적어도 눈에는 뚜렷하게 다르게 보이는 색이 있어요. CIEDE2000은 이런 <strong>시각적 차이</strong>를 정확히 반영해요.</p>
+          <p>각 옷의 색상은 미리 12가지 퍼스널컬러 타입과의 <strong>색 거리</strong>가 계산되어 있어요. 거리가 가까울수록 잘 어울리는 색이고, <strong>반대 계절 타입의 색보다도 가까워야</strong> 추천 목록에 오를 수 있어요.</p>
+        </div>
+
+        <div class="how-visual-box">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-dark); text-align:center; margin-bottom:4px;">
+            색 거리(CIEDE2000) — 낮을수록 잘 어울림
+          </div>
+          <div style="font-size:0.68rem; color:var(--text-muted); text-align:center; margin-top:-10px;">내 타입(봄 브라이트)의 대표색 기준</div>
+
+          <!-- 추천 -->
+          <div class="ciede-row">
+            <div class="ciede-swatch" style="background:#D65A31;"></div>
+            <div class="ciede-mid">
+              <div class="ciede-dist-label">색 거리: 4.2 (매우 가까움)</div>
+              <div class="ciede-dist-track">
+                <div class="ciede-dist-fill" style="width:14%; background:var(--grad-btn);"></div>
+              </div>
+            </div>
+            <div class="ciede-swatch" style="background:#E07848;"></div>
+            <div class="ciede-verdict" style="color:#2a8a2a;">✅ 추천</div>
+          </div>
+
+          <!-- 보통 -->
+          <div class="ciede-row">
+            <div class="ciede-swatch" style="background:#D65A31;"></div>
+            <div class="ciede-mid">
+              <div class="ciede-dist-label">색 거리: 14.3 (보통)</div>
+              <div class="ciede-dist-track">
+                <div class="ciede-dist-fill" style="width:40%; background:#e0a040;"></div>
+              </div>
+            </div>
+            <div class="ciede-swatch" style="background:#B8C0CC;"></div>
+            <div class="ciede-verdict" style="color:#cc8800;">🔶 보통</div>
+          </div>
+
+          <!-- 필터됨 -->
+          <div class="ciede-row" style="opacity:0.65;">
+            <div class="ciede-swatch" style="background:#D65A31;"></div>
+            <div class="ciede-mid">
+              <div class="ciede-dist-label">색 거리: 29.1 (반대 계절)</div>
+              <div class="ciede-dist-track">
+                <div class="ciede-dist-fill" style="width:82%; background:#cc4444;"></div>
+              </div>
+            </div>
+            <div class="ciede-swatch" style="background:#252535;"></div>
+            <div class="ciede-verdict" style="color:#cc4444;">❌ 필터</div>
+          </div>
+          <div style="font-size:0.68rem; color:var(--text-muted); text-align:center; line-height:1.6;">
+            반대 계절(겨울)의 색과 비슷한 옷은 필터링돼요
+          </div>
+
+          <!-- 데이터 박스 -->
+          <div style="width:100%; background:white; border-radius:8px; padding:12px 14px; border:1px solid rgba(0,0,0,0.06);">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--text-dark); margin-bottom:6px;">📦 미리 계산된 데이터</div>
+            <div style="font-size:0.72rem; color:var(--text-medium); line-height:1.65;">
+              64개 상품의 대표 색상을 추출해 12가지 타입과의 색 거리를 미리 분석해뒀어요. 진단 완료 즉시 추천 결과를 보여줄 수 있는 이유예요.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="text-align:center; padding-top:60px; padding-bottom:80px;">
+    <div class="container">
+      <div class="hero-blob blob-1" style="opacity:0.4;"></div>
+      <h2 style="font-size:1.9rem; font-weight:800; margin-bottom:12px;">직접 경험해보세요</h2>
+      <p style="color:var(--text-medium); font-size:1rem; margin-bottom:28px; line-height:1.7;">이 모든 기술이 합쳐져 나만의 퍼스널컬러를 찾아줘요.<br>지금 바로 시작해보세요.</p>
+      <a href="diagnosis.html" class="btn btn-primary" style="font-size:1rem; padding:14px 40px;">진단 시작하기 →</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="logo" style="margin-bottom:8px;">
+            <img class="logo-icon" src="images/catch_my_tone_logo.png" alt="">
+            <span class="logo-text">Catch My Tone</span>
+          </div>
+          <p>웹캠 기반 퍼스널컬러 진단 서비스</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
