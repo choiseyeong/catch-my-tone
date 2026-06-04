@@ -36,7 +36,7 @@
     <div class="hero-blob blob-2"></div>
     <div class="container">
       <div class="result-badge">✨ 진단 완료</div>
-      <div class="result-season" id="resultSeason" style="background: linear-gradient(135deg, #E8702A, #FFB340, #FFD166); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+<div class="result-season" id="resultSeason" style="background: linear-gradient(135deg, #E8702A, #FFB340, #FFD166); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
         봄 웜톤
       </div>
       <div class="result-season-en" id="resultSeasonEn">Spring Warm Type</div>
@@ -69,6 +69,12 @@
         <div class="result-swatch" style="background:#FF69B4;"></div>
         <div class="result-swatch" style="background:#FFA07A;"></div>
       </div>
+
+      <!-- 계절별 토끼 b1: 팔레트 위 우측 (bottom: 115px로 팔레트 회피) -->
+      <img src="images/bunny/봄토끼.png"    alt="" class="bunny-img bunny-season spring-b1"  style="position:absolute; bottom:115px; left:8%; width:150px; opacity:0.95; filter:drop-shadow(0 4px 14px rgba(0,0,0,.10));">
+      <img src="images/bunny/여름토끼.png"  alt="" class="bunny-img bunny-season summer-b1" style="position:absolute; bottom:115px; left:8%; width:150px; opacity:0.95; filter:drop-shadow(0 4px 14px rgba(0,0,0,.10));">
+      <img src="images/bunny/가을토끼.png"  alt="" class="bunny-img bunny-season autumn-b1" style="position:absolute; bottom:115px; left:8%; width:150px; opacity:0.95; filter:drop-shadow(0 4px 14px rgba(0,0,0,.10));">
+      <img src="images/bunny/겨울토끼.png"  alt="" class="bunny-img bunny-season winter-b1" style="position:absolute; bottom:115px; left:8%; width:150px; opacity:0.95; filter:drop-shadow(0 4px 14px rgba(0,0,0,.10));">
     </div>
   </section>
 
@@ -97,8 +103,8 @@
 
       </div>
 
-      <!-- Axis scores -->
-      <div class="result-card" style="margin-bottom:28px;">
+      <!-- Axis scores (내 진단 결과에서만 표시, browse 모드 제외) -->
+      <div class="result-card" id="scoreBreakdownSection" style="margin-bottom:28px;">
         <h3><span>📊</span> 단계별 점수 분포</h3>
         <div class="score-breakdown" id="scoreBreakdown"></div>
       </div>
@@ -145,9 +151,17 @@
 
       <!-- Type Browser -->
       <div class="result-card" style="margin-bottom:28px;">
-        <h3><span>🎨</span> 다른 퍼스널컬러 타입 살펴보기</h3>
+        <h3><span>🎨</span> 다른 퍼스널컬러 타입 살펴보기 <img src="images/bunny/왼쪽을가리키는토끼.png" alt="" class="bunny-img" style="display:inline-block; width:36px; vertical-align:middle; margin-left:6px; transform:scaleX(-1);"></h3>
         <p style="font-size:0.85rem; color:var(--text-muted); margin:8px 0 20px; line-height:1.6;">12가지 타입의 팔레트·특징·추천 아이템을 자유롭게 둘러보세요.</p>
         <div id="typeBrowserGrid"></div>
+      </div>
+
+      <!-- 계절별 토끼 b2: 액션 버튼 위 우측 -->
+      <div style="position:relative; height:110px; overflow:visible; pointer-events:none;">
+        <img src="images/bunny/봄토끼2.png"   alt="" class="bunny-img bunny-season spring-b2"  style="position:absolute; bottom:0; right:2%; width:110px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
+        <img src="images/bunny/여름토끼2.png" alt="" class="bunny-img bunny-season summer-b2" style="position:absolute; bottom:0; right:2%; width:110px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
+        <img src="images/bunny/가을토끼2.png" alt="" class="bunny-img bunny-season autumn-b2" style="position:absolute; bottom:0; right:2%; width:110px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
+        <img src="images/bunny/겨울토끼2.png" alt="" class="bunny-img bunny-season winter-b2" style="position:absolute; bottom:0; right:2%; width:110px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
       </div>
 
       <!-- Actions -->
@@ -665,10 +679,12 @@ document.getElementById('worstColorsDesc').textContent = data.worstDesc ||
         if (stored && stored.key) myTypeKey = stored.key;
       } catch (_) {}
 
-      // 브라우저 모드: 신뢰도 섹션 숨김
+      // 브라우저 모드: 신뢰도·점수분포 섹션 숨김
       if (isBrowse) {
         const conf = document.getElementById('confidenceSection');
         if (conf) conf.style.display = 'none';
+        const scoreSection = document.getElementById('scoreBreakdownSection');
+        if (scoreSection) scoreSection.style.display = 'none';
       }
 
       // 데모 모드: ?demo=spring-bright

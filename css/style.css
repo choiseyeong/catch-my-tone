@@ -2596,6 +2596,7 @@ body[data-season="spring"] {
   --grad-btn-hover:  linear-gradient(135deg, #E0304A 0%, #FF6880 60%, #FFA0A8 100%);
   --grad-card:       linear-gradient(145deg, #FFFFFF 0%, #FFF8FA 100%);
   --grad-bg:         linear-gradient(160deg, #FFFBFD 0%, #FFF0F4 50%, #FFFCF8 100%);
+  --grad-hero:       linear-gradient(135deg, #FFD0DC 0%, #FFE8EC 60%, #FFF5F8 100%);
   --shadow-sm:       0 2px 8px rgba(255, 100, 120, 0.12);
   --shadow-md:       0 4px 20px rgba(255, 100, 120, 0.18);
   --shadow-lg:       0 8px 40px rgba(255, 100, 120, 0.28);
@@ -2635,6 +2636,7 @@ body[data-season="summer"] {
   --grad-btn-hover:  linear-gradient(135deg, #6A5090 0%, #9870B0 60%, #C090C8 100%);
   --grad-card:       linear-gradient(145deg, #FFFFFF 0%, #F8F4FF 100%);
   --grad-bg:         linear-gradient(160deg, #FDFBFF 0%, #F5F0FF 50%, #FDF8FF 100%);
+  --grad-hero:       linear-gradient(135deg, #EAE0FF 0%, #F5F0FF 60%, #FDF8FF 100%);
   --shadow-sm:       0 2px 8px rgba(145, 120, 181, 0.12);
   --shadow-md:       0 4px 20px rgba(145, 120, 181, 0.18);
   --shadow-lg:       0 8px 40px rgba(145, 120, 181, 0.28);
@@ -2674,6 +2676,7 @@ body[data-season="autumn"] {
   --grad-btn-hover:  linear-gradient(135deg, #8B3808 0%, #B05018 60%, #C87830 100%);
   --grad-card:       linear-gradient(145deg, #FFFFFF 0%, #FFFAF2 100%);
   --grad-bg:         linear-gradient(160deg, #FFFBF5 0%, #FFF4E4 50%, #FFFAEA 100%);
+  --grad-hero:       linear-gradient(135deg, #FFE8C0 0%, #FFF4DC 60%, #FFFAEA 100%);
   --shadow-sm:       0 2px 8px rgba(191, 92, 14, 0.12);
   --shadow-md:       0 4px 20px rgba(191, 92, 14, 0.18);
   --shadow-lg:       0 8px 40px rgba(191, 92, 14, 0.28);
@@ -2713,6 +2716,7 @@ body[data-season="winter"] {
   --grad-btn-hover:  linear-gradient(135deg, #1A3E90 0%, #2E60B8 60%, #5080C8 100%);
   --grad-card:       linear-gradient(145deg, #FFFFFF 0%, #F0F5FF 100%);
   --grad-bg:         linear-gradient(160deg, #FAFCFF 0%, #EEF4FF 50%, #F8FBFF 100%);
+  --grad-hero:       linear-gradient(135deg, #D0E8FF 0%, #EEF4FF 60%, #F8FBFF 100%);
   --shadow-sm:       0 2px 8px rgba(46, 110, 200, 0.12);
   --shadow-md:       0 4px 20px rgba(46, 110, 200, 0.18);
   --shadow-lg:       0 8px 40px rgba(46, 110, 200, 0.28);
@@ -2832,4 +2836,91 @@ a.type-browser-card:hover {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ── Bunny speech bubble ───────────────────────── */
+.bunny-speech-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  bottom: 60px;
+}
+
+.bunny-speech-bubble {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(255, 140, 66, 0.25);
+  border-radius: 14px;
+  padding: 8px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.bunny-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: rgba(255, 255, 255, 0.92);
+  border-bottom: none;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.06));
+}
+
+/* ── Bunny mascot ──────────────────────────────── */
+.bunny-img {
+  display: block;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.10));
+}
+
+/* hero 섹션 우측 하단 고정 */
+.bunny-hero {
+  position: absolute;
+  bottom: 0;
+  right: 8%;
+  width: 150px;
+  opacity: 0.95;
+}
+
+/* CTA 카드 우측 하단 고정 */
+.bunny-cta {
+  position: absolute;
+  bottom: 0;
+  right: 5%;
+  width: 120px;
+  opacity: 0.88;
+}
+
+@media (max-width: 900px) {
+  .bunny-hero { width: 100px; right: 4%; }
+  .bunny-cta  { width: 85px;  right: 3%; }
+}
+
+@media (max-width: 600px) {
+  .bunny-hero { width: 70px; right: 2%; }
+  .bunny-cta  { display: none; }
+}
+
+/* result.html — 계절별 토끼 표시 제어 */
+.bunny-season { display: none; }
+
+body[data-season="spring"]  .spring-b1,
+body[data-season="spring"]  .spring-b2  { display: block; }
+
+body[data-season="summer"]  .summer-b1,
+body[data-season="summer"]  .summer-b2  { display: block; }
+
+body[data-season="autumn"]  .autumn-b1,
+body[data-season="autumn"]  .autumn-b2  { display: block; }
+
+body[data-season="winter"]  .winter-b1,
+body[data-season="winter"]  .winter-b2  { display: block; }
 
