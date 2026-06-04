@@ -191,6 +191,14 @@
           <!-- Stage 2~5: Compare cloth drape (positioned under chin via FaceMesh) -->
           <div class="compare-cloth-drape" id="clothDrape"></div>
 
+          <!-- Diagnosis complete overlay (shown between stage 5 and stage 6) -->
+          <div id="diagCompleteOverlay">
+            <div class="diag-complete-emoji">🎉</div>
+            <div id="diagCompleteText">퍼스널컬러<br>진단이 완료됐어요!</div>
+            <div id="diagCompleteSubtext">내 베스트 컬러와 워스트 컬러를 직접 비교해보세요</div>
+            <button class="btn btn-primary" id="diagCompleteBtn" onclick="enterStage6FromOverlay()">결과 확인하기 →</button>
+          </div>
+
           <!-- Stage 2~5: Info bar (top) -->
           <div class="compare-info-bar" id="compareInfoBar" style="display:none;">
             <span class="pair-idx" id="comparePairIdx">1 / 3</span>
@@ -261,6 +269,7 @@
           <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
             <button class="btn btn-primary next-stage-btn" id="nextStageBtn" onclick="advanceFromCompare()" style="display:none;" disabled>다음 단계 →</button>
             <button class="btn btn-primary next-stage-btn" id="analyzeBtn" onclick="finishAndAnalyze()" style="display:none;" disabled>결과 분석하기 →</button>
+            <button class="btn btn-primary next-stage-btn" id="viewResultBtn" onclick="window.location.href='result.html'" style="display:none;">결과 보기 →</button>
           </div>
 
         </div>

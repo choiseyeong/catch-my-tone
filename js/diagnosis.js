@@ -13,6 +13,8 @@ const STAGE_TITLES = {
        desc: '선명한 색과 부드러운 색 중 더 잘 어울리는 쪽을 골라요. 1번(저채도) / 2번(고채도) 손모양으로 천을 바꿔보세요.' },
   5: { title: '청색 vs 탁색', sub: '청·탁 비교',
        desc: '맑은 색감과 차분한 색감 중 어떤 쪽이 더 어울리는지 비교해요. 1번(청색) / 2번(탁색) 손모양으로 천을 바꿔보세요.' },
+  6: { title: '베스트 vs 워스트 체험', sub: '나만의 색상 차이 느끼기',
+       desc: '☝️로 내 베스트 컬러, ✌️로 내 워스트 컬러를 얼굴에 드레이핑해 차이를 직접 느껴보세요. 👌 OK 사인이나 아래 버튼으로 결과를 확인하세요.' },
 };
 
 // Stage metadata (axis, option keys). Pairs are selected dynamically from
@@ -128,6 +130,10 @@ const PALM_HOLD_DURATION = 1500; // ms
 let palmHoldStartTime = 0;
 let palmHoldLastRemainder = -1; // for throttled status-bar updates
 
+// Back hold: 👈 must be sustained before goBackStage triggers (carry-over 방지)
+let backHoldStartTime = 0;
+let backHoldShown = false;
+
 // Cloth drape: EMA (exponential moving average) smoothing state.
 // Resets to -1 whenever the drape is hidden so the first visible frame snaps
 // to the correct position without sliding in from (0,0).
@@ -142,6 +148,11 @@ const stageResults = { 2: [], 3: [], 4: [], 5: [] }; // each is an array of 'opt
 let activePairs = [];   // pairs being shown in the current stage (context-dependent)
 let activeContextKey = 'default';
 const stageContextHistory = { 2: 'default', 3: null, 4: null, 5: null };
+
+// Stage 6 (베스트 vs 워스트 드레이핑)
+let stage6BestColors = null;
+let stage6WorstColors = null;
+let stage6CurrentChoice = null;
 
 // Accumulated attribute scores
 const scores = {
@@ -587,6 +598,52 @@ function showCloth(which) {
   updateClothPosition();
 }
 
+// ── Stage 6: 베스트 vs 워스트 헬퍼 ──────────────────────────────────────────
+function makeQuadGradient(colors) {
+  if (!colors || !colors.length) return '#cccccc';
+  if (colors.length === 1) return colors[0];
+  const n = colors.length;
+  const stops = colors.map((c, i) =>
+    `${c} ${(i / n * 100).toFixed(1)}% ${((i + 1) / n * 100).toFixed(1)}%`
+  );
+  return `linear-gradient(to right, ${stops.join(', ')})`;
+}
+
+function showClothStage6(which) {
+  const drape  = document.getElementById('clothDrape');
+  const opt1El = document.getElementById('compareOpt1');
+  const opt2El = document.getElementById('compareOpt2');
+  const colors = which === 'best' ? stage6BestColors : stage6WorstColors;
+  drape.style.background = makeQuadGradient(colors);
+  drape.classList.add('visible');
+  if (which === 'best') {
+    opt1El.classList.add('active');
+    opt2El.classList.remove('active');
+  } else {
+    opt2El.classList.add('active');
+    opt1El.classList.remove('active');
+  }
+  stage6CurrentChoice = which;
+  updateClothPosition();
+}
+
+function handleStage6Hand(lm) {
+  const g = classifyGesture(lm);
+  if (g === 'one' && stage6CurrentChoice !== 'best') {
+    showClothStage6('best');
+  } else if (g === 'two' && stage6CurrentChoice !== 'worst') {
+    showClothStage6('worst');
+  }
+  if (g === 'ok') {
+    const now = Date.now();
+    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+      lastGestureTime = now;
+      showGestureFeedback('결과 보기 👌');
+      setTimeout(() => { window.location.href = 'result.html'; }, 280);
+    }
+  }
+}
+
 function confirmCurrentPair() {
   if (!currentChoice) return;
   const def = COMPARE_STAGES[currentStage];
@@ -658,6 +715,8 @@ function enterStage(stage) {
     loadStagePairs(stage);
     // FaceMesh(천 추적)는 비교 단계에서만 필요 — 여기서 처음 init한다.
     if (videoEl && !faceMeshInstance) initFaceMesh();
+  } else if (stage === 6) {
+    if (videoEl && !faceMeshInstance) initFaceMesh();
   }
 
   updateProgress();
@@ -677,7 +736,24 @@ function enterStage(stage) {
     const ctxLabel = CONTEXT_LABELS[stage]?.[activeContextKey];
     const intro = ctxLabel ? `${ctxLabel} — 1번/2번 손모양으로 천을 바꾸고 good으로 선택` : '1번/2번 손모양으로 천을 비교하고, good 손모양으로 선택하세요';
     setStatus(cameraReady ? intro : '');
-  } else if (stage > 5) {
+  } else if (stage === 6) {
+    hideStage1UI();
+    if (cameraReady) {
+      showCompareUI();
+      document.getElementById('comparePairIdx').textContent = '체험';
+      document.getElementById('comparePairTitle').textContent = '베스트 vs 워스트 색상';
+      document.getElementById('comparePairDots').innerHTML = '';
+      document.getElementById('compareOpt1Swatch').style.background = makeQuadGradient(stage6BestColors);
+      document.getElementById('compareOpt1Name').textContent = '베스트 컬러';
+      document.getElementById('compareOpt2Swatch').style.background = makeQuadGradient(stage6WorstColors);
+      document.getElementById('compareOpt2Name').textContent = '워스트 컬러';
+      document.getElementById('compareOpt1').classList.remove('active');
+      document.getElementById('compareOpt2').classList.remove('active');
+      document.getElementById('clothDrape').classList.remove('visible');
+      clothSmoothLeft = clothSmoothTop = clothSmoothW = clothSmoothH = -1;
+    }
+    setStatus(cameraReady ? '☝️ 베스트 컬러  ✌️ 워스트 컬러  👌 결과 보기' : '');
+  } else if (stage > 6) {
     hideStage1UI();
     hideCompareUI();
   }
@@ -693,6 +769,10 @@ function updateGestureGuide(stage) {
     { icon: '☝️',    title: '검지로 가리키기',  desc: '1.2초 유지하면 자동 선택' },
     { icon: '🖐',    title: '손바닥 펼치기',    desc: '1.5초 유지 시 초기화'    },
     { icon: '👌',    title: 'OK 사인',          desc: '선택 후 다음 단계로'     },
+  ] : stage === 6 ? [
+    { icon: '☝️',    title: '1번 (베스트)',      desc: '베스트 컬러 드레이핑'    },
+    { icon: '✌️',    title: '2번 (워스트)',      desc: '워스트 컬러 드레이핑'    },
+    { icon: '👌',    title: 'OK 사인',          desc: '결과 페이지로 이동'      },
   ] : [
     { icon: '☝️✌️', title: '1번 / 2번 손모양', desc: '천 색상 바꾸기'         },
     { icon: '👍',    title: '엄지척',           desc: '이 색상으로 선택 확정'   },
@@ -707,10 +787,17 @@ function updateGestureGuide(stage) {
 }
 
 function updateProgress() {
-  const userStep = Math.min(totalUserStages, Math.max(1, currentStage));
-  const pct = Math.round(((userStep - 1) / totalUserStages) * 100);
   const bar = document.getElementById('progressBar');
   const label = document.getElementById('progressLabel');
+  const leftLabel = document.getElementById('progressLeftLabel');
+  if (currentStage === 6) {
+    if (bar) bar.style.width = '100%';
+    if (label) label.textContent = '진단 완료 🎉';
+    if (leftLabel) leftLabel.textContent = '베스트 vs 워스트 체험 중';
+    return;
+  }
+  const userStep = Math.min(totalUserStages, Math.max(1, currentStage));
+  const pct = Math.round(((userStep - 1) / totalUserStages) * 100);
   if (bar) bar.style.width = pct + '%';
   if (label) label.textContent = `${userStep} / ${totalUserStages} 단계`;
 }
@@ -785,20 +872,27 @@ function summarizeStageResult(s) {
 function showStageProgressActions() {
   const nextBtn = document.getElementById('nextStageBtn');
   const analyzeBtn = document.getElementById('analyzeBtn');
+  const viewResultBtn = document.getElementById('viewResultBtn');
   const done = isCurrentStageDone();
 
   if (currentStage === 1) {
-    // stage 1 has its own confirm bar in camera area
     nextBtn.style.display = 'none';
     analyzeBtn.style.display = 'none';
+    if (viewResultBtn) viewResultBtn.style.display = 'none';
   } else if (currentStage >= 2 && currentStage < totalUserStages) {
     nextBtn.style.display = 'block';
     analyzeBtn.style.display = 'none';
+    if (viewResultBtn) viewResultBtn.style.display = 'none';
     nextBtn.toggleAttribute('disabled', !done);
   } else if (currentStage === totalUserStages) {
     nextBtn.style.display = 'none';
     analyzeBtn.style.display = 'block';
+    if (viewResultBtn) viewResultBtn.style.display = 'none';
     analyzeBtn.toggleAttribute('disabled', !done);
+  } else if (currentStage === 6) {
+    nextBtn.style.display = 'none';
+    analyzeBtn.style.display = 'none';
+    if (viewResultBtn) viewResultBtn.style.display = 'block';
   }
 }
 
@@ -876,7 +970,31 @@ function finishAndAnalyze() {
   };
 
   try { localStorage.setItem('cmt_result', JSON.stringify(result)); } catch (e) {}
-  window.location.href = 'result.html';
+  stage6BestColors = (si.bestColors || []).slice(0, 4).map(c => c.hex);
+  stage6WorstColors = (wsi.bestColors || []).slice(0, 4).map(c => c.hex);
+  stage6CurrentChoice = null;
+  showDiagCompleteOverlay();
+}
+
+function showDiagCompleteOverlay() {
+  const overlay = document.getElementById('diagCompleteOverlay');
+  const btn = document.getElementById('diagCompleteBtn');
+  if (btn) btn.classList.remove('visible');
+  overlay.style.display = 'flex';
+  ['nextStageBtn', 'analyzeBtn', 'viewResultBtn'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  setTimeout(() => {
+    if (btn) btn.classList.add('visible');
+  }, 1500);
+}
+
+function enterStage6FromOverlay() {
+  const overlay = document.getElementById('diagCompleteOverlay');
+  if (overlay) overlay.style.display = 'none';
+  lastGestureTime = Date.now(); // carry-over 👌 제스처 차단
+  enterStage(6);
 }
 
 function determineSubtype(seasonKey, der) {
@@ -1005,7 +1123,7 @@ async function frameLoop() {
   //  • 2~5단계: 한 프레임에 한 모델만 — hands / face 를 번갈아(隔프레임) 실행해
   //    두 wasm 이 절대 겹치지 않게 한다. 각 모델은 ~15fps 로 동작.
   try {
-    if (currentStage >= 2 && currentStage <= 5 && faceMeshInstance) {
+    if (currentStage >= 2 && currentStage <= 6 && faceMeshInstance) {
       faceTurn = !faceTurn;
       if (faceTurn) await faceMeshInstance.send({ image: videoEl });
       else if (handsInstance) await handsInstance.send({ image: videoEl });
@@ -1031,6 +1149,10 @@ function onHandResults(results) {
         palmHoldStartTime = 0;
         palmHoldLastRemainder = -1;
       }
+      if (backHoldStartTime) {
+        backHoldStartTime = 0;
+        backHoldShown = false;
+      }
       // Don't reset the dwell on a single missed frame; the grace window in
       // stage1HoverTick() clears it only after a sustained loss.
       return;
@@ -1050,6 +1172,11 @@ function onHandResults(results) {
     // Stage 2~5: gesture-based interaction
     if (currentStage >= 2 && currentStage <= 5) {
       handleCompareStageHand(lm);
+    }
+
+    // Stage 6: 베스트 vs 워스트 드레이핑
+    if (currentStage === 6) {
+      handleStage6Hand(lm);
     }
   } catch (e) {
     console.error('onHandResults error:', e);
@@ -1141,15 +1268,27 @@ function handleCompareStageHand(lm) {
     return;
   }
 
-  // back (👈) → go back to previous stage (cooldown)
+  // back (👈) → 1.5초 홀드 후 이전 단계 이동 (carry-over 방지)
   if (g === 'back') {
-    const now = Date.now();
-    if (now - lastGestureTime >= GESTURE_COOLDOWN) {
+    if (!backHoldStartTime) backHoldStartTime = Date.now();
+    if (!backHoldShown) {
+      backHoldShown = true;
+      setStatus('👈 1.5초 유지하면 이전 단계로 돌아가요');
+    }
+    if (Date.now() - backHoldStartTime >= PALM_HOLD_DURATION) {
+      backHoldStartTime = 0;
+      backHoldShown = false;
+      const now = Date.now();
       lastGestureTime = now;
       showGestureFeedback('이전 단계 👈');
       setTimeout(() => goBackStage(), 280);
     }
     return;
+  }
+  // back 아닌 제스처 → 타이머 리셋
+  if (backHoldStartTime) {
+    backHoldStartTime = 0;
+    backHoldShown = false;
   }
 }
 
@@ -1182,21 +1321,23 @@ function classifyGesture(lm) {
 
   // Back-point (👈): index finger pointing horizontally to user's left
   // Raw (unmirrored) coords: lm[8].x > lm[5].x = tip is to user's left.
-  // lxDelta > 0.15: clear leftward extension required (raised from 0.10).
-  // lxDelta > 1.5 * lyDelta: angle must be within ~34° of horizontal (raised from 45°).
-  // !idxCurled: index tip must be above its PIP joint = finger actually extended outward.
-  // midCurled && ringCurled && pinkCurled: other fingers tightly curled past PIP (stricter than !up()).
+  // lxDelta > 0.15: clear leftward extension required.
+  // lxDelta > 1.5 * lyDelta: angle must be within ~34° of horizontal.
   // pinchDist > 0.15: excludes OK/near-OK states where index curls toward thumb.
+  // midCurled && ringCurled && pinkCurled: other fingers tightly curled past PIP.
+  // Note: !idxCurled removed — horizontal pointing makes tip.y > PIP.y even when
+  //        fully extended, so the angle+lxDelta conditions are sufficient.
   const lxDelta = lm[8].x - lm[5].x;
   const lyDelta = Math.abs(lm[8].y - lm[5].y);
   if (lxDelta > 0.15 && lxDelta > 1.5 * lyDelta &&
       pinchDist > 0.15 &&
-      !idxCurled &&
       midCurled && ringCurled && pinkCurled) return 'back';
 
-  // Thumbs up — thumb clearly extended, all other fingers fully curled past PIP
+  // Thumbs up — thumb clearly extended, all other fingers fully curled past PIP.
+  // Exclude sideways-pointing index (lxDelta > 0.12) to avoid conflict with back.
   if (thumbUp && !idx && !mid && !ring && !pink &&
-      idxCurled && midCurled && ringCurled && pinkCurled) return 'good';
+      idxCurled && midCurled && ringCurled && pinkCurled &&
+      lxDelta <= 0.12) return 'good';
 
   // Two-finger (peace) — index + middle extended only
   if (idx && mid && !ring && !pink) return 'two';
@@ -1281,7 +1422,7 @@ function updateClothPosition() {
   if (!drape || !cameraArea) return;
 
   // Only update geometry during compare stages when face is tracked.
-  if (!(currentStage >= 2 && currentStage <= 5) || !faceLandmarksLatest) return;
+  if (!(currentStage >= 2 && currentStage <= 6) || !faceLandmarksLatest) return;
 
   const lm = faceLandmarksLatest;
   const chin  = lm[152];
@@ -1361,6 +1502,11 @@ document.addEventListener('keydown', e => {
   if (currentStage === 1) {
     if (e.key.toLowerCase() === 'o' && stage1Selection) confirmStage1();
     if (e.key.toLowerCase() === 'r') resetStage1();
+  }
+  if (currentStage === 6) {
+    if (e.key === '1') showClothStage6('best');
+    else if (e.key === '2') showClothStage6('worst');
+    else if (e.key.toLowerCase() === 'o') window.location.href = 'result.html';
   }
 });
 
