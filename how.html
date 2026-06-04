@@ -472,7 +472,7 @@
           </div>
           <div style="width:100%; background:white; border-radius:8px; padding:10px 14px; border:1px solid rgba(0,0,0,0.06);">
             <div style="font-size:0.72rem; color:var(--text-muted); line-height:1.65;">
-              💡 인식이 안 될 땐 손을 카메라 방향으로 천천히 가져오거나, 배경과 손 색상이 구분되는 곳에서 해보세요.
+              💡 인식이 안 될 땐 손을 카메라 방향으로 천천히 가져오거나,<br/>배경과 손 색상이 구분되는 곳에서 해보세요.
             </div>
           </div>
         </div>
@@ -497,14 +497,14 @@
               <div class="stage-explain-icon">📄</div>
               <div>
                 <div style="font-weight:700; font-size:0.9rem; color:var(--text-dark);">흰 종이로 정확하게</div>
-                <div style="font-size:0.85rem; color:var(--text-medium); margin-top:2px; line-height:1.65;">화면 중앙에 흰 종이를 보여주면 카메라가 "이게 흰색이야"를 학습해 색 왜곡을 교정해요. 가장 정확한 방법이에요.</div>
+                <div style="font-size:0.85rem; color:var(--text-medium); margin-top:2px; line-height:1.65;">화면 중앙에 흰 종이를 보여주면 카메라가 "이게 흰색이야"를 학습해<br/>색 왜곡을 교정해요. 가장 정확한 방법이에요.</div>
               </div>
             </div>
             <div class="stage-explain-row">
               <div class="stage-explain-icon">⚡</div>
               <div>
                 <div style="font-weight:700; font-size:0.9rem; color:var(--text-dark);">자동 보정</div>
-                <div style="font-size:0.85rem; color:var(--text-medium); margin-top:2px; line-height:1.65;">주변 환경을 자동으로 분석해 보정값을 계산해요. 별도 준비 없이 빠르게 시작할 수 있어요.</div>
+                <div style="font-size:0.85rem; color:var(--text-medium); margin-top:2px; line-height:1.65;">주변 환경을 자동으로 분석해 보정값을 계산해요.<br/>별도 준비 없이 빠르게 시작할 수 있어요.</div>
               </div>
             </div>
           </div>
@@ -517,15 +517,15 @@
           <!-- 조명별 색 변화 비교 -->
           <div style="display:flex; gap:8px; width:100%;">
             <div style="flex:1; text-align:center;">
-              <div style="height:62px; border-radius:10px; background:#CDB5C4; border:1px solid rgba(0,0,0,0.07);"></div>
+              <div style="height:62px; border-radius:10px; background:#f5d4d4; border:1px solid rgba(0,0,0,0.07);"></div>
               <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-weight:600; line-height:1.4;">형광등 아래<br>파랗게 치우침</div>
             </div>
             <div style="flex:1; text-align:center;">
-              <div style="height:62px; border-radius:10px; background:#E8A898; border:1px solid rgba(0,0,0,0.07);"></div>
+              <div style="height:62px; border-radius:10px; background:#edd7bf; border:1px solid rgba(0,0,0,0.07);"></div>
               <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-weight:600; line-height:1.4;">자연광 아래<br>실제 피부색</div>
             </div>
             <div style="flex:1; text-align:center;">
-              <div style="height:62px; border-radius:10px; background:#E8C898; border:1px solid rgba(0,0,0,0.07);"></div>
+              <div style="height:62px; border-radius:10px; background:#e6cba3; border:1px solid rgba(0,0,0,0.07);"></div>
               <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-weight:600; line-height:1.4;">따뜻한 조명<br>노랗게 치우침</div>
             </div>
           </div>
@@ -536,7 +536,7 @@
             <div style="flex:1; height:1px; background:rgba(255,140,0,0.3);"></div>
           </div>
           <div style="width:100%;">
-            <div style="height:50px; border-radius:10px; background:#E8A898; border:2px solid rgba(255,140,0,0.35); display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:700; color:rgba(0,0,0,0.5);">
+            <div style="height:50px; border-radius:10px; background:#edd7bf; border:2px solid #ebc49b; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:700; color:rgba(0,0,0,0.5);">
               모두 실제 피부색으로 통일 ✅
             </div>
           </div>
@@ -797,6 +797,30 @@
         </div>
 
       </div>
+
+      <!-- ── Lab 3D 색공간 시각화 ── -->
+      <div style="margin-top:52px;">
+        <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-dark); margin-bottom:6px;">Lab 색공간 속 실제 옷 분포</h3>
+        <p style="font-size:0.83rem; color:var(--text-medium); margin-bottom:18px; line-height:1.75;">64개 옷의 색상을 Lab 3D 공간에 찍어봤어요. 웜톤(봄·가을) 옷은 +a 방향(빨간 쪽), 쿨톤(여름·겨울) 옷은 −a 방향(초록 쪽)으로 모여요. 사진 위에 마우스를 올리면 상품 정보를 볼 수 있어요.</p>
+        <div id="lab3d-wrap" style="position:relative; height:460px; background:#080818; border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,0.07);">
+          <canvas id="lab3d-canvas" style="position:absolute; top:0; left:0; display:block;"></canvas>
+          <div id="lab3d-overlay" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
+          <div id="lab3d-tooltip" style="display:none; position:absolute; pointer-events:none; z-index:20; background:white; border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,0.3); overflow:hidden; width:120px;">
+            <img id="lab3d-tip-img" src="" alt="" style="width:120px; height:90px; object-fit:cover; display:block;">
+            <div style="padding:7px 9px;">
+              <div id="lab3d-tip-brand" style="font-size:0.58rem; color:#999; font-weight:600; margin-bottom:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div>
+              <div id="lab3d-tip-name"  style="font-size:0.65rem; color:#222; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div>
+            </div>
+          </div>
+          <div style="position:absolute; top:12px; left:14px; font-size:0.62rem; color:rgba(255,255,255,0.38); pointer-events:none; line-height:1.8;">🖱 드래그 회전 · 스크롤 확대</div>
+          <div style="position:absolute; bottom:12px; right:14px; font-size:0.58rem; color:rgba(255,255,255,0.32); line-height:2.1; text-align:right; pointer-events:none;">
+            <div><span style="color:#ff8877;">─</span> a축 (초록 ↔ 빨강)</div>
+            <div><span style="color:rgba(255,255,255,0.65);">│</span> L축 (어두움 ↔ 밝음)</div>
+            <div><span style="color:#7799ff;">─</span> b축 (파랑 ↔ 노랑)</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -826,5 +850,183 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script>
+  /* ── Lab 색공간 3D 시각화 ── */
+  (function () {
+    'use strict';
+    if (typeof THREE === 'undefined') return;
+    const wrap    = document.getElementById('lab3d-wrap');
+    const canvas  = document.getElementById('lab3d-canvas');
+    const overlay = document.getElementById('lab3d-overlay');
+    const tooltip = document.getElementById('lab3d-tooltip');
+    const tipImg  = document.getElementById('lab3d-tip-img');
+    const tipBrand= document.getElementById('lab3d-tip-brand');
+    const tipName = document.getElementById('lab3d-tip-name');
+    if (!wrap || !canvas) return;
+
+    /* ── renderer ── */
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    /* ── scene ── */
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x080818);
+    scene.fog = new THREE.FogExp2(0x080818, 0.035);
+
+    /* ── camera ── */
+    const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 100);
+    camera.position.set(6, 2.5, 9);
+
+    /* ── controls ── */
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping   = true;
+    controls.dampingFactor   = 0.07;
+    controls.minDistance     = 2;
+    controls.maxDistance     = 22;
+    controls.autoRotate      = true;
+    controls.autoRotateSpeed = 0.45;
+    renderer.domElement.addEventListener('pointerdown', () => { controls.autoRotate = false; });
+
+    /* ── lights ── */
+    scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+    const dl = new THREE.DirectionalLight(0xffffff, 0.6);
+    dl.position.set(4, 8, 6);
+    scene.add(dl);
+
+    /* ── axes ── */
+    function addAxis(p1, p2, color, opacity) {
+      const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: opacity || 0.55 });
+      const geo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(p1[0], p1[1], p1[2]),
+        new THREE.Vector3(p2[0], p2[1], p2[2])
+      ]);
+      scene.add(new THREE.Line(geo, mat));
+    }
+    addAxis([-5.5, 0, 0], [5.5, 0, 0], 0xff7766);       /* a (초록↔빨강) */
+    addAxis([0, -3.5, 0], [0, 3.5, 0], 0xddddee);       /* L (밝기) */
+    addAxis([0, 0, -5.5], [0, 0, 5.5], 0x6688ff);       /* b (파랑↔노랑) */
+    scene.add(new THREE.GridHelper(10, 20, 0x1c1c38, 0x131328));
+
+    /* ── state ── */
+    const spheres = [];
+    const imgEls  = [];
+    let isVisible = false;
+    let rafId     = null;
+
+    /* ── IntersectionObserver: 화면 밖이면 렌더링 중단 ── */
+    new IntersectionObserver(function(entries) {
+      isVisible = entries[0].isIntersecting;
+      if (isVisible && !rafId) { resize(); animate(); }
+    }, { threshold: 0.05 }).observe(wrap);
+
+    /* ── tooltip 위치 ── */
+    function tooltipAt(e) {
+      const rect = wrap.getBoundingClientRect();
+      let tx = e.clientX - rect.left + 18;
+      let ty = e.clientY - rect.top  - 60;
+      if (tx + 135 > rect.width)  tx = e.clientX - rect.left - 142;
+      if (ty < 0) ty = 8;
+      tooltip.style.left = tx + 'px';
+      tooltip.style.top  = ty + 'px';
+    }
+
+    /* ── 데이터 로드 ── */
+    fetch('data/cloth_analysis.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var items = data.items.filter(function(it) { return it.lab; });
+
+        items.forEach(function(item) {
+          var L = item.lab[0], a = item.lab[1], b = item.lab[2];
+
+          /* 3D sphere */
+          var col = new THREE.Color(item.dominant_hex);
+          var sphere = new THREE.Mesh(
+            new THREE.SphereGeometry(item.achromatic ? 0.11 : 0.20, 14, 14),
+            new THREE.MeshStandardMaterial({
+              color: col, emissive: col, emissiveIntensity: 0.22, roughness: 0.38
+            })
+          );
+          sphere.position.set(a * 0.13, (L - 70) * 0.055, b * 0.13);
+          scene.add(sphere);
+          spheres.push(sphere);
+
+          /* HTML 썸네일 */
+          var img = document.createElement('img');
+          img.style.cssText = [
+            'position:absolute',
+            'width:28px;height:28px',
+            'border-radius:50%;object-fit:cover',
+            'background:' + item.dominant_hex,
+            'border:2px solid rgba(255,255,255,0.55)',
+            'box-shadow:0 2px 10px rgba(0,0,0,0.55)',
+            'pointer-events:auto;cursor:pointer',
+            'transform:translate(-50%,-50%)',
+            'transition:transform 0.12s,border-color 0.12s',
+            'display:none'
+          ].join(';');
+          img.src = item.image_url || '';
+
+          /* 클로저로 item 캡처 */
+          (function(it) {
+            img.addEventListener('mouseenter', function(e) {
+              img.style.transform   = 'translate(-50%,-50%) scale(1.8)';
+              img.style.zIndex      = '15';
+              img.style.borderColor = '#fff';
+              tipImg.src            = it.image_url || '';
+              tipBrand.textContent  = it.brand || '';
+              tipName.textContent   = it.name  || '';
+              tooltip.style.display = 'block';
+              tooltipAt(e);
+            });
+            img.addEventListener('mousemove', tooltipAt);
+            img.addEventListener('mouseleave', function() {
+              img.style.transform   = 'translate(-50%,-50%)';
+              img.style.zIndex      = '';
+              img.style.borderColor = 'rgba(255,255,255,0.55)';
+              tooltip.style.display = 'none';
+            });
+            img.addEventListener('click', function() {
+              if (it.product_url) window.open(it.product_url, '_blank');
+            });
+          })(item);
+
+          overlay.appendChild(img);
+          imgEls.push(img);
+        });
+
+        resize();
+      });
+
+    /* ── resize ── */
+    function resize() {
+      var w = wrap.offsetWidth, h = wrap.offsetHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resize);
+
+    /* ── 렌더 루프 ── */
+    function animate() {
+      if (!isVisible) { rafId = null; return; }
+      rafId = requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+
+      var w = wrap.offsetWidth, h = wrap.offsetHeight;
+      spheres.forEach(function(sphere, i) {
+        var p = sphere.position.clone().project(camera);
+        if (p.z >= 1) { imgEls[i].style.display = 'none'; return; }
+        imgEls[i].style.display = 'block';
+        imgEls[i].style.left = ((p.x * 0.5 + 0.5) * w) + 'px';
+        imgEls[i].style.top  = ((-p.y * 0.5 + 0.5) * h) + 'px';
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
