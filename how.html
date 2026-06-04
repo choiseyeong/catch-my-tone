@@ -812,8 +812,8 @@
               <div id="lab3d-tip-name"  style="font-size:0.65rem; color:#222; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div>
             </div>
           </div>
-          <div style="position:absolute; top:12px; left:14px; font-size:0.62rem; color:rgba(255,255,255,0.38); pointer-events:none; line-height:1.8;">🖱 드래그 회전 · 스크롤 확대</div>
-          <div style="position:absolute; bottom:12px; right:14px; font-size:0.58rem; color:rgba(255,255,255,0.32); line-height:2.1; text-align:right; pointer-events:none;">
+          <div style="position:absolute; top:12px; left:14px; font-size:0.78rem; color:rgba(255,255,255,0.75); pointer-events:none; line-height:1.8;">🖱 드래그 회전 · 스크롤 확대</div>
+          <div style="position:absolute; bottom:12px; right:14px; font-size:0.78rem; color:rgba(255,255,255,0.75); line-height:2.1; text-align:right; pointer-events:none;">
             <div><span style="color:#ff8877;">─</span> a축 (초록 ↔ 빨강)</div>
             <div><span style="color:rgba(255,255,255,0.65);">│</span> L축 (어두움 ↔ 밝음)</div>
             <div><span style="color:#7799ff;">─</span> b축 (파랑 ↔ 노랑)</div>
@@ -908,6 +908,68 @@
     addAxis([0, -3.5, 0], [0, 3.5, 0], 0xddddee);       /* L (밝기) */
     addAxis([0, 0, -5.5], [0, 0, 5.5], 0x6688ff);       /* b (파랑↔노랑) */
     scene.add(new THREE.GridHelper(10, 20, 0x1c1c38, 0x131328));
+
+    /* ── sRGB 가멋 Lab 색공간 포인트 클라우드 ── */
+    (function() {
+      /* Lab → sRGB 역변환 (D65). 가멋 밖이면 null 반환 */
+      function labToRgb(L, a, b) {
+        var fy = (L + 16) / 116;
+        var fx = a / 500 + fy;
+        var fz = fy - b / 200;
+        var d = 6 / 29;
+        function finv(t) { return t > d ? t*t*t : 3*d*d*(t - 4/29); }
+        var X = 0.9505 * finv(fx);
+        var Y = finv(fy);
+        var Z = 1.0890 * finv(fz);
+        var lr =  3.2406*X - 1.5372*Y - 0.4986*Z;
+        var lg = -0.9689*X + 1.8758*Y + 0.0415*Z;
+        var lb =  0.0557*X - 0.2040*Y + 1.0570*Z;
+        function gam(c) { return c <= 0.0031308 ? 12.92*c : 1.055*Math.pow(c, 1/2.4) - 0.055; }
+        var rv = gam(lr), gv = gam(lg), bv = gam(lb);
+        if (rv < 0 || rv > 1 || gv < 0 || gv > 1 || bv < 0 || bv > 1) return null;
+        return [rv, gv, bv];
+      }
+
+      /* 부드러운 원형 스프라이트 텍스처 */
+      var tc = document.createElement('canvas');
+      tc.width = tc.height = 32;
+      var tctx = tc.getContext('2d');
+      var grad = tctx.createRadialGradient(16, 16, 0, 16, 16, 15);
+      grad.addColorStop(0,   'rgba(255,255,255,1)');
+      grad.addColorStop(0.6, 'rgba(255,255,255,0.85)');
+      grad.addColorStop(1,   'rgba(255,255,255,0)');
+      tctx.fillStyle = grad;
+      tctx.arc(16, 16, 15, 0, Math.PI * 2);
+      tctx.fill();
+      var sprite = new THREE.CanvasTexture(tc);
+
+      /* L×a×b 격자 샘플링 → sRGB 가멋 내 점만 수집 */
+      var positions = [], colors = [];
+      for (var L = 4; L <= 96; L += 6) {
+        for (var a = -110; a <= 110; a += 5) {
+          for (var b = -110; b <= 110; b += 5) {
+            var rgb = labToRgb(L, a, b);
+            if (!rgb) continue;
+            positions.push(a * 0.13, (L - 70) * 0.055, b * 0.13);
+            colors.push(rgb[0], rgb[1], rgb[2]);
+          }
+        }
+      }
+
+      var geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setAttribute('color',    new THREE.Float32BufferAttribute(colors, 3));
+      scene.add(new THREE.Points(geo, new THREE.PointsMaterial({
+        size: 0.22,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.42,
+        map: sprite,
+        alphaTest: 0.01,
+        sizeAttenuation: true,
+        depthWrite: false,
+      })));
+    })();
 
     /* ── state ── */
     const spheres = [];
