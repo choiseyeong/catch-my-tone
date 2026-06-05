@@ -1,0 +1,2168 @@
+{
+  "generated_count": 64,
+  "top_n": 3,
+  "items": [
+    {
+      "id": 1,
+      "brand": "아메스 월드와이드",
+      "name": "SWEET RABBIT TEE PINK",
+      "price": 39000,
+      "product_url": "https://www.musinsa.com/products/6162866",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260319/6162866/detail_6162866_17770200533781_big.jpg?w=1200",
+      "dominant_hex": "#E9CDCF",
+      "lab": [
+        84.78,
+        9.85,
+        2.49
+      ],
+      "chroma": 10.16,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "spring-bright",
+        "winter-bright"
+      ],
+      "scores": {
+        "spring-bright": 5.48,
+        "spring-true": 10.61,
+        "spring-light": 6.92,
+        "summer-light": 13.73,
+        "summer-true": 9.78,
+        "summer-mute": 8.39,
+        "autumn-mute": 9.77,
+        "autumn-true": 5.22,
+        "autumn-deep": 8.11,
+        "winter-deep": 6.86,
+        "winter-true": 6.99,
+        "winter-bright": 6.35
+      }
+    },
+    {
+      "id": 2,
+      "brand": "언타이틀 서울",
+      "name": "유니콘 헨리넥 크롭 반팔 풀 블루",
+      "price": 48000,
+      "product_url": "https://www.musinsa.com/products/6388766",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260428/6388766/detail_6388766_17784836573222_big.jpg?w=1200",
+      "dominant_hex": "#02749D",
+      "lab": [
+        45.62,
+        -12.24,
+        -29.48
+      ],
+      "chroma": 31.92,
+      "achromatic": false,
+      "types": [
+        "winter-deep",
+        "summer-mute",
+        "summer-light"
+      ],
+      "scores": {
+        "spring-bright": 15.19,
+        "spring-true": 26.11,
+        "spring-light": 25.89,
+        "summer-light": 12.54,
+        "summer-true": 20.83,
+        "summer-mute": 11.43,
+        "autumn-mute": 13.09,
+        "autumn-true": 19.89,
+        "autumn-deep": 18.76,
+        "winter-deep": 7.74,
+        "winter-true": 19.72,
+        "winter-bright": 13.45
+      }
+    },
+    {
+      "id": 3,
+      "brand": "아웃스탠딩",
+      "name": "MIL SERIES SLEEVELESS(ALOHA)_VINTAGE OLIVE",
+      "price": 54000,
+      "product_url": "https://www.musinsa.com/products/6331425",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260417/6331425/6331425_17772864973000_big.jpg?w=1200",
+      "dominant_hex": "#5C5D4C",
+      "lab": [
+        38.85,
+        -3.83,
+        9.76
+      ],
+      "chroma": 10.49,
+      "achromatic": false,
+      "types": [
+        "summer-true",
+        "autumn-true",
+        "summer-mute"
+      ],
+      "scores": {
+        "spring-bright": 14.98,
+        "spring-true": 16.32,
+        "spring-light": 17.81,
+        "summer-light": 16.79,
+        "summer-true": 6.72,
+        "summer-mute": 11.98,
+        "autumn-mute": 13.16,
+        "autumn-true": 9.42,
+        "autumn-deep": 12.92,
+        "winter-deep": 15.09,
+        "winter-true": 20.74,
+        "winter-bright": 20.41
+      }
+    },
+    {
+      "id": 4,
+      "brand": "아메스 월드와이드",
+      "name": "SPRAY 52 TYPO TEE BLUE",
+      "price": 42000,
+      "product_url": "https://www.musinsa.com/products/6162960",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260319/6162960/detail_6162960_17770171412251_big.jpg?w=1200",
+      "dominant_hex": "#C0C7CF",
+      "lab": [
+        79.98,
+        -1.1,
+        -4.82
+      ],
+      "chroma": 4.95,
+      "achromatic": false,
+      "types": [
+        "winter-bright",
+        "winter-true",
+        "summer-light"
+      ],
+      "scores": {
+        "spring-bright": 10.51,
+        "spring-true": 11.49,
+        "spring-light": 9.16,
+        "summer-light": 4.28,
+        "summer-true": 5.27,
+        "summer-mute": 6.37,
+        "autumn-mute": 5.39,
+        "autumn-true": 8.91,
+        "autumn-deep": 9.92,
+        "winter-deep": 5.56,
+        "winter-true": 3.09,
+        "winter-bright": 3.07
+      }
+    },
+    {
+      "id": 5,
+      "brand": "미드나잇 무브",
+      "name": "cb horse t (mint)",
+      "price": 44000,
+      "product_url": "https://www.musinsa.com/products/6414464",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260504/6414464/6414464_17780593273049_big.jpg?w=1200",
+      "dominant_hex": "#B7DBD5",
+      "lab": [
+        84.67,
+        -12.9,
+        -0.89
+      ],
+      "chroma": 12.93,
+      "achromatic": false,
+      "types": [
+        "summer-light",
+        "spring-bright",
+        "autumn-mute"
+      ],
+      "scores": {
+        "spring-bright": 2.54,
+        "spring-true": 13.64,
+        "spring-light": 13.22,
+        "summer-light": 2.02,
+        "summer-true": 9.94,
+        "summer-mute": 7.46,
+        "autumn-mute": 2.91,
+        "autumn-true": 15.7,
+        "autumn-deep": 8.37,
+        "winter-deep": 12.34,
+        "winter-true": 6.93,
+        "winter-bright": 4.34
+      }
+    },
+    {
+      "id": 6,
+      "brand": "토마스모어",
+      "name": "볼다 스트라이프 셔츠 - 블루",
+      "price": 59700,
+      "product_url": "https://www.musinsa.com/products/6175860",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260323/6175860/6175860_17743273017792_big.jpg?w=1200",
+      "dominant_hex": "#8D99BA",
+      "lab": [
+        63.49,
+        2.99,
+        -18.29
+      ],
+      "chroma": 18.54,
+      "achromatic": false,
+      "types": [
+        "winter-bright",
+        "winter-deep",
+        "winter-true"
+      ],
+      "scores": {
+        "spring-bright": 13.16,
+        "spring-true": 19.23,
+        "spring-light": 13.64,
+        "summer-light": 9.84,
+        "summer-true": 10.05,
+        "summer-mute": 13.85,
+        "autumn-mute": 12.44,
+        "autumn-true": 16.33,
+        "autumn-deep": 11.2,
+        "winter-deep": 8.39,
+        "winter-true": 8.57,
+        "winter-bright": 7.21
+      }
+    },
+    {
+      "id": 7,
+      "brand": "토마스모어",
+      "name": "볼다 스트라이프 셔츠 - 옐로우",
+      "price": 59700,
+      "product_url": "https://www.musinsa.com/products/6175862",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260323/6175862/6175862_17743274739503_big.jpg?w=1200",
+      "dominant_hex": "#CBBD9E",
+      "lab": [
+        77.09,
+        -0.4,
+        17.66
+      ],
+      "chroma": 17.67,
+      "achromatic": false,
+      "types": [
+        "summer-light",
+        "autumn-true",
+        "autumn-deep"
+      ],
+      "scores": {
+        "spring-bright": 13.07,
+        "spring-true": 9.24,
+        "spring-light": 7.96,
+        "summer-light": 2.73,
+        "summer-true": 13.23,
+        "summer-mute": 8.19,
+        "autumn-mute": 6.13,
+        "autumn-true": 3.45,
+        "autumn-deep": 6.04,
+        "winter-deep": 14.83,
+        "winter-true": 15.67,
+        "winter-bright": 14.72
+      }
+    },
+    {
+      "id": 8,
+      "brand": "엑스톤즈",
+      "name": "XTT158 레이어드 와플 헨리넥 티셔츠 (BURGUNDY)",
+      "price": 49000,
+      "product_url": "https://www.musinsa.com/products/6323270",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260416/6323270/detail_6323270_17781206156817_big.jpg?w=1200",
+      "dominant_hex": "#6C2D40",
+      "lab": [
+        27.91,
+        30.59,
+        1.74
+      ],
+      "chroma": 30.64,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "winter-true",
+        "autumn-true"
+      ],
+      "scores": {
+        "spring-bright": 15.41,
+        "spring-true": 7.92,
+        "spring-light": 20.59,
+        "summer-light": 14.45,
+        "summer-true": 15.21,
+        "summer-mute": 20.4,
+        "autumn-mute": 19.86,
+        "autumn-true": 13.85,
+        "autumn-deep": 28.76,
+        "winter-deep": 17.92,
+        "winter-true": 11.38,
+        "winter-bright": 27.11
+      }
+    },
+    {
+      "id": 9,
+      "brand": "카비시",
+      "name": "STAR NOTE SS TEE YELLOW(CV2GMUT503A)",
+      "price": 42000,
+      "product_url": "https://www.musinsa.com/products/5910877",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260119/5910877/5910877_17739184253199_big.jpg?w=1200",
+      "dominant_hex": "#EFF0CC",
+      "lab": [
+        93.77,
+        -6.09,
+        17.32
+      ],
+      "chroma": 18.36,
+      "achromatic": false,
+      "types": [
+        "spring-bright",
+        "autumn-deep",
+        "summer-mute"
+      ],
+      "scores": {
+        "spring-bright": 5.62,
+        "spring-true": 13.06,
+        "spring-light": 12.7,
+        "summer-light": 10.4,
+        "summer-true": 7.39,
+        "summer-mute": 6.46,
+        "autumn-mute": 15.03,
+        "autumn-true": 9.52,
+        "autumn-deep": 5.74,
+        "winter-deep": 8.8,
+        "winter-true": 8.53,
+        "winter-bright": 9.17
+      }
+    },
+    {
+      "id": 10,
+      "brand": "파르티멘토",
+      "name": "마이크로 서클 로고 티 머스타드",
+      "price": 37400,
+      "product_url": "https://www.musinsa.com/products/3228845",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20230412/3228845/3228845_16824290051015_big.jpg?w=1200",
+      "dominant_hex": "#C0B86E",
+      "lab": [
+        73.93,
+        -7.78,
+        38.73
+      ],
+      "chroma": 39.5,
+      "achromatic": false,
+      "types": [
+        "autumn-deep",
+        "autumn-true",
+        "summer-light"
+      ],
+      "scores": {
+        "spring-bright": 10.7,
+        "spring-true": 9.77,
+        "spring-light": 9.98,
+        "summer-light": 5.28,
+        "summer-true": 11.8,
+        "summer-mute": 10.34,
+        "autumn-mute": 11.91,
+        "autumn-true": 5.16,
+        "autumn-deep": 3.79,
+        "winter-deep": 12.76,
+        "winter-true": 13.7,
+        "winter-bright": 11.78
+      }
+    },
+    {
+      "id": 11,
+      "brand": "디스이스네버댓",
+      "name": "Overdyed Reverse Tee Faded Purple",
+      "price": 65000,
+      "product_url": "https://www.musinsa.com/products/6262629",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260406/6262629/6262629_17762314287642_big.jpg?w=1200",
+      "dominant_hex": "#7B717E",
+      "lab": [
+        48.88,
+        6.68,
+        -5.72
+      ],
+      "chroma": 8.8,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "summer-true",
+        "summer-light"
+      ],
+      "scores": {
+        "spring-bright": 21.73,
+        "spring-true": 4.79,
+        "spring-light": 22.3,
+        "summer-light": 6.26,
+        "summer-true": 5.9,
+        "summer-mute": 7.37,
+        "autumn-mute": 11.2,
+        "autumn-true": 7.49,
+        "autumn-deep": 15.83,
+        "winter-deep": 19.35,
+        "winter-true": 18.33,
+        "winter-bright": 16.35
+      }
+    },
+    {
+      "id": 12,
+      "brand": "디스이스네버댓",
+      "name": "Overdyed Reverse Tee Pink",
+      "price": 65000,
+      "product_url": "https://www.musinsa.com/products/6262627",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260406/6262627/6262627_17762315461615_big.jpg?w=1200",
+      "dominant_hex": "#C69EA6",
+      "lab": [
+        68.79,
+        16.17,
+        1.3
+      ],
+      "chroma": 16.22,
+      "achromatic": false,
+      "types": [
+        "autumn-deep",
+        "summer-mute",
+        "spring-light"
+      ],
+      "scores": {
+        "spring-bright": 9.9,
+        "spring-true": 18.42,
+        "spring-light": 7.44,
+        "summer-light": 14.85,
+        "summer-true": 7.53,
+        "summer-mute": 5.35,
+        "autumn-mute": 14.19,
+        "autumn-true": 11.0,
+        "autumn-deep": 4.22,
+        "winter-deep": 16.97,
+        "winter-true": 12.55,
+        "winter-bright": 16.83
+      }
+    },
+    {
+      "id": 13,
+      "brand": "디스이스네버댓",
+      "name": "Overdyed Reverse Tee Faded Purple",
+      "price": 65000,
+      "product_url": "https://www.musinsa.com/products/6262630",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260406/6262630/6262630_17762314237913_big.jpg?w=1200",
+      "dominant_hex": "#7E7363",
+      "lab": [
+        48.91,
+        1.48,
+        10.39
+      ],
+      "chroma": 10.5,
+      "achromatic": false,
+      "types": [
+        "summer-mute",
+        "spring-true",
+        "summer-true"
+      ],
+      "scores": {
+        "spring-bright": 22.78,
+        "spring-true": 11.23,
+        "spring-light": 19.45,
+        "summer-light": 16.75,
+        "summer-true": 11.5,
+        "summer-mute": 9.46,
+        "autumn-mute": 13.59,
+        "autumn-true": 11.6,
+        "autumn-deep": 11.97,
+        "winter-deep": 25.09,
+        "winter-true": 21.82,
+        "winter-bright": 20.89
+      }
+    },
+    {
+      "id": 14,
+      "brand": "디스이스네버댓",
+      "name": "Sprayed FR-Logo Tee Pale Mint",
+      "price": 55000,
+      "product_url": "https://www.musinsa.com/products/3920641",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20240304/3920641/3920641_17102248088759_big.jpg?w=1200",
+      "dominant_hex": "#B6D4B6",
+      "lab": [
+        82.05,
+        -15.87,
+        11.63
+      ],
+      "chroma": 19.68,
+      "achromatic": false,
+      "types": [
+        "summer-mute",
+        "summer-light",
+        "autumn-deep"
+      ],
+      "scores": {
+        "spring-bright": 11.03,
+        "spring-true": 11.21,
+        "spring-light": 12.48,
+        "summer-light": 7.28,
+        "summer-true": 11.44,
+        "summer-mute": 4.77,
+        "autumn-mute": 8.87,
+        "autumn-true": 14.27,
+        "autumn-deep": 8.73,
+        "winter-deep": 12.36,
+        "winter-true": 9.55,
+        "winter-bright": 13.33
+      }
+    },
+    {
+      "id": 15,
+      "brand": "엘엠씨",
+      "name": "FN DOODLE TEE purple",
+      "price": 59000,
+      "product_url": "https://www.musinsa.com/products/6234937",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260401/6234937/detail_6234937_17750343483743_big.jpg?w=1200",
+      "dominant_hex": "#51455D",
+      "lab": [
+        31.37,
+        10.49,
+        -12.14
+      ],
+      "chroma": 16.05,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "summer-light",
+        "summer-mute"
+      ],
+      "scores": {
+        "spring-bright": 21.46,
+        "spring-true": 12.24,
+        "spring-light": 27.09,
+        "summer-light": 6.6,
+        "summer-true": 11.05,
+        "summer-mute": 8.07,
+        "autumn-mute": 9.45,
+        "autumn-true": 5.24,
+        "autumn-deep": 22.95,
+        "winter-deep": 12.98,
+        "winter-true": 11.06,
+        "winter-bright": 19.45
+      }
+    },
+    {
+      "id": 16,
+      "brand": "엘엠씨",
+      "name": "FN DOODLE TEE brown",
+      "price": 50450,
+      "product_url": "https://www.musinsa.com/products/6234936",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260401/6234936/detail_6234936_17750342421868_big.jpg?w=1200",
+      "dominant_hex": "#65564A",
+      "lab": [
+        37.62,
+        4.48,
+        9.13
+      ],
+      "chroma": 10.17,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "autumn-mute",
+        "summer-mute"
+      ],
+      "scores": {
+        "spring-bright": 26.05,
+        "spring-true": 13.08,
+        "spring-light": 27.89,
+        "summer-light": 16.31,
+        "summer-true": 11.36,
+        "summer-mute": 11.21,
+        "autumn-mute": 11.09,
+        "autumn-true": 6.66,
+        "autumn-deep": 13.05,
+        "winter-deep": 21.84,
+        "winter-true": 18.38,
+        "winter-bright": 28.58
+      }
+    },
+    {
+      "id": 17,
+      "brand": "엘엠씨",
+      "name": "FN DOODLE HOODIE indi pink",
+      "price": 99000,
+      "product_url": "https://www.musinsa.com/products/5251552",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20250716/5251552/detail_5251552_17550521025343_big.jpg?w=1200",
+      "dominant_hex": "#A05F7B",
+      "lab": [
+        48.25,
+        30.55,
+        -4.58
+      ],
+      "chroma": 30.89,
+      "achromatic": false,
+      "types": [
+        "winter-deep",
+        "winter-true",
+        "summer-true"
+      ],
+      "scores": {
+        "spring-bright": 10.78,
+        "spring-true": 18.25,
+        "spring-light": 11.35,
+        "summer-light": 11.85,
+        "summer-true": 8.81,
+        "summer-mute": 19.18,
+        "autumn-mute": 20.5,
+        "autumn-true": 17.23,
+        "autumn-deep": 20.25,
+        "winter-deep": 6.26,
+        "winter-true": 8.32,
+        "winter-bright": 26.43
+      }
+    },
+    {
+      "id": 18,
+      "brand": "엘엠씨",
+      "name": "SIGNATURE COMBO TEE red",
+      "price": 49000,
+      "product_url": "https://www.musinsa.com/products/6043415",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260223/6043415/detail_6043415_17726105299710_big.jpg?w=1200",
+      "dominant_hex": "#B24153",
+      "lab": [
+        43.97,
+        47.23,
+        14.16
+      ],
+      "chroma": 49.3,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "spring-bright",
+        "spring-light"
+      ],
+      "scores": {
+        "spring-bright": 7.96,
+        "spring-true": 15.22,
+        "spring-light": 10.62,
+        "summer-light": 20.65,
+        "summer-true": 16.53,
+        "summer-mute": 24.42,
+        "autumn-mute": 23.82,
+        "autumn-true": 5.52,
+        "autumn-deep": 24.76,
+        "winter-deep": 11.23,
+        "winter-true": 15.36,
+        "winter-bright": 33.42
+      }
+    },
+    {
+      "id": 19,
+      "brand": "엘엠씨",
+      "name": "FLYING PUPPY TEE gray blue",
+      "price": 54000,
+      "product_url": "https://www.musinsa.com/products/6234968",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260401/6234968/detail_6234968_17750349417308_big.jpg?w=1200",
+      "dominant_hex": "#7193B1",
+      "lab": [
+        59.5,
+        -4.26,
+        -19.46
+      ],
+      "chroma": 19.92,
+      "achromatic": false,
+      "types": [
+        "winter-deep",
+        "summer-light",
+        "spring-bright"
+      ],
+      "scores": {
+        "spring-bright": 8.1,
+        "spring-true": 20.31,
+        "spring-light": 12.36,
+        "summer-light": 6.6,
+        "summer-true": 16.09,
+        "summer-mute": 10.92,
+        "autumn-mute": 15.94,
+        "autumn-true": 18.49,
+        "autumn-deep": 13.17,
+        "winter-deep": 6.6,
+        "winter-true": 11.87,
+        "winter-bright": 11.07
+      }
+    },
+    {
+      "id": 20,
+      "brand": "더콜디스트모먼트",
+      "name": "TCM apo T (purple)",
+      "price": 45000,
+      "product_url": "https://www.musinsa.com/products/6120868",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260312/6120868/6120868_17756153604516_big.jpg?w=1200",
+      "dominant_hex": "#62506C",
+      "lab": [
+        36.82,
+        13.16,
+        -13.14
+      ],
+      "chroma": 18.6,
+      "achromatic": false,
+      "types": [
+        "summer-light",
+        "autumn-true",
+        "winter-true"
+      ],
+      "scores": {
+        "spring-bright": 21.11,
+        "spring-true": 14.81,
+        "spring-light": 23.86,
+        "summer-light": 3.34,
+        "summer-true": 15.04,
+        "summer-mute": 11.27,
+        "autumn-mute": 9.93,
+        "autumn-true": 8.85,
+        "autumn-deep": 25.05,
+        "winter-deep": 17.83,
+        "winter-true": 9.06,
+        "winter-bright": 21.05
+      }
+    },
+    {
+      "id": 21,
+      "brand": "더콜디스트모먼트",
+      "name": "TCM apo T (ash green)",
+      "price": 45000,
+      "product_url": "https://www.musinsa.com/products/6120812",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260312/6120812/6120812_17756152303861_big.jpg?w=1200",
+      "dominant_hex": "#72A28C",
+      "lab": [
+        62.79,
+        -21.04,
+        6.21
+      ],
+      "chroma": 21.94,
+      "achromatic": false,
+      "types": [
+        "winter-deep",
+        "summer-light",
+        "summer-true"
+      ],
+      "scores": {
+        "spring-bright": 14.87,
+        "spring-true": 12.56,
+        "spring-light": 13.39,
+        "summer-light": 5.8,
+        "summer-true": 8.46,
+        "summer-mute": 11.43,
+        "autumn-mute": 10.24,
+        "autumn-true": 14.71,
+        "autumn-deep": 8.76,
+        "winter-deep": 4.67,
+        "winter-true": 10.06,
+        "winter-bright": 14.86
+      }
+    },
+    {
+      "id": 22,
+      "brand": "더콜디스트모먼트",
+      "name": "(w) TCM henley neck three-quarter sleeve (teal)",
+      "price": 49000,
+      "product_url": "https://www.musinsa.com/products/5968157",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260202/5968157/5968157_17702481530457_big.jpg?w=1200",
+      "dominant_hex": "#016571",
+      "lab": [
+        38.79,
+        -20.05,
+        -13.94
+      ],
+      "chroma": 24.42,
+      "achromatic": false,
+      "types": [
+        "autumn-mute",
+        "autumn-deep",
+        "winter-bright"
+      ],
+      "scores": {
+        "spring-bright": 20.18,
+        "spring-true": 28.83,
+        "spring-light": 23.8,
+        "summer-light": 11.69,
+        "summer-true": 17.37,
+        "summer-mute": 14.4,
+        "autumn-mute": 10.19,
+        "autumn-true": 21.05,
+        "autumn-deep": 10.74,
+        "winter-deep": 13.65,
+        "winter-true": 18.99,
+        "winter-bright": 11.66
+      }
+    },
+    {
+      "id": 23,
+      "brand": "더콜디스트모먼트",
+      "name": "(w) TCM henley neck three-quarter sleeve (olive)",
+      "price": 49000,
+      "product_url": "https://www.musinsa.com/products/5968154",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260202/5968154/5968154_17702481991140_big.jpg?w=1200",
+      "dominant_hex": "#8F934B",
+      "lab": [
+        59.22,
+        -12.17,
+        37.63
+      ],
+      "chroma": 39.55,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "autumn-deep",
+        "autumn-true"
+      ],
+      "scores": {
+        "spring-bright": 14.64,
+        "spring-true": 4.43,
+        "spring-light": 11.57,
+        "summer-light": 16.99,
+        "summer-true": 17.91,
+        "summer-mute": 21.22,
+        "autumn-mute": 14.51,
+        "autumn-true": 6.74,
+        "autumn-deep": 4.9,
+        "winter-deep": 21.32,
+        "winter-true": 16.05,
+        "winter-bright": 17.93
+      }
+    },
+    {
+      "id": 24,
+      "brand": "더콜디스트모먼트",
+      "name": "TCM starfish label T (dark navy)",
+      "price": 39000,
+      "product_url": "https://www.musinsa.com/products/6120519",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260312/6120519/6120519_17756142681803_big.jpg?w=1200",
+      "dominant_hex": "#1D375F",
+      "lab": [
+        23.12,
+        4.46,
+        -26.73
+      ],
+      "chroma": 27.1,
+      "achromatic": false,
+      "types": [
+        "winter-deep",
+        "summer-light",
+        "winter-bright"
+      ],
+      "scores": {
+        "spring-bright": 12.77,
+        "spring-true": 16.55,
+        "spring-light": 39.17,
+        "summer-light": 6.05,
+        "summer-true": 9.47,
+        "summer-mute": 11.08,
+        "autumn-mute": 13.49,
+        "autumn-true": 16.89,
+        "autumn-deep": 19.27,
+        "winter-deep": 5.51,
+        "winter-true": 9.57,
+        "winter-bright": 8.22
+      }
+    },
+    {
+      "id": 25,
+      "brand": "썬러브",
+      "name": "Arc Text Tee Rose",
+      "price": 69000,
+      "product_url": "https://www.musinsa.com/products/6179664",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260323/6179664/6179664_17742688269454_big.jpg?w=1200",
+      "dominant_hex": "#945663",
+      "lab": [
+        43.87,
+        27.39,
+        3.36
+      ],
+      "chroma": 27.6,
+      "achromatic": false,
+      "types": [
+        "winter-deep",
+        "spring-bright",
+        "winter-true"
+      ],
+      "scores": {
+        "spring-bright": 10.82,
+        "spring-true": 13.27,
+        "spring-light": 13.51,
+        "summer-light": 14.29,
+        "summer-true": 13.43,
+        "summer-mute": 20.13,
+        "autumn-mute": 18.49,
+        "autumn-true": 13.66,
+        "autumn-deep": 22.68,
+        "winter-deep": 9.74,
+        "winter-true": 12.45,
+        "winter-bright": 29.56
+      }
+    },
+    {
+      "id": 26,
+      "brand": "디스이스네버댓",
+      "name": "That Collage Tee Purple Blue",
+      "price": 52000,
+      "product_url": "https://www.musinsa.com/products/4037025",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20240408/4037025/4037025_17127992043965_big.jpg?w=1200",
+      "dominant_hex": "#57598B",
+      "lab": [
+        39.71,
+        11.95,
+        -28.05
+      ],
+      "chroma": 30.49,
+      "achromatic": false,
+      "types": [
+        "summer-light",
+        "summer-mute",
+        "winter-true"
+      ],
+      "scores": {
+        "spring-bright": 12.13,
+        "spring-true": 17.84,
+        "spring-light": 29.67,
+        "summer-light": 9.64,
+        "summer-true": 19.74,
+        "summer-mute": 9.65,
+        "autumn-mute": 14.21,
+        "autumn-true": 15.49,
+        "autumn-deep": 22.4,
+        "winter-deep": 11.72,
+        "winter-true": 11.58,
+        "winter-bright": 15.72
+      }
+    },
+    {
+      "id": 27,
+      "brand": "에이이에이이",
+      "name": "WEB LOGO T-SHIRTS [DEEP RED]",
+      "price": 52000,
+      "product_url": "https://www.musinsa.com/products/6227365",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260331/6227365/6227365_17752033632932_big.jpg?w=1200",
+      "dominant_hex": "#82222F",
+      "lab": [
+        29.6,
+        41.37,
+        16.22
+      ],
+      "chroma": 44.44,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "autumn-true",
+        "spring-bright"
+      ],
+      "scores": {
+        "spring-bright": 15.18,
+        "spring-true": 7.45,
+        "spring-light": 20.23,
+        "summer-light": 21.1,
+        "summer-true": 19.96,
+        "summer-mute": 24.62,
+        "autumn-mute": 23.28,
+        "autumn-true": 13.97,
+        "autumn-deep": 25.74,
+        "winter-deep": 19.71,
+        "winter-true": 18.65,
+        "winter-bright": 33.48
+      }
+    },
+    {
+      "id": 28,
+      "brand": "에이이에이이",
+      "name": "WEB LOGO T-SHIRTS [GREY/PINK]",
+      "price": 52000,
+      "product_url": "https://www.musinsa.com/products/6227338",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260331/6227338/6227338_17752033208412_big.jpg?w=1200",
+      "dominant_hex": "#B3B2AE",
+      "lab": [
+        72.59,
+        -0.53,
+        2.31
+      ],
+      "chroma": 2.37,
+      "achromatic": true,
+      "types": [
+        "summer-mute",
+        "autumn-mute",
+        "winter-true"
+      ],
+      "scores": null
+    },
+    {
+      "id": 29,
+      "brand": "뉴에라",
+      "name": "MLB 뉴욕 양키스 스크립트 티셔츠 삼바 14679812",
+      "price": 59000,
+      "product_url": "https://www.musinsa.com/products/4853331",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250304/4853331/4853331_17410703508839_big.jpg?w=1200",
+      "dominant_hex": "#970329",
+      "lab": [
+        31.35,
+        54.76,
+        23.26
+      ],
+      "chroma": 59.5,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "spring-true",
+        "spring-bright"
+      ],
+      "scores": {
+        "spring-bright": 14.83,
+        "spring-true": 11.64,
+        "spring-light": 19.36,
+        "summer-light": 25.01,
+        "summer-true": 21.43,
+        "summer-mute": 27.5,
+        "autumn-mute": 25.72,
+        "autumn-true": 11.53,
+        "autumn-deep": 27.32,
+        "winter-deep": 20.24,
+        "winter-true": 21.54,
+        "winter-bright": 36.26
+      }
+    },
+    {
+      "id": 30,
+      "brand": "탄산마그네슘",
+      "name": "혼 아플리케 티셔츠 (민트멜란지)",
+      "price": 67000,
+      "product_url": "https://www.musinsa.com/products/6394110",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260428/6394110/detail_6394110_17782243696579_big.jpg?w=1200",
+      "dominant_hex": "#C2CFC1",
+      "lab": [
+        81.72,
+        -6.87,
+        5.52
+      ],
+      "chroma": 8.82,
+      "achromatic": false,
+      "types": [
+        "summer-mute",
+        "autumn-mute",
+        "spring-light"
+      ],
+      "scores": {
+        "spring-bright": 9.45,
+        "spring-true": 7.08,
+        "spring-light": 5.97,
+        "summer-light": 6.29,
+        "summer-true": 12.17,
+        "summer-mute": 4.33,
+        "autumn-mute": 5.75,
+        "autumn-true": 11.37,
+        "autumn-deep": 10.49,
+        "winter-deep": 12.45,
+        "winter-true": 11.97,
+        "winter-bright": 11.11
+      }
+    },
+    {
+      "id": 31,
+      "brand": "탄산마그네슘",
+      "name": "링거 티셔츠 (블루)",
+      "price": 69000,
+      "product_url": "https://www.musinsa.com/products/5163333",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250602/5163333/5163333_17732991192436_big.jpg?w=1200",
+      "dominant_hex": "#5E7394",
+      "lab": [
+        48.0,
+        0.8,
+        -20.28
+      ],
+      "chroma": 20.3,
+      "achromatic": false,
+      "types": [
+        "winter-deep",
+        "summer-mute",
+        "winter-bright"
+      ],
+      "scores": {
+        "spring-bright": 10.14,
+        "spring-true": 13.97,
+        "spring-light": 24.14,
+        "summer-light": 10.47,
+        "summer-true": 13.3,
+        "summer-mute": 9.17,
+        "autumn-mute": 14.19,
+        "autumn-true": 10.89,
+        "autumn-deep": 18.97,
+        "winter-deep": 8.58,
+        "winter-true": 15.35,
+        "winter-bright": 9.52
+      }
+    },
+    {
+      "id": 32,
+      "brand": "탄산마그네슘",
+      "name": "드라이어 프리 티셔츠 (화이트)",
+      "price": 57800,
+      "product_url": "https://www.musinsa.com/products/6392200",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260428/6392200/6392200_17773598931985_big.jpg?w=1200",
+      "dominant_hex": "#D2D7E1",
+      "lab": [
+        85.86,
+        0.32,
+        -5.38
+      ],
+      "chroma": 5.39,
+      "achromatic": false,
+      "types": [
+        "winter-true",
+        "winter-deep",
+        "autumn-mute"
+      ],
+      "scores": {
+        "spring-bright": 12.28,
+        "spring-true": 13.59,
+        "spring-light": 11.06,
+        "summer-light": 6.88,
+        "summer-true": 4.0,
+        "summer-mute": 5.68,
+        "autumn-mute": 3.62,
+        "autumn-true": 8.27,
+        "autumn-deep": 7.11,
+        "winter-deep": 1.79,
+        "winter-true": 1.65,
+        "winter-bright": 4.46
+      }
+    },
+    {
+      "id": 33,
+      "brand": "예스아이씨",
+      "name": "Y.E.S Sign Logo Hoodie Cobalt Blue",
+      "price": 94000,
+      "product_url": "https://www.musinsa.com/products/4833656",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250225/4833656/4833656_17410560940840_big.jpg?w=1200",
+      "dominant_hex": "#354B76",
+      "lab": [
+        31.89,
+        5.36,
+        -27.5
+      ],
+      "chroma": 28.01,
+      "achromatic": false,
+      "types": [
+        "winter-deep",
+        "summer-mute",
+        "winter-true"
+      ],
+      "scores": {
+        "spring-bright": 9.49,
+        "spring-true": 18.12,
+        "spring-light": 36.52,
+        "summer-light": 7.68,
+        "summer-true": 13.43,
+        "summer-mute": 6.52,
+        "autumn-mute": 10.82,
+        "autumn-true": 16.57,
+        "autumn-deep": 18.79,
+        "winter-deep": 5.62,
+        "winter-true": 7.67,
+        "winter-bright": 10.46
+      }
+    },
+    {
+      "id": 34,
+      "brand": "예스아이씨",
+      "name": "C-logo Twinkle Tee Light Green",
+      "price": 55000,
+      "product_url": "https://www.musinsa.com/products/6244649",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260402/6244649/6244649_17754615471153_big.jpg?w=1200",
+      "dominant_hex": "#8DC180",
+      "lab": [
+        73.09,
+        -29.5,
+        27.26
+      ],
+      "chroma": 40.16,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "spring-light",
+        "winter-bright"
+      ],
+      "scores": {
+        "spring-bright": 9.4,
+        "spring-true": 2.38,
+        "spring-light": 6.57,
+        "summer-light": 15.86,
+        "summer-true": 16.09,
+        "summer-mute": 13.48,
+        "autumn-mute": 14.74,
+        "autumn-true": 11.36,
+        "autumn-deep": 13.9,
+        "winter-deep": 13.96,
+        "winter-true": 9.61,
+        "winter-bright": 6.87
+      }
+    },
+    {
+      "id": 35,
+      "brand": "예스아이씨",
+      "name": "Racing Tee Sky Blue",
+      "price": 45000,
+      "product_url": "https://www.musinsa.com/products/4888356",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250312/4888356/4888356_17421763793538_big.jpg?w=1200",
+      "dominant_hex": "#3B9CD6",
+      "lab": [
+        61.25,
+        -8.94,
+        -37.99
+      ],
+      "chroma": 39.03,
+      "achromatic": false,
+      "types": [
+        "summer-light",
+        "winter-deep",
+        "winter-bright"
+      ],
+      "scores": {
+        "spring-bright": 12.7,
+        "spring-true": 29.77,
+        "spring-light": 12.2,
+        "summer-light": 7.99,
+        "summer-true": 23.65,
+        "summer-mute": 16.63,
+        "autumn-mute": 20.07,
+        "autumn-true": 24.43,
+        "autumn-deep": 19.37,
+        "winter-deep": 8.1,
+        "winter-true": 19.37,
+        "winter-bright": 8.24
+      }
+    },
+    {
+      "id": 36,
+      "brand": "디키즈",
+      "name": "페어론 티셔츠 Egret",
+      "price": 45000,
+      "product_url": "https://www.musinsa.com/products/6143188",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260317/6143188/6143188_17773504480059_big.jpg?w=1200",
+      "dominant_hex": "#C9C5C3",
+      "lab": [
+        79.76,
+        1.3,
+        1.26
+      ],
+      "chroma": 1.81,
+      "achromatic": true,
+      "types": [
+        "spring-light",
+        "summer-light",
+        "summer-true"
+      ],
+      "scores": null
+    },
+    {
+      "id": 37,
+      "brand": "디키즈",
+      "name": "모노 로고 링거 티셔츠 Gray",
+      "price": 59000,
+      "product_url": "https://www.musinsa.com/products/6143240",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260317/6143240/6143240_17756077511406_big.jpg?w=1200",
+      "dominant_hex": "#BDBDBD",
+      "lab": [
+        76.44,
+        0.03,
+        -0.07
+      ],
+      "chroma": 0.07,
+      "achromatic": true,
+      "types": [
+        "spring-light",
+        "summer-light",
+        "summer-true"
+      ],
+      "scores": null
+    },
+    {
+      "id": 38,
+      "brand": "나이스고스트클럽",
+      "name": "NON STANDARD LOGO TEE_YELLOW(NG2GMUT519A)",
+      "price": 49000,
+      "product_url": "https://www.musinsa.com/products/6089998",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260306/6089998/detail_6089998_17739892528165_big.jpg?w=1200",
+      "dominant_hex": "#F7D18E",
+      "lab": [
+        85.66,
+        4.58,
+        38.25
+      ],
+      "chroma": 38.52,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "spring-light",
+        "autumn-true"
+      ],
+      "scores": {
+        "spring-bright": 8.82,
+        "spring-true": 2.42,
+        "spring-light": 6.73,
+        "summer-light": 9.95,
+        "summer-true": 11.9,
+        "summer-mute": 9.43,
+        "autumn-mute": 9.67,
+        "autumn-true": 7.78,
+        "autumn-deep": 10.53,
+        "winter-deep": 11.97,
+        "winter-true": 13.66,
+        "winter-bright": 9.54
+      }
+    },
+    {
+      "id": 39,
+      "brand": "나이스고스트클럽",
+      "name": "100% MANIAC ACADEMY HOODIE_PINK(NG2EFUM419A)",
+      "price": 89000,
+      "product_url": "https://www.musinsa.com/products/4368894",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20240826/4368894/4368894_17248292972049_big.jpg?w=1200",
+      "dominant_hex": "#B0275E",
+      "lab": [
+        40.33,
+        57.64,
+        2.21
+      ],
+      "chroma": 57.68,
+      "achromatic": false,
+      "types": [
+        "spring-bright",
+        "spring-light",
+        "winter-deep"
+      ],
+      "scores": {
+        "spring-bright": 2.25,
+        "spring-true": 16.91,
+        "spring-light": 7.65,
+        "summer-light": 20.88,
+        "summer-true": 10.44,
+        "summer-mute": 25.64,
+        "autumn-mute": 23.82,
+        "autumn-true": 12.28,
+        "autumn-deep": 29.89,
+        "winter-deep": 8.2,
+        "winter-true": 10.61,
+        "winter-bright": 32.88
+      }
+    },
+    {
+      "id": 40,
+      "brand": "아디다스",
+      "name": "3S 티 - 블루 / JD2880",
+      "price": 45000,
+      "product_url": "https://www.musinsa.com/products/5042951",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20250418/5042951/detail_5042951_17471129298764_big.jpg?w=1200",
+      "dominant_hex": "#2833A2",
+      "lab": [
+        27.9,
+        35.07,
+        -60.95
+      ],
+      "chroma": 70.32,
+      "achromatic": false,
+      "types": [
+        "winter-bright",
+        "spring-bright",
+        "winter-deep"
+      ],
+      "scores": {
+        "spring-bright": 6.6,
+        "spring-true": 26.7,
+        "spring-light": 34.14,
+        "summer-light": 10.69,
+        "summer-true": 12.34,
+        "summer-mute": 12.48,
+        "autumn-mute": 11.99,
+        "autumn-true": 23.74,
+        "autumn-deep": 23.35,
+        "winter-deep": 6.85,
+        "winter-true": 14.78,
+        "winter-bright": 4.48
+      }
+    },
+    {
+      "id": 41,
+      "brand": "디스이스네버댓",
+      "name": "DSN-Logo Tee Pink",
+      "price": 45000,
+      "product_url": "https://www.musinsa.com/products/3861727",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20240213/3861727/detail_3861727_17078785628222_big.jpg?w=1200",
+      "dominant_hex": "#F09EB5",
+      "lab": [
+        73.68,
+        33.46,
+        0.56
+      ],
+      "chroma": 33.47,
+      "achromatic": false,
+      "types": [
+        "summer-mute",
+        "spring-light",
+        "summer-true"
+      ],
+      "scores": {
+        "spring-bright": 10.61,
+        "spring-true": 22.82,
+        "spring-light": 6.85,
+        "summer-light": 21.45,
+        "summer-true": 9.23,
+        "summer-mute": 5.72,
+        "autumn-mute": 21.87,
+        "autumn-true": 12.51,
+        "autumn-deep": 9.52,
+        "winter-deep": 16.58,
+        "winter-true": 12.06,
+        "winter-bright": 20.3
+      }
+    },
+    {
+      "id": 42,
+      "brand": "브라운브레스",
+      "name": "PYTHONE TAG LONGSLLEVE - ORANGE",
+      "price": 59000,
+      "product_url": "https://www.musinsa.com/products/4716461",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20250113/4716461/detail_4716461_17370951095344_big.jpg?w=1200",
+      "dominant_hex": "#EC7141",
+      "lab": [
+        61.68,
+        44.27,
+        48.03
+      ],
+      "chroma": 65.32,
+      "achromatic": false,
+      "types": [
+        "spring-bright",
+        "autumn-true",
+        "spring-true"
+      ],
+      "scores": {
+        "spring-bright": 7.28,
+        "spring-true": 14.81,
+        "spring-light": 18.32,
+        "summer-light": 28.82,
+        "summer-true": 29.4,
+        "summer-mute": 26.32,
+        "autumn-mute": 21.59,
+        "autumn-true": 10.19,
+        "autumn-deep": 18.81,
+        "winter-deep": 28.12,
+        "winter-true": 31.31,
+        "winter-bright": 25.43
+      }
+    },
+    {
+      "id": 43,
+      "brand": "오끼뜨",
+      "name": "슬림핏 티셔츠 와인",
+      "price": 35000,
+      "product_url": "https://www.musinsa.com/products/6115993",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260311/6115993/6115993_17744176160948_big.jpg?w=1200",
+      "dominant_hex": "#631735",
+      "lab": [
+        21.99,
+        36.14,
+        0.55
+      ],
+      "chroma": 36.15,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "winter-true",
+        "summer-light"
+      ],
+      "scores": {
+        "spring-bright": 18.03,
+        "spring-true": 10.45,
+        "spring-light": 23.26,
+        "summer-light": 13.93,
+        "summer-true": 17.38,
+        "summer-mute": 22.42,
+        "autumn-mute": 23.0,
+        "autumn-true": 15.97,
+        "autumn-deep": 31.12,
+        "winter-deep": 21.18,
+        "winter-true": 13.83,
+        "winter-bright": 26.99
+      }
+    },
+    {
+      "id": 44,
+      "brand": "아디다스",
+      "name": "오버사이즈 크루 스웨트셔츠 - 그린 / KA0467",
+      "price": 79000,
+      "product_url": "https://www.musinsa.com/products/5391597",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250902/5391597/5391597_17629924622740_big.jpg?w=1200",
+      "dominant_hex": "#053F3C",
+      "lab": [
+        23.33,
+        -17.98,
+        -3.16
+      ],
+      "chroma": 18.25,
+      "achromatic": false,
+      "types": [
+        "autumn-deep",
+        "summer-light",
+        "winter-deep"
+      ],
+      "scores": {
+        "spring-bright": 15.28,
+        "spring-true": 23.57,
+        "spring-light": 21.2,
+        "summer-light": 5.19,
+        "summer-true": 15.19,
+        "summer-mute": 11.86,
+        "autumn-mute": 9.8,
+        "autumn-true": 21.27,
+        "autumn-deep": 4.28,
+        "winter-deep": 6.32,
+        "winter-true": 19.81,
+        "winter-bright": 10.25
+      }
+    },
+    {
+      "id": 45,
+      "brand": "브라운브레스",
+      "name": "TAG PIGMENT TEE - KHAKI",
+      "price": 49000,
+      "product_url": "https://www.musinsa.com/products/6137621",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20260316/6137621/detail_6137621_17737943976151_big.jpg?w=1200",
+      "dominant_hex": "#464935",
+      "lab": [
+        30.31,
+        -5.62,
+        12.03
+      ],
+      "chroma": 13.28,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "autumn-deep",
+        "winter-deep"
+      ],
+      "scores": {
+        "spring-bright": 13.76,
+        "spring-true": 16.54,
+        "spring-light": 18.46,
+        "summer-light": 13.68,
+        "summer-true": 12.14,
+        "summer-mute": 16.14,
+        "autumn-mute": 12.36,
+        "autumn-true": 8.64,
+        "autumn-deep": 9.5,
+        "winter-deep": 11.21,
+        "winter-true": 21.75,
+        "winter-bright": 18.49
+      }
+    },
+    {
+      "id": 46,
+      "brand": "와이케이",
+      "name": "YK 스타 아플리케 체크 반팔 셔츠 핑크베이지",
+      "price": 99000,
+      "product_url": "https://www.musinsa.com/products/5118216",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250515/5118216/5118216_17477323306870_big.jpg?w=1200",
+      "dominant_hex": "#BF9A82",
+      "lab": [
+        66.24,
+        10.18,
+        17.89
+      ],
+      "chroma": 20.58,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "autumn-mute",
+        "autumn-true"
+      ],
+      "scores": {
+        "spring-bright": 17.11,
+        "spring-true": 5.24,
+        "spring-light": 12.28,
+        "summer-light": 15.79,
+        "summer-true": 17.28,
+        "summer-mute": 15.0,
+        "autumn-mute": 7.33,
+        "autumn-true": 9.23,
+        "autumn-deep": 9.44,
+        "winter-deep": 21.16,
+        "winter-true": 19.76,
+        "winter-bright": 17.02
+      }
+    },
+    {
+      "id": 47,
+      "brand": "마뗑킴",
+      "name": "LETTERING GRAFFITI CREASE TOP IN BEIGE",
+      "price": 58000,
+      "product_url": "https://www.musinsa.com/products/6321575",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260416/6321575/6321575_17763268659119_big.jpg?w=1200",
+      "dominant_hex": "#D1CABB",
+      "lab": [
+        81.47,
+        0.09,
+        8.19
+      ],
+      "chroma": 8.19,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "spring-light",
+        "autumn-mute"
+      ],
+      "scores": {
+        "spring-bright": 14.48,
+        "spring-true": 7.6,
+        "spring-light": 4.29,
+        "summer-light": 6.36,
+        "summer-true": 10.76,
+        "summer-mute": 5.68,
+        "autumn-mute": 4.75,
+        "autumn-true": 3.04,
+        "autumn-deep": 6.0,
+        "winter-deep": 11.36,
+        "winter-true": 11.64,
+        "winter-bright": 11.35
+      }
+    },
+    {
+      "id": 48,
+      "brand": "아디다스",
+      "name": "와플 반팔 폴로 셔츠 - 다크브라운 / KB5462",
+      "price": 59000,
+      "product_url": "https://www.musinsa.com/products/5169463",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250605/5169463/5169463_17498072807733_big.jpg?w=1200",
+      "dominant_hex": "#3A2720",
+      "lab": [
+        17.75,
+        7.42,
+        8.2
+      ],
+      "chroma": 11.06,
+      "achromatic": false,
+      "types": [
+        "spring-true",
+        "summer-true",
+        "autumn-true"
+      ],
+      "scores": {
+        "spring-bright": 30.26,
+        "spring-true": 9.49,
+        "spring-light": 34.84,
+        "summer-light": 13.02,
+        "summer-true": 10.84,
+        "summer-mute": 16.24,
+        "autumn-mute": 16.63,
+        "autumn-true": 12.17,
+        "autumn-deep": 13.25,
+        "winter-deep": 15.0,
+        "winter-true": 20.38,
+        "winter-bright": 26.09
+      }
+    },
+    {
+      "id": 49,
+      "brand": "에잇세컨즈",
+      "name": "매직 슬림 티셔츠 올리브 그린",
+      "price": 19900,
+      "product_url": "https://www.musinsa.com/products/6388975",
+      "image_url": "https://img.ssfshop.com/cmd/LB_750x/src/img.ssfshop.com/goods/8SBR/26/03/19/GM0026031924212_6_THNAIL_ORGINL_20260331180833538.jpg",
+      "dominant_hex": "#A9A23F",
+      "lab": [
+        65.34,
+        -10.02,
+        50.67
+      ],
+      "chroma": 51.65,
+      "achromatic": false,
+      "types": [
+        "autumn-deep",
+        "autumn-true",
+        "spring-true"
+      ],
+      "scores": {
+        "spring-bright": 13.13,
+        "spring-true": 10.69,
+        "spring-light": 13.82,
+        "summer-light": 11.82,
+        "summer-true": 19.13,
+        "summer-mute": 18.0,
+        "autumn-mute": 16.62,
+        "autumn-true": 10.66,
+        "autumn-deep": 7.73,
+        "winter-deep": 19.81,
+        "winter-true": 20.52,
+        "winter-bright": 13.56
+      }
+    },
+    {
+      "id": 50,
+      "brand": "썬러브",
+      "name": "Daybreak Logo Tee Blue",
+      "price": 69000,
+      "product_url": "https://www.musinsa.com/products/6179517",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260323/6179517/6179517_17742666534225_big.jpg?w=1200",
+      "dominant_hex": "#4DB6DC",
+      "lab": [
+        69.74,
+        -18.69,
+        -27.95
+      ],
+      "chroma": 33.62,
+      "achromatic": false,
+      "types": [
+        "winter-bright",
+        "spring-light",
+        "winter-deep"
+      ],
+      "scores": {
+        "spring-bright": 11.52,
+        "spring-true": 24.77,
+        "spring-light": 8.6,
+        "summer-light": 8.92,
+        "summer-true": 17.12,
+        "summer-mute": 16.62,
+        "autumn-mute": 12.32,
+        "autumn-true": 21.86,
+        "autumn-deep": 12.47,
+        "winter-deep": 8.71,
+        "winter-true": 17.29,
+        "winter-bright": 2.31
+      }
+    },
+    {
+      "id": 51,
+      "brand": "에이이에이이",
+      "name": "WEB LOGO T-SHIRTS [BLACK]",
+      "price": 52000,
+      "product_url": "https://www.musinsa.com/products/3928072",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20240306/3928072/3928072_17115320680449_big.jpg?w=1200",
+      "dominant_hex": "#18181A",
+      "lab": [
+        8.49,
+        0.44,
+        -1.43
+      ],
+      "chroma": 1.5,
+      "achromatic": true,
+      "types": [
+        "winter-deep",
+        "winter-true",
+        "autumn-deep"
+      ],
+      "scores": null
+    },
+    {
+      "id": 52,
+      "brand": "톰스벌스데이",
+      "name": "레시피 로고 하프 티셔츠 옐로우",
+      "price": 54000,
+      "product_url": "https://www.musinsa.com/products/5972811",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260203/5972811/5972811_17702586147928_big.jpg?w=1200",
+      "dominant_hex": "#FDBB33",
+      "lab": [
+        79.94,
+        12.48,
+        72.31
+      ],
+      "chroma": 73.38,
+      "achromatic": false,
+      "types": [
+        "spring-bright",
+        "spring-light",
+        "winter-bright"
+      ],
+      "scores": {
+        "spring-bright": 4.88,
+        "spring-true": 7.56,
+        "spring-light": 6.03,
+        "summer-light": 16.5,
+        "summer-true": 20.53,
+        "summer-mute": 18.84,
+        "autumn-mute": 15.97,
+        "autumn-true": 14.28,
+        "autumn-deep": 13.18,
+        "winter-deep": 20.12,
+        "winter-true": 21.9,
+        "winter-bright": 6.52
+      }
+    },
+    {
+      "id": 53,
+      "brand": "언리미트",
+      "name": "Cable Knit (U24BTNT428)",
+      "price": 78000,
+      "product_url": "https://www.musinsa.com/products/4006517",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20240329/4006517/4006517_17121356958349_big.jpg?w=1200",
+      "dominant_hex": "#CDB8A1",
+      "lab": [
+        75.9,
+        4.14,
+        14.49
+      ],
+      "chroma": 15.07,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "autumn-mute",
+        "autumn-deep"
+      ],
+      "scores": {
+        "spring-bright": 17.12,
+        "spring-true": 7.83,
+        "spring-light": 10.04,
+        "summer-light": 7.05,
+        "summer-true": 14.42,
+        "summer-mute": 10.55,
+        "autumn-mute": 4.82,
+        "autumn-true": 2.67,
+        "autumn-deep": 6.03,
+        "winter-deep": 16.93,
+        "winter-true": 16.66,
+        "winter-bright": 15.26
+      }
+    },
+    {
+      "id": 54,
+      "brand": "트래블",
+      "name": "세인트 피그먼트 반팔티 데저트 팜",
+      "price": 43000,
+      "product_url": "https://www.musinsa.com/products/4054548",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20240415/4054548/4054548_17134276089684_big.jpg?w=1200",
+      "dominant_hex": "#8D6E58",
+      "lab": [
+        48.89,
+        8.76,
+        17.1
+      ],
+      "chroma": 19.22,
+      "achromatic": false,
+      "types": [
+        "autumn-deep",
+        "spring-true",
+        "autumn-true"
+      ],
+      "scores": {
+        "spring-bright": 18.54,
+        "spring-true": 12.13,
+        "spring-light": 24.02,
+        "summer-light": 17.77,
+        "summer-true": 17.18,
+        "summer-mute": 14.52,
+        "autumn-mute": 15.23,
+        "autumn-true": 12.53,
+        "autumn-deep": 6.47,
+        "winter-deep": 26.48,
+        "winter-true": 25.29,
+        "winter-bright": 24.26
+      }
+    },
+    {
+      "id": 55,
+      "brand": "엠엠엘지",
+      "name": "[Mmlg] 19MG HF-T (LAWN GREEN)",
+      "price": 45000,
+      "product_url": "https://www.musinsa.com/products/3050656",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20230131/3050656/3050656_16778021561582_big.jpg?w=1200",
+      "dominant_hex": "#5DA650",
+      "lab": [
+        61.7,
+        -40.03,
+        37.28
+      ],
+      "chroma": 54.7,
+      "achromatic": false,
+      "types": [
+        "spring-light",
+        "winter-true",
+        "winter-bright"
+      ],
+      "scores": {
+        "spring-bright": 9.15,
+        "spring-true": 8.54,
+        "spring-light": 2.95,
+        "summer-light": 20.49,
+        "summer-true": 19.53,
+        "summer-mute": 21.4,
+        "autumn-mute": 19.4,
+        "autumn-true": 14.49,
+        "autumn-deep": 12.66,
+        "winter-deep": 17.81,
+        "winter-true": 5.55,
+        "winter-bright": 6.04
+      }
+    },
+    {
+      "id": 56,
+      "brand": "더콜디스트모먼트",
+      "name": "TCM starfish label T (sky blue)",
+      "price": 39000,
+      "product_url": "https://www.musinsa.com/products/6120557",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260312/6120557/6120557_17756143264045_big.jpg?w=1200",
+      "dominant_hex": "#AFC7DC",
+      "lab": [
+        79.19,
+        -3.73,
+        -12.97
+      ],
+      "chroma": 13.49,
+      "achromatic": false,
+      "types": [
+        "spring-light",
+        "winter-deep",
+        "spring-bright"
+      ],
+      "scores": {
+        "spring-bright": 5.8,
+        "spring-true": 16.79,
+        "spring-light": 3.42,
+        "summer-light": 8.15,
+        "summer-true": 11.27,
+        "summer-mute": 12.72,
+        "autumn-mute": 11.35,
+        "autumn-true": 13.7,
+        "autumn-deep": 10.29,
+        "winter-deep": 4.55,
+        "winter-true": 7.98,
+        "winter-bright": 7.29
+      }
+    },
+    {
+      "id": 57,
+      "brand": "마하그리드",
+      "name": "UNIVERSITY PIGMENT TEE CHARCOAL(MG2CMMT531A)",
+      "price": 49000,
+      "product_url": "https://www.musinsa.com/products/2404968",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20220308/2404968/2404968_1_big.jpg?w=1200",
+      "dominant_hex": "#565759",
+      "lab": [
+        36.9,
+        0.24,
+        -1.37
+      ],
+      "chroma": 1.39,
+      "achromatic": true,
+      "types": [
+        "summer-mute",
+        "autumn-mute",
+        "winter-true"
+      ],
+      "scores": null
+    },
+    {
+      "id": 58,
+      "brand": "브라운브레스",
+      "name": "TAG TEE - BROWN",
+      "price": 45000,
+      "product_url": "https://www.musinsa.com/products/6058380",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260226/6058380/6058380_17725945688573_big.jpg?w=1200",
+      "dominant_hex": "#735B3D",
+      "lab": [
+        40.22,
+        5.62,
+        20.77
+      ],
+      "chroma": 21.52,
+      "achromatic": false,
+      "types": [
+        "autumn-deep",
+        "autumn-true",
+        "summer-true"
+      ],
+      "scores": {
+        "spring-bright": 24.36,
+        "spring-true": 18.01,
+        "spring-light": 27.03,
+        "summer-light": 23.97,
+        "summer-true": 15.81,
+        "summer-mute": 16.21,
+        "autumn-mute": 18.58,
+        "autumn-true": 11.53,
+        "autumn-deep": 7.16,
+        "winter-deep": 25.6,
+        "winter-true": 25.46,
+        "winter-bright": 29.73
+      }
+    },
+    {
+      "id": 59,
+      "brand": "브라운브레스",
+      "name": "PIGMENT TAG TEE - ORANGE",
+      "price": 49000,
+      "product_url": "https://www.musinsa.com/products/4995918",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250407/4995918/4995918_17441827797982_big.jpg?w=1200",
+      "dominant_hex": "#D08568",
+      "lab": [
+        62.7,
+        25.43,
+        27.6
+      ],
+      "chroma": 37.53,
+      "achromatic": false,
+      "types": [
+        "autumn-true",
+        "spring-true",
+        "spring-bright"
+      ],
+      "scores": {
+        "spring-bright": 11.77,
+        "spring-true": 8.72,
+        "spring-light": 12.5,
+        "summer-light": 22.65,
+        "summer-true": 23.11,
+        "summer-mute": 20.26,
+        "autumn-mute": 15.27,
+        "autumn-true": 7.41,
+        "autumn-deep": 13.01,
+        "winter-deep": 24.05,
+        "winter-true": 25.97,
+        "winter-bright": 21.93
+      }
+    },
+    {
+      "id": 60,
+      "brand": "브라운브레스",
+      "name": "TAG TEE - LEMON",
+      "price": 39000,
+      "product_url": "https://www.musinsa.com/products/4840246",
+      "image_url": "https://image.msscdn.net/thumbnails/images/prd_img/20250227/4840246/detail_4840246_17410653505691_big.jpg?w=1200",
+      "dominant_hex": "#DAD8A3",
+      "lab": [
+        85.44,
+        -7.69,
+        26.76
+      ],
+      "chroma": 27.84,
+      "achromatic": false,
+      "types": [
+        "summer-mute",
+        "autumn-deep",
+        "summer-true"
+      ],
+      "scores": {
+        "spring-bright": 5.77,
+        "spring-true": 10.53,
+        "spring-light": 10.74,
+        "summer-light": 7.19,
+        "summer-true": 4.17,
+        "summer-mute": 2.44,
+        "autumn-mute": 13.34,
+        "autumn-true": 7.23,
+        "autumn-deep": 3.9,
+        "winter-deep": 6.18,
+        "winter-true": 6.67,
+        "winter-bright": 6.8
+      }
+    },
+    {
+      "id": 61,
+      "brand": "엘엠씨",
+      "name": "FN OG TEE ivory",
+      "price": 44000,
+      "product_url": "https://www.musinsa.com/products/6043396",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260223/6043396/6043396_17726085992586_big.jpg?w=1200",
+      "dominant_hex": "#B3BDA9",
+      "lab": [
+        75.4,
+        -7.15,
+        9.13
+      ],
+      "chroma": 11.59,
+      "achromatic": false,
+      "types": [
+        "autumn-mute",
+        "spring-true",
+        "summer-mute"
+      ],
+      "scores": {
+        "spring-bright": 13.66,
+        "spring-true": 3.57,
+        "spring-light": 5.81,
+        "summer-light": 9.84,
+        "summer-true": 11.43,
+        "summer-mute": 4.91,
+        "autumn-mute": 3.29,
+        "autumn-true": 10.11,
+        "autumn-deep": 10.78,
+        "winter-deep": 12.52,
+        "winter-true": 13.8,
+        "winter-bright": 14.66
+      }
+    },
+    {
+      "id": 62,
+      "brand": "엘엠씨",
+      "name": "CUT OUT GOTHIC LOGO TEE charcoal",
+      "price": 59000,
+      "product_url": "https://www.musinsa.com/products/6276523",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260408/6276523/6276523_17756261844155_big.jpg?w=1200",
+      "dominant_hex": "#3F4044",
+      "lab": [
+        27.24,
+        0.52,
+        -2.58
+      ],
+      "chroma": 2.63,
+      "achromatic": true,
+      "types": [
+        "winter-deep",
+        "winter-true",
+        "autumn-deep"
+      ],
+      "scores": null
+    },
+    {
+      "id": 63,
+      "brand": "디스이스네버댓",
+      "name": "T-Logo L/S Tee Plum",
+      "price": 65000,
+      "product_url": "https://www.musinsa.com/products/5350012",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20250821/5350012/5350012_17562618185201_big.jpg?w=1200",
+      "dominant_hex": "#DAB8D7",
+      "lab": [
+        78.57,
+        17.44,
+        -11.01
+      ],
+      "chroma": 20.63,
+      "achromatic": false,
+      "types": [
+        "summer-true",
+        "summer-mute",
+        "spring-light"
+      ],
+      "scores": {
+        "spring-bright": 9.47,
+        "spring-true": 21.79,
+        "spring-light": 6.85,
+        "summer-light": 15.35,
+        "summer-true": 3.49,
+        "summer-mute": 5.57,
+        "autumn-mute": 15.18,
+        "autumn-true": 12.42,
+        "autumn-deep": 14.23,
+        "winter-deep": 13.24,
+        "winter-true": 7.99,
+        "winter-bright": 13.3
+      }
+    },
+    {
+      "id": 64,
+      "brand": "아디다스",
+      "name": "롱 슬리브 폴로 셔츠 - 실버다운 / KY5733",
+      "price": 89000,
+      "product_url": "https://www.musinsa.com/products/6260179",
+      "image_url": "https://image.msscdn.net/thumbnails/images/goods_img/20260406/6260179/6260179_17766651166167_big.jpg?w=1200",
+      "dominant_hex": "#C9C2E2",
+      "lab": [
+        80.03,
+        8.54,
+        -15.06
+      ],
+      "chroma": 17.32,
+      "achromatic": false,
+      "types": [
+        "winter-true",
+        "winter-bright",
+        "winter-deep"
+      ],
+      "scores": {
+        "spring-bright": 14.62,
+        "spring-true": 20.81,
+        "spring-light": 14.04,
+        "summer-light": 9.83,
+        "summer-true": 9.41,
+        "summer-mute": 12.54,
+        "autumn-mute": 11.21,
+        "autumn-true": 16.56,
+        "autumn-deep": 14.06,
+        "winter-deep": 9.3,
+        "winter-true": 5.49,
+        "winter-bright": 8.47
+      }
+    }
+  ]
+}
