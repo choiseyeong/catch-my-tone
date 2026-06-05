@@ -1,15 +1,14 @@
-# Catch My Tone
+<img width="1091" height="241" alt="Image" src="https://github.com/user-attachments/assets/9196ff1d-06d9-4fd9-847d-68a0c5ab0486" />
 
-> 웹캠과 손동작만으로 나만의 퍼스널컬러를 진단하는 웹 서비스
-
-**데모 링크**: [catch-my-tone.vercel.app](https://catch-my-tone.vercel.app)
+## 데모 링크🔗 [catch-my-tone.vercel.app](https://catch-my-tone.vercel.app)
 
 
 ---
 
 ## 1. 프로젝트 소개
 
-**Catch My Tone**은 별도의 앱 설치 없이 브라우저에서 웹캠과 손동작만으로 퍼스널컬러를 진단하는 웹 서비스입니다! 🎨
+**Catch My Tone**은 별도의 앱 설치 없이 브라우저에서<br/>
+웹캠과 손동작만으로 퍼스널컬러를 진단하는 웹 서비스입니다! 🎨
 
 퍼스널컬러 진단은 전문 컨설턴트가 실제 색상 천을 얼굴 아래에 대어 비교하는 방식으로 이루어집니다. 이 서비스는 MediaPipe의 얼굴·손 인식 기술을 활용해 이 과정을 웹 브라우저 위에서 구현합니다. 사용자는 화면에 표시되는 가상 색상 천을 손동작으로 바꿔가며 5단계 비교를 완료하면, 봄·여름·가을·겨울 각 3가지씩 총 12가지 세부 타입 중 자신에게 해당하는 타입과 어울리는 팔레트, 패션, 메이크업 추천을 확인할 수 있습니다.
 
