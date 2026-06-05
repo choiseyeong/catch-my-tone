@@ -779,6 +779,7 @@ function updateGestureGuide(stage) {
     { icon: '👈',    title: '왼쪽 가리키기',       desc: '이전 단계로 돌아가기'    },
     { icon: '👌',    title: 'OK 사인',          desc: '다음 단계로'            },
   ];
+  el.style.gridTemplateColumns = stage === 1 ? '1fr' : '1fr 1fr';
   el.innerHTML = items.map(i => `
     <div class="gesture-item">
       <div class="gesture-icon">${i.icon}</div>

@@ -156,18 +156,16 @@
         <div id="typeBrowserGrid"></div>
       </div>
 
-      <!-- 계절별 토끼 b2: 액션 버튼 위 우측 -->
-      <div style="position:relative; height:110px; overflow:visible; pointer-events:none;">
-        <img src="images/bunny/봄토끼2.png"   alt="" class="bunny-img bunny-season spring-b2"  style="position:absolute; bottom:0; right:2%; width:110px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
-        <img src="images/bunny/여름토끼2.png" alt="" class="bunny-img bunny-season summer-b2" style="position:absolute; bottom:0; right:2%; width:110px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
-        <img src="images/bunny/가을토끼2.png" alt="" class="bunny-img bunny-season autumn-b2" style="position:absolute; bottom:0; right:2%; width:110px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
-        <img src="images/bunny/겨울토끼2.png" alt="" class="bunny-img bunny-season winter-b2" style="position:absolute; bottom:0; right:2%; width:110px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
-      </div>
-
       <!-- Actions -->
       <div class="result-actions">
         <a href="diagnosis.html" class="btn btn-secondary btn-large">다시 진단하기</a>
-        <button class="btn btn-primary btn-large" onclick="shareResult()">결과 공유하기 📤</button>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+          <img src="images/bunny/봄토끼2.png"   alt="" class="bunny-img bunny-season spring-b2"  style="width:100px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
+          <img src="images/bunny/여름토끼2.png" alt="" class="bunny-img bunny-season summer-b2" style="width:100px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
+          <img src="images/bunny/가을토끼2.png" alt="" class="bunny-img bunny-season autumn-b2" style="width:100px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
+          <img src="images/bunny/겨울토끼2.png" alt="" class="bunny-img bunny-season winter-b2" style="width:100px; opacity:0.9; filter:drop-shadow(0 4px 12px rgba(0,0,0,.10));">
+          <button class="btn btn-primary btn-large" onclick="shareResult()">결과 공유하기 📤</button>
+        </div>
         <a href="about.html" class="btn btn-secondary btn-large">더 알아보기</a>
       </div>
 

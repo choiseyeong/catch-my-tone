@@ -12,6 +12,9 @@
     /* ── HOW? 섹션 스타일 ─────────────────────────────────────────────────── */
     .how-section { padding: 72px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
     .how-section:last-child { border-bottom: none; }
+    .how-text, .how-visual-box, .how-num, .section-divider { opacity: 0; }
+    .how-text.animate-fade-in, .how-visual-box.animate-fade-in,
+    .how-num.animate-fade-in, .section-divider.animate-fade-in { opacity: 1; }
 
     .how-num {
       display: block;
@@ -298,6 +301,17 @@
       font-size: 0.9rem;
       flex-shrink: 0;
     }
+    .typewriter-cursor {
+      display: inline-block;
+      -webkit-text-fill-color: var(--orange);
+      color: var(--orange);
+      font-weight: 300;
+      animation: cursorBlink 0.75s step-end infinite;
+    }
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
   </style>
 </head>
 <body>
@@ -327,9 +341,9 @@
     <div class="hero-blob blob-3"></div>
     <div class="hero-content container">
       <div class="hero-badge animate-fade-in">✨ 웹캠 기반 퍼스널컬러 진단 서비스</div>
-      <h1 class="hero-title animate-fade-in animate-delay-1">
-        내 얼굴에 어울리는<br>
-        <span class="gradient-text">색을 찾아봐요</span>
+      <h1 class="hero-title">
+        <span id="twLine1"></span><br>
+        <span class="gradient-text" id="twLine2">&nbsp;</span>
       </h1>
       <p class="hero-desc animate-fade-in animate-delay-2">
         카메라 앞에서 다양한 컬러 천을 비교하며<br>
@@ -347,7 +361,7 @@
       </div>
       <div class="bunny-hero bunny-speech-wrap">
         <div class="bunny-speech-bubble">저의 목도리 색을 잘 관찰해 보세요!</div>
-        <img src="images/bunny/인사토끼.png" alt="" class="bunny-img" style="width:150px;">
+        <img src="images/bunny/인사토끼.png" alt="" class="bunny-img" style="width:200px;">
       </div>
     </div>
   </section>
@@ -453,8 +467,8 @@
     <div class="container">
       <div class="section-header">
         <span class="section-tag">🔬 기술 소개</span>
-        <h2>어떻게 작동하나요?</h2>
-        <p>Catch My Tone은 AI 기술을 활용해 당신의 퍼스널컬러를 진단해요. 그 원리를 쉽게 풀어드릴게요.</p>
+        <h2>어떻게 작동하나요? <img src="images/bunny/궁금토끼.png" alt="" class="bunny-img" style="display:inline-block; width:80px; vertical-align:middle; margin-left:8px;"></h2>
+        <p>Catch My Tone은 AI 기술을 활용해 당신의 퍼스널컬러를 진단해요.<br/>그 원리를 쉽게 풀어드릴게요.</p>
       </div>
       <div class="how-toc-grid">
         <a href="#face" class="how-toc-card">
@@ -547,8 +561,11 @@
         <div class="how-text">
           <h2>손으로 직접<br>진단을 컨트롤해요</h2>
           <p>손가락 관절 <strong>21개 위치</strong>를 실시간으로 추적해 6가지 손동작을 구분해요. 단순히 손가락이 올라갔는지만 보는 게 아니라, <strong>각 관절의 정확한 각도와 거리</strong>를 계산해서 확실한 동작일 때만 인식됩니다.</p>
-          <p>예를 들어 엄지척 👍는 엄지가 손목보다 높이 올라오고, 나머지 손가락이 <strong>중간 관절 아래로 완전히 접혀야</strong>만 인식돼요. 덕분에 무심코 손을 쥐거나 조금 펼치는 동작에서는 오작동하지 않아요.</p>
-          <p>단계에 따라 활성화되는 동작이 달라요. <strong>초기화(🖐)는 1단계에서만</strong>, <strong>이전 단계(👈)는 2~5단계에서만</strong> 작동해요.</p>
+          <p style="margin-bottom:6px;">예를 들어 엄지척 👍는 엄지가 손목보다 높이 올라오고, 나머지 손가락이 <strong>중간 관절 아래로 완전히 접혀야</strong>만 인식돼요. 덕분에 무심코 손을 쥐거나 조금 펼치는 동작에서는 오작동하지 않아요.</p>
+          <div style="display:flex; align-items:center; gap:14px; margin-top:0;">
+            <p style="margin-bottom:0;">단계에 따라 활성화되는 동작이 달라요. <strong>초기화(🖐)는 1단계에서만</strong>, <strong>이전 단계(👈)는 2~5단계에서만</strong> 작동해요.</p>
+            <img src="images/bunny/왼쪽을가리키는토끼.png" alt="" class="bunny-img" style="width:90px; flex-shrink:0;">
+          </div>
         </div>
 
         <div class="how-visual-box">
@@ -633,7 +650,7 @@
           </div>
           <div style="display:flex; gap:8px; width:100%;">
             <div style="flex:1; text-align:center;">
-              <div style="height:62px; border-radius:10px; background:#f5d4d4; border:1px solid rgba(0,0,0,0.07);"></div>
+              <div style="height:62px; border-radius:10px; background:#ecd6c7; border:1px solid rgba(0,0,0,0.07);"></div>
               <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px; font-weight:600; line-height:1.4;">형광등 아래<br>파랗게 치우침</div>
             </div>
             <div style="flex:1; text-align:center;">
@@ -849,7 +866,10 @@
           <h2>눈이 느끼는 색 차이로<br>옷을 골라요</h2>
           <p>옷을 추천할 때 단순히 RGB 숫자를 비교하지 않아요. <strong>CIEDE2000</strong>이라는 방식을 사용해요. 이건 사람의 눈이 실제로 느끼는 색의 차이를 수치로 나타내는 공식이에요.</p>
           <p>예를 들어, RGB상 차이가 적어도 눈에는 뚜렷하게 다르게 보이는 색이 있어요. CIEDE2000은 이런 <strong>시각적 차이</strong>를 정확히 반영해요.</p>
-          <p>각 옷의 색상은 미리 12가지 퍼스널컬러 타입과의 <strong>색 거리</strong>가 계산되어 있어요. 거리가 가까울수록 잘 어울리는 색이고, <strong>반대 계절 타입의 색보다도 가까워야</strong> 추천 목록에 오를 수 있어요.</p>
+          <div style="display:flex; align-items:flex-end; gap:14px; margin-top:0;">
+            <img src="images/bunny/앉은토끼.png" alt="" class="bunny-img" style="width:90px; flex-shrink:0; transform:translateY(16px);">
+            <p style="margin-bottom:0;">각 옷의 색상은 미리 12가지 퍼스널컬러 타입과의 <strong>색 거리</strong>가 계산되어 있어요. 거리가 가까울수록 잘 어울리는 색이고, <strong>반대 계절 타입의 색보다도 가까워야</strong> 추천 목록에 오를 수 있어요.</p>
+          </div>
         </div>
 
         <div class="how-visual-box">
@@ -963,6 +983,34 @@
     </div>
   </footer>
 
+  <script>
+  (function () {
+    const el1 = document.getElementById('twLine1');
+    const el2 = document.getElementById('twLine2');
+    const line1 = '내 얼굴에 어울리는';
+    const line2 = '색을 찾아봐요';
+    const SPEED = 75;
+    const CURSOR = '<span class="typewriter-cursor">|</span>';
+    let i = 0;
+
+    function tick() {
+      if (i <= line1.length) {
+        el1.innerHTML = line1.slice(0, i) + CURSOR;
+        el2.innerHTML = '​';
+      } else {
+        const j = i - line1.length;
+        el1.innerHTML = line1;
+        el2.innerHTML = line2.slice(0, j) + (j <= line2.length ? CURSOR : '');
+      }
+      if (i < line1.length + line2.length) {
+        i++;
+        setTimeout(tick, SPEED);
+      }
+    }
+
+    setTimeout(tick, 450);
+  })();
+  </script>
   <script src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
