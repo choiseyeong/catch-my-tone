@@ -1035,7 +1035,6 @@ let frameLoopActive = false;
 let faceTurn = false;   // 2~5단계 격프레임 토글 (hands ↔ face_mesh)
 let lastGestureTime = 0;
 const GESTURE_COOLDOWN = 900;
-let faceLabSample = null;
 let faceLandmarksLatest = null;
 let faceLostFrames = 0;
 
@@ -1365,7 +1364,7 @@ function setStatus(text) {
   el.style.display = text ? 'block' : 'none';
 }
 
-// ─── FaceMesh (skin sampling – optional, kept for future use) ────────────────
+// ─── FaceMesh (cloth drape position tracking) ────────────────────────────────
 function initFaceMesh() {
   try {
     if (typeof FaceMesh === 'undefined') return;
@@ -1387,26 +1386,6 @@ function onFaceResults(results) {
     }
     faceLostFrames = 0;
     faceLandmarksLatest = lms;
-
-    // Skin color sampling — must stay inside try so `lms` is in scope.
-    if (!videoEl) return;
-    const vw = videoEl.videoWidth || 640, vh = videoEl.videoHeight || 480;
-    let minX=1,minY=1,maxX=0,maxY=0;
-    lms.forEach(p => { minX = Math.min(minX,p.x); minY = Math.min(minY,p.y); maxX = Math.max(maxX,p.x); maxY = Math.max(maxY,p.y); });
-    const w = (maxX-minX)*vw, h = (maxY-minY)*vh;
-    const cx = (minX+maxX)/2*vw, cy = (minY+maxY)/2*vh;
-    const sz = Math.max(10, Math.floor(Math.min(w,h)*0.12));
-    const pts = [{x:cx - w*0.22, y:cy - h*0.05},{x:cx + w*0.22, y:cy - h*0.05},{x:cx, y:cy + h*0.15}];
-    const samples = [];
-    pts.forEach(p => {
-      const avg = getAverageVideoRGB(Math.round(p.x - sz/2), Math.round(p.y - sz/2), sz, sz);
-      if (avg) samples.push(avg);
-    });
-    if (!samples.length) return;
-    const avg = samples.reduce((acc,s)=>({r:acc.r+s.r,g:acc.g+s.g,b:acc.b+s.b}),{r:0,g:0,b:0});
-    avg.r = Math.round(avg.r/samples.length); avg.g = Math.round(avg.g/samples.length); avg.b = Math.round(avg.b/samples.length);
-    const wb = applyWB(avg);
-    faceLabSample = rgbToLab(wb.r, wb.g, wb.b);
   } catch (e) {
     console.error('onFaceResults error:', e);
   }
