@@ -342,10 +342,11 @@ function applyResultData(data) {
   if (Array.isArray(data.palette)) {
     const prev = document.getElementById('resultPalettePreview');
     prev.innerHTML = '';
-    data.palette.forEach(col => {
+    data.palette.forEach((col, i) => {
       const d = document.createElement('div');
-      d.className = 'result-swatch';
+      d.className = 'result-swatch hero-swatch-anim';
       d.style.background = col;
+      d.style.animationDelay = `${560 + i * 38}ms`;
       prev.appendChild(d);
     });
   }
@@ -365,6 +366,24 @@ function applyResultData(data) {
   if (data.fashion) renderFashion(data.fashion, data.worstColors);
 
   renderClothes(data.subtype, data.season || data.key.split('-')[0]);
+
+  // 히어로 요소 순차 페이드업 애니메이션
+  const heroElIds = [
+    '.result-badge',
+    '#resultSeason',
+    '#resultSeasonEn',
+    '#resultSubtype',
+    '#resultTagline',
+    '#confidenceSection',
+  ];
+  heroElIds.forEach((sel, i) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    el.classList.remove('hero-anim');
+    void el.offsetWidth; // reflow로 애니메이션 리셋
+    el.style.animationDelay = `${i * 90}ms`;
+    el.classList.add('hero-anim');
+  });
 }
 
 // ── 타입 브라우저 ──────────────────────────────────────────────────────────
@@ -576,8 +595,11 @@ async function _buildShareCard() {
   document.getElementById('shareStep1').style.display = 'none';
   document.getElementById('shareStep2').style.display = 'block';
   const canvas = document.getElementById('shareCardCanvas');
+  canvas.classList.remove('share-card-visible');
   const name = (document.getElementById('shareNameInput').value || '').trim();
   await _drawShareCard(canvas, _sharePhotoDataUrl, name, _shareData);
+  void canvas.offsetWidth; // reflow로 애니메이션 리셋
+  canvas.classList.add('share-card-visible');
 }
 
 function downloadShareCard() {

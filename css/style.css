@@ -3151,3 +3151,26 @@ body[data-season="autumn"]  .autumn-b2  { display: block; }
 body[data-season="winter"]  .winter-b1,
 body[data-season="winter"]  .winter-b2  { display: block; }
 
+/* ── Result hero entrance animation ─────────────────────────────────────── */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-anim {
+  opacity: 0;
+  animation: heroFadeUp 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero-swatch-anim {
+  opacity: 0;
+  animation: heroFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Share card entrance animation ───────────────────────────────────────── */
+@keyframes shareCardAppear {
+  from { opacity: 0; transform: scale(0.88) translateY(18px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+.share-card-visible {
+  animation: shareCardAppear 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
