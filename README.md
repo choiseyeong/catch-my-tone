@@ -22,8 +22,14 @@
 
 ## 2. 데모
 
-<!-- 스크린샷 및 GIF를 여기에 추가해 주세요 -->
+## ▼ 1-1 홈 진입화면
+진단하기 혹은 퍼스널컬러 알아보기 페이지로 바로가기 버튼 배치
 
+<img width="800" height="362" alt="Image" src="https://github.com/user-attachments/assets/4ed88675-be05-49af-b5a4-732f5a30a8b8" />
+
+## ▼ 1-3 Lab 색공간 인터랙티프 그래프
+스크롤로 회전 및 확대 가능
+<img width="800" height="362" alt="Image" src="https://github.com/user-attachments/assets/0c2f3f64-5ab4-4e68-8009-48b2a69b1173" />
 ---
 
 ## 3. 기술 스택
