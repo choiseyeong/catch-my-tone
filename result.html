@@ -187,6 +187,42 @@
     </div>
   </footer>
 
+  <!-- Share Card Modal -->
+  <div id="shareModal" style="display:none;">
+    <div class="share-modal-inner">
+      <button class="share-close-btn" onclick="closeShareModal()">✕</button>
+
+      <!-- Step 1: 웹캠 촬영 -->
+      <div id="shareStep1">
+        <div class="share-modal-title">📸 결과 카드 만들기</div>
+        <p class="share-cam-label">카드에 들어갈 사진을 촬영해요!</p>
+        <div class="share-cam-wrap">
+          <video id="shareCamVideo" autoplay playsinline muted></video>
+          <div class="share-countdown" id="shareCountdown"></div>
+        </div>
+        <div id="shareCamError" class="share-cam-error" style="display:none;">
+          카메라를 사용할 수 없어요.<br>사진 없이 카드를 만들게요.
+        </div>
+        <input type="text" class="share-name-input" id="shareNameInput" placeholder="이름을 입력하세요 *" maxlength="12" required>
+        <div class="share-btn-row">
+          <button class="btn btn-primary" id="shareCaptureBtn" onclick="startShareCountdown()">📸 촬영하기</button>
+          <button class="btn btn-secondary" onclick="skipSharePhoto()">사진 없이 만들기</button>
+        </div>
+      </div>
+
+      <!-- Step 2: 카드 미리보기 -->
+      <div id="shareStep2" style="display:none;">
+        <div class="share-modal-title">✨ 내 퍼스널컬러 카드</div>
+        <canvas id="shareCardCanvas" width="360" height="600"></canvas>
+        <div class="share-btn-row" style="margin-top:16px;">
+          <button class="btn btn-primary" onclick="downloadShareCard()">💾 저장하기</button>
+          <button class="btn btn-primary" onclick="nativeShareCard()">📤 공유하기</button>
+          <button class="btn btn-secondary" onclick="retakeSharePhoto()">다시 찍기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/season-data.js"></script>
   <script src="js/main.js"></script>
   <script src="js/result.js"></script>

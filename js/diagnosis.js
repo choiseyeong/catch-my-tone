@@ -1,21 +1,4 @@
-// ─── Stage definitions, compare pools → js/diagnosis-data.js ────────────────
-
-const STAGE_TITLES = {
-  1: { title: '베이스 파운데이션 선택', sub: '메이크업 추천 보조 데이터',
-       desc: '웜 또는 쿨 베이스 파운데이션 중 피부에 가장 잘 맞는 번호를 손가락으로 가리켜 선택하세요. 최종 계절 판정이 아닌 메이크업 추천에 활용됩니다.' },
-  2: { title: '웜톤 vs 쿨톤', sub: '베이스 톤 비교',
-       desc: '얼굴 옆에 천을 대고 피부가 더 환해 보이는 쪽을 골라요. 1번(웜) / 2번(쿨) 손모양으로 천을 바꾸고, good 손모양으로 선택, OK 사인으로 다음 단계.' },
-  3: { title: '저명도 vs 고명도', sub: '명도 비교',
-       desc: '어두운 천과 밝은 천 중 얼굴이 더 살아 보이는 쪽을 골라요. 1번(저명도) / 2번(고명도) 손모양으로 천을 바꿔보세요.' },
-  4: { title: '저채도 vs 고채도', sub: '채도 비교',
-       desc: '선명한 색과 부드러운 색 중 더 잘 어울리는 쪽을 골라요. 1번(저채도) / 2번(고채도) 손모양으로 천을 바꿔보세요.' },
-  5: { title: '청색 vs 탁색', sub: '청·탁 비교',
-       desc: '맑은 색감과 차분한 색감 중 어떤 쪽이 더 어울리는지 비교해요. 1번(청색) / 2번(탁색) 손모양으로 천을 바꿔보세요.' },
-  6: { title: '베스트 vs 워스트 체험', sub: '나만의 색상 차이 느끼기',
-       desc: '☝️로 내 베스트 컬러, ✌️로 내 워스트 컬러를 얼굴에 드레이핑해 차이를 직접 느껴보세요. 👌 OK 사인이나 아래 버튼으로 결과를 확인하세요.' },
-};
-
-// COMPARE_STAGES, COMPARE_POOLS, CONTEXT_LABELS → js/diagnosis-data.js
+// STAGE_TITLES, COMPARE_STAGES, COMPARE_POOLS, CONTEXT_LABELS → js/diagnosis-data.js
 
 // ─── Global state ────────────────────────────────────────────────────────────
 let currentStage = 1;
@@ -611,6 +594,24 @@ function goBackStage() {
   enterStage(targetStage);
 }
 
+// 이전 쌍으로 돌아가기: 현재 단계 내 마지막 확정 쌍을 취소.
+// 단계 첫 번째 쌍에서 호출하면 이전 단계 전체로 이동.
+function goBackPair() {
+  if (currentStage < 2) return;
+  if (stageResults[currentStage] && stageResults[currentStage].length > 0) {
+    const lastKey = stageResults[currentStage].pop();
+    if (scores[lastKey] > 0) scores[lastKey]--;
+    // 확정된 쌍 수 = 다음에 보여줄 쌍 인덱스
+    currentPairIdx = stageResults[currentStage].length;
+    renderCompareStage();
+    renderStageProgress();
+    showStageProgressActions();
+    setStatus('이전 선택을 취소했어요. 다시 선택해보세요 👈');
+  } else {
+    goBackStage();
+  }
+}
+
 // ─── Stage transitions / progress UI ─────────────────────────────────────────
 function enterStage(stage) {
   currentStage = stage;
@@ -1187,8 +1188,8 @@ function handleCompareStageHand(lm) {
       backHoldShown = false;
       const now = Date.now();
       lastGestureTime = now;
-      showGestureFeedback('이전 단계 👈');
-      setTimeout(() => goBackStage(), 280);
+      showGestureFeedback('이전으로 👈');
+      setTimeout(() => goBackPair(), 280);
     }
     return;
   }

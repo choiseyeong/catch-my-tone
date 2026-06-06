@@ -476,14 +476,276 @@ function renderTypeBrowser(myTypeKey, currentTypeKey) {
   }
 })();
 
-function shareResult() {
-  const data = JSON.parse(localStorage.getItem('cmt_result') || '{}');
-  const text = data.subtype
-    ? `나의 퍼스널컬러는 ${data.subtype} (${data.name})이에요! ✨`
-    : '나의 퍼스널컬러 결과 보러가기 ✨';
-  if (navigator.share) {
-    navigator.share({ title: 'Catch My Tone 진단 결과', text, url: location.href });
-  } else {
-    navigator.clipboard.writeText(location.href).then(() => alert('링크가 복사되었어요!'));
+// ── Toast ────────────────────────────────────────────────────────
+let _toastTimer = null;
+function showToast(msg) {
+  let el = document.getElementById('shareToast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'shareToast';
+    el.className = 'share-toast';
+    document.body.appendChild(el);
   }
+  el.textContent = msg;
+  el.classList.add('show');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+// ── Share Card ────────────────────────────────────────────────────
+let _shareData = null;
+let _shareCamStream = null;
+let _sharePhotoDataUrl = null;
+
+function shareResult() {
+  const raw = localStorage.getItem('cmt_result');
+  _shareData = raw ? JSON.parse(raw) : null;
+  if (!_shareData) { alert('진단 결과가 없어요.'); return; }
+  document.getElementById('shareStep1').style.display = 'block';
+  document.getElementById('shareStep2').style.display = 'none';
+  document.getElementById('shareModal').style.display = 'flex';
+  document.getElementById('shareCountdown').textContent = '';
+  _sharePhotoDataUrl = null;
+  _startShareCam();
+}
+
+async function _startShareCam() {
+  const video = document.getElementById('shareCamVideo');
+  const errEl = document.getElementById('shareCamError');
+  const captureBtn = document.getElementById('shareCaptureBtn');
+  try {
+    _shareCamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+    video.srcObject = _shareCamStream;
+    video.style.display = 'block';
+    errEl.style.display = 'none';
+    if (captureBtn) captureBtn.disabled = false;
+  } catch (e) {
+    video.style.display = 'none';
+    errEl.style.display = 'block';
+    errEl.innerHTML = `카메라를 사용할 수 없어요.<br><small style="color:var(--text-muted)">${e.name}: ${e.message}</small><br>사진 없이 카드를 만들게요.`;
+    if (captureBtn) captureBtn.disabled = true;
+  }
+}
+
+function closeShareModal() {
+  document.getElementById('shareModal').style.display = 'none';
+  if (_shareCamStream) { _shareCamStream.getTracks().forEach(t => t.stop()); _shareCamStream = null; }
+}
+
+async function startShareCountdown() {
+  const nameInput = document.getElementById('shareNameInput');
+  if (!nameInput.value.trim()) { showToast('먼저 이름을 입력해 주세요!'); nameInput.focus(); nameInput.style.borderColor = 'var(--orange)'; return; }
+  nameInput.style.borderColor = '';
+  const video = document.getElementById('shareCamVideo');
+  const cdEl = document.getElementById('shareCountdown');
+  document.querySelectorAll('#shareStep1 button').forEach(b => b.disabled = true);
+  for (let i = 3; i >= 1; i--) {
+    cdEl.textContent = i;
+    await new Promise(r => setTimeout(r, 1000));
+  }
+  cdEl.textContent = '';
+  if (video.srcObject && video.readyState >= 2) {
+    const tmp = document.createElement('canvas');
+    tmp.width = video.videoWidth || 480;
+    tmp.height = video.videoHeight || 480;
+    const tc = tmp.getContext('2d');
+    tc.translate(tmp.width, 0);
+    tc.scale(-1, 1);
+    tc.drawImage(video, 0, 0);
+    _sharePhotoDataUrl = tmp.toDataURL('image/jpeg', 0.9);
+  }
+  document.querySelectorAll('#shareStep1 button').forEach(b => b.disabled = false);
+  _buildShareCard();
+}
+
+function skipSharePhoto() {
+  const nameInput = document.getElementById('shareNameInput');
+  if (!nameInput.value.trim()) { showToast('먼저 이름을 입력해 주세요!'); nameInput.focus(); nameInput.style.borderColor = 'var(--orange)'; return; }
+  nameInput.style.borderColor = '';
+  _sharePhotoDataUrl = null;
+  _buildShareCard();
+}
+
+function retakeSharePhoto() {
+  document.getElementById('shareStep2').style.display = 'none';
+  document.getElementById('shareStep1').style.display = 'block';
+  if (!_shareCamStream) _startShareCam();
+}
+
+async function _buildShareCard() {
+  document.getElementById('shareStep1').style.display = 'none';
+  document.getElementById('shareStep2').style.display = 'block';
+  const canvas = document.getElementById('shareCardCanvas');
+  const name = (document.getElementById('shareNameInput').value || '').trim();
+  await _drawShareCard(canvas, _sharePhotoDataUrl, name, _shareData);
+}
+
+function downloadShareCard() {
+  const canvas = document.getElementById('shareCardCanvas');
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL('image/png');
+  a.download = 'catch-my-tone-result.png';
+  a.click();
+}
+
+async function nativeShareCard() {
+  const canvas = document.getElementById('shareCardCanvas');
+  canvas.toBlob(async blob => {
+    const file = new File([blob], 'catch-my-tone-result.png', { type: 'image/png' });
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: 'Catch My Tone 퍼스널컬러 결과' }); }
+      catch (_) {}
+    } else { downloadShareCard(); }
+  }, 'image/png');
+}
+
+async function _drawShareCard(canvas, photoSrc, userName, data) {
+  const W = 360;
+  const KO_FONT = '"Apple SD Gothic Neo","Noto Sans KR",sans-serif';
+  const cx = W / 2;
+  const season = data.season || (data.key || '').split('-')[0] || 'spring';
+  const CARD_COLORS = {
+    spring: ['#FFD6E0', '#FF7090', '#C02840'],
+    summer: ['#E0D0F0', '#8060B0', '#4A2880'],
+    autumn: ['#F8D880', '#C85800', '#6A2000'],
+    winter: ['#C0D8F8', '#2A68C0', '#081850'],
+  };
+  const [c1, c2, c3] = CARD_COLORS[season] || CARD_COLORS.spring;
+
+  // ── 특징 줄바꿈 사전 계산 (높이 결정용) ──
+  const traitFont = `11.5px ${KO_FONT}`;
+  const maxTw = W - 72;
+  const rawTraits = (data.traits || []).slice(0, 3).map(t => t.replace(/<[^>]*>/g, ''));
+  const tempCtx = document.createElement('canvas').getContext('2d');
+  tempCtx.font = traitFont;
+  const wrappedTraits = rawTraits.map(t => _wrapText(tempCtx, '• ' + t, maxTw));
+  const totalTraitLines = wrappedTraits.reduce((s, lines) => s + lines.length, 0);
+
+  // ── 레이아웃 상수 ──
+  const photoR = 68, photoY = 120;
+  const baseY = photoY + photoR + 96;   // 284 — 베스트 컬러 라벨 y
+  const divY  = baseY + 114;            // 398 — 구분선 y
+  const lineH = 20;
+  const H = divY + 36 + totalTraitLines * lineH + 58;
+
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // ── 배경 ──
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, c1); grad.addColorStop(0.5, c2); grad.addColorStop(1, c3);
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = 'rgba(255,255,255,0.12)';
+  _shapeRoundRect(ctx, 20, 20, W - 40, H - 40, 18); ctx.fill();
+
+  // ── 사진 ──
+  if (photoSrc) {
+    try {
+      const img = await _loadShareImg(photoSrc);
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, photoY, photoR, 0, Math.PI * 2); ctx.clip();
+      const scale = Math.max((photoR * 2) / img.width, (photoR * 2) / img.height);
+      const dw = img.width * scale, dh = img.height * scale;
+      ctx.drawImage(img, cx - dw / 2, photoY - dh / 2, dw, dh);
+      ctx.restore();
+    } catch (_) { _sharePhotoFallback(ctx, cx, photoY, photoR); }
+  } else { _sharePhotoFallback(ctx, cx, photoY, photoR); }
+  ctx.beginPath(); ctx.arc(cx, photoY, photoR, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.75)'; ctx.lineWidth = 3; ctx.stroke();
+
+  // ── 이름 + 타입 ──
+  ctx.textAlign = 'center'; ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 8;
+  ctx.fillStyle = 'rgba(255,255,255,0.80)';
+  ctx.font = `16px ${KO_FONT}`;
+  ctx.fillText(`${userName} 님은`, cx, photoY + photoR + 38);
+  ctx.fillStyle = 'white';
+  ctx.font = `bold 26px ${KO_FONT}`;
+  ctx.fillText(data.subtype || data.name || '', cx, photoY + photoR + 66);
+  ctx.shadowBlur = 0;
+
+  // ── 섹션 라벨 / 스와치 헬퍼 ──
+  const swR = 17, swGap = 6;
+  const drawSwatches = (colors, centerY, stroke) => {
+    const tw = colors.length * (swR * 2 + swGap) - swGap;
+    colors.forEach((c, i) => {
+      const x = (W - tw) / 2 + i * (swR * 2 + swGap) + swR;
+      ctx.beginPath(); ctx.arc(x, centerY, swR, 0, Math.PI * 2);
+      ctx.fillStyle = c.hex; ctx.fill();
+      ctx.strokeStyle = stroke; ctx.lineWidth = 2; ctx.stroke();
+    });
+  };
+  const sectionLabel = (text, y) => {
+    ctx.font = 'bold 10px sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.60)';
+    ctx.textAlign = 'center';
+    ctx.fillText(text.toUpperCase(), cx, y);
+  };
+
+  // ── 베스트 / 워스트 컬러 ──
+  sectionLabel('베스트 컬러', baseY);
+  drawSwatches((data.bestColors || []).slice(0, 6), baseY + 22, 'rgba(255,255,255,0.5)');
+  sectionLabel('워스트 컬러', baseY + 62);
+  drawSwatches((data.worstColors || []).slice(0, 4), baseY + 84, 'rgba(255,255,255,0.25)');
+
+  // ── 구분선 ──
+  ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(44, divY); ctx.lineTo(W - 44, divY); ctx.stroke();
+
+  // ── 특징 (줄바꿈 적용) ──
+  sectionLabel('특징', divY + 18);
+  ctx.font = traitFont;
+  ctx.fillStyle = 'rgba(255,255,255,0.88)';
+  ctx.textAlign = 'left';
+  let lineY = divY + 36;
+  wrappedTraits.forEach(lines => {
+    lines.forEach(line => { ctx.fillText(line, 36, lineY); lineY += lineH; });
+  });
+
+  // ── 브랜딩 ──
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(255,255,255,0.90)';
+  ctx.font = 'bold 13px sans-serif'; ctx.fillText('🎨 Catch My Tone', cx, H - 32);
+}
+
+function _wrapText(ctx, text, maxWidth) {
+  const words = text.split(' ');
+  const lines = [];
+  let current = '';
+  for (const word of words) {
+    const test = current ? current + ' ' + word : word;
+    if (ctx.measureText(test).width > maxWidth && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  }
+  if (current) lines.push(current);
+  return lines;
+}
+
+function _sharePhotoFallback(ctx, cx, cy, r) {
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.18)'; ctx.fill();
+  ctx.font = `${r * 0.9}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText('🐰', cx, cy);
+  ctx.textBaseline = 'alphabetic';
+}
+
+function _shapeRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function _loadShareImg(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image(); img.onload = () => resolve(img); img.onerror = reject; img.src = src;
+  });
 }
