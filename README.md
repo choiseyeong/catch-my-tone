@@ -296,12 +296,30 @@ catch-my-tone/
 이때 웹캠 데이터는 외부 서버로 전송되지 않으며,<br/>
 모든 처리는 브라우저 내에서만 이루어집니다.
 
+### 권장 환경
+
+| 항목 | 요구사항 |
+|---|---|
+| 브라우저 | **Chrome 최신 버전** 권장 (Firefox 가능 / Safari 미지원) |
+| 하드웨어 | 웹캠 |
+| 조명 | 얼굴에 고른 조명이 들어오는 밝은 환경 |
+
+> MediaPipe는 WebGL을 사용합니다. Safari는 WebGL 구현 차이로 동작하지 않을 수 있습니다.
+
 ### VS Code Live Server 사용 (권장)
 
 1. VS Code에서 프로젝트 폴더를 열기
 2. [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) 확장 설치
 3. `index.html` 우클릭 → **Open with Live Server**
 4. 브라우저에서 `http://127.0.0.1:5500` 접속
+
+### Python 내장 서버 사용
+
+```bash
+python -m http.server 5500
+```
+
+브라우저에서 `http://localhost:5500` 접속
 
 
 
@@ -346,7 +364,19 @@ min_dist(옷, 워스트 컬러) >= min_dist(옷, 베스트 컬러)  →  통과
 
 ## 10. 라이센스
 
-MIT License
+이 프로젝트의 소스 코드는 **MIT License**를 따릅니다.
+
+### 사용된 오픈소스 라이브러리
+
+| 라이브러리 | 라이센스 |
+|---|---|
+| [MediaPipe](https://github.com/google/mediapipe) | Apache 2.0 |
+| [Three.js](https://github.com/mrdoob/three.js) | MIT |
+
+### 데이터 관련
+
+상품 이미지·가격·링크 등 제품 데이터의 저작권은 각 브랜드 및 판매처에 있습니다.<br/>
+수집된 데이터는 학습·연구 목적으로만 사용되었습니다.
 
 ---
 
