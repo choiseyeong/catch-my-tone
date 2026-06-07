@@ -8,7 +8,7 @@
 # 1. 프로젝트 소개
 
 **Catch My Tone**은 별도의 앱 설치 없이 브라우저에서<br/>
-웹캠과 손동작만으로 퍼스널컬러를 진단하는 웹 서비스입니다! 🎨
+웹캠과 손동작만으로 [퍼스널컬러](https://www.google.com/search?sca_esv=6a03f9eebeaaf4c7&sxsrf=ANbL-n5HkhhfETwrOUjUP8RQCCRWQaU4xg:1780761966365&udm=2&fbs=ADc_l-bD_nyrjATWBKup7flJ4rea5XFXsPHwMjGsTekJ1HCohLl5jVfW6Wa1gJhEgNeZVlX4vEYjwla_a-g0kroAFGNtlnyBzvrTSCFOEd3uqXcIoAoiOPn0OSJcbh0oAgT3p-KYjdtBJZXaLYgYu-gh2rg5eS1eBJMhXyOueCp9QuFWXYXBUWhEbw-GCwzt9byJgg5UduW9WTTqdM1yCxxfcB59OW2WViA0nzA_Sn6V9XnNG6U5mMw&q=%ED%8D%BC%EC%8A%A4%EB%84%90%EC%BB%AC%EB%9F%AC&sa=X&ved=2ahUKEwiu6byj__KUAxVloK8BHUilGiwQtKgLegQIFRAB&biw=1536&bih=695&dpr=1.25)를 진단하는 웹 서비스입니다! 🎨
 
 퍼스널컬러 진단은 전문 컨설턴트가 실제 색상 천을 얼굴 아래에 대어 비교하는 방식으로 이루어지는 반면, Catch My Tone은 MediaPipe의 얼굴과 손 인식 기술을 활용해 이 과정을 웹 브라우를 통해 구현합니다. 사용자는 화면에 표시되는 가상 색상 천을 손동작으로 바꿔가며 5단계 비교를 완료하면, 봄, 여름, 가을, 겨울 각 3가지씩 총 12가지 세부 타입 중 자신에게 해당하는 타입과 어울리는 팔레트, 패션, 메이크업 아이템 추천을 확인할 수 있습니다.
 
@@ -290,7 +290,11 @@ catch-my-tone/
 
 # 8. 로컬 실행 방법
 
-웹캠과 `fetch()` API 사용을 위해 반드시 HTTP 서버를 통해 실행해야 합니다. `file://` 프로토콜로는 동작하지 않습니다.
+웹캠과 `fetch()` API 사용을 위해 반드시 HTTP 서버를 통해 실행해야 합니다.<br/>
+`file://` 프로토콜로는 동작하지 않습니다.
+
+이때 웹캠 데이터는 외부 서버로 전송되지 않으며,<br/>
+모든 처리는 브라우저 내에서만 이루어집니다.
 
 ### VS Code Live Server 사용 (권장)
 
@@ -298,6 +302,7 @@ catch-my-tone/
 2. [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) 확장 설치
 3. `index.html` 우클릭 → **Open with Live Server**
 4. 브라우저에서 `http://127.0.0.1:5500` 접속
+
 
 
 ---
