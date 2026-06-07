@@ -14,9 +14,10 @@
 
 **주요 특징**
 
-✋ **손동작 기반 인터랙션** — 마우스·터치 없이 제스처로 진단을 진행합니다.<br/>
-💡 **실시간 색 보정** — 조명 환경에 따른 색감에 대해 자동 화이트밸런싱을 합니다.<br/>
-👕 **옷·메이크업 추천** — 진단 결과에 맞는 실제 상품을 연동해 추천합니다.
+✋ **손동작 기반 인터랙션** — 마우스·터치 없이 제스처로 진단을 진행해요.<br/>
+💡 **실시간 색 보정** — 조명 환경에 따른 색감에 대해 자동 화이트밸런싱을 해요.<br/>
+👕 **옷·메이크업 추천** — 진단 결과에 맞는 실제 상품을 연동해 추천해요.<br/>
+📸 **결과 카드 저장** — 웹캠으로 셀피를 찍어 내 퍼스널컬러 결과 카드 이미지로 저장하고 공유할 수 있어요.
 
 ---
 
@@ -24,43 +25,43 @@
 
 ①**홈**(home.html) → ②**진단하기**(diagnose.html) → ③**결과**(result.html) → ④ **퍼스널컬러란?**(about.html)
 
-### ▼ 1-1 홈 진입화면
+### ▼ ①-1 홈 진입화면
 
 <img width="800" height="362" alt="Image" src="https://github.com/user-attachments/assets/4ed88675-be05-49af-b5a4-732f5a30a8b8" />
 
-### ▼ 1-2 카메라 인식 및 진단 알고리즘 설명
+### ▼ ①-2 카메라 인식 및 진단 알고리즘 설명
 Catch my tone에서 사용된 실시간 얼굴 추적, 손동작 인식,<br/>
 화이트밸린싱 보정, 진단 알고리즘, 옷 추천 알고리즘에 대해 쉽게 설명합니다.
 
 <img width="800" height="363" alt="Image" src="https://github.com/user-attachments/assets/047da94e-e9d7-4c8f-ac34-3f41505122c3" />
 
-### ▼ 1-3 Lab 색공간 인터랙티프 그래프
+### ▼ ①-3 Lab 색공간 인터랙티프 그래프
 Lab 색공간에 색 점 구름과 옷 대표 색상을 계산해 제품 사진을 배치되어 있습니다.<br/>
 스크롤로 회전 및 확대 가능하며, 클릭시 상품 페이지로 이동합니다.
 
 <img width="800" height="362" alt="Image" src="https://github.com/user-attachments/assets/0c2f3f64-5ab4-4e68-8009-48b2a69b1173" />
 
 
-### ▼ 3-1 최종 분석 결과
+### ▼ ③-1 최종 분석 결과
 5단계에 거친 분석을 마친 후, 최종 분석 결과입니다.<br/>
 대표 톤과 워스트 컬러, 단계별 점수 분포, 패션 컬러 및 제품 추천, 톤별 특징, 추천 메이크업 컬러 및 제품이 보입니다.
 
 <img width="800" height="363" alt="Image" src="https://github.com/user-attachments/assets/60a3663f-b603-4399-b93a-fd3e8d091851" />
 
 
-### ▼ 3-2 상품 이미지 클릭시 이동
+### ▼ ③-2 상품 이미지 클릭시 이동
 옷 제품과 메이크업 제품 이미지 클릭시 구매 링크로 이동합니다. (메이크업 제품 이미지도 동일)
 
 <img width="800" height="362" alt="Image" src="https://github.com/user-attachments/assets/047e5dd1-3015-40d2-9bc1-4908e0053924" />
 
 
-### ▼ 4-1 퍼스널컬러란?
+### ▼ ④-1 퍼스널컬러란?
 진단에 앞서 퍼스널컬러 자체에 대한 이해를 한 단계 도울 수 있는 페이지입니다.
 
 <img width="800" height="363" alt="Image" src="https://github.com/user-attachments/assets/09a9cbf8-3643-4f87-8348-2b7600f5cb13" />
 
 
-### ▼ 4-2 각 계절의 세부타입 확인하기
+### ▼ ④-2 각 계절의 세부타입 확인하기
 4개의 계절타입은 또다시 3가지 세부타입으로 나뉩니다. 각 세부타입의 팔레트의 특징을 확인할 수 있습니다.
 
 <img width="800" height="364" alt="Image" src="https://github.com/user-attachments/assets/d7c8c1c3-b172-47b8-a5ab-ee150cfb907f" />
@@ -103,7 +104,7 @@ MediaPipe Hands로 21개 손 랜드마크를 추출해 6가지 제스처를 분�
 | 🖐 palm | 1.5초 유지 → 초기화 | — | — |
 | 👌 ok | 다음 단계 | 다음 단계 | 결과 보기 |
 
-인식 오류 해결을 위해 테스트를 거치며 각 제스처에 엄격한 랜드마크 조건을 적용했습니다. (9-2 참고)
+인식 오류 해결을 위해 테스트를 거치며 각 제스처에 엄격한 랜드마크 조건을 적용했습니다. (9-1 참고)
 
 
 ### 4-3. 카메라 색 보정 (화이트밸런스)
@@ -238,12 +239,65 @@ confidence = round( Σ(|a−b| / (a+b)) / 4 × 50 + 50 )
 
 # 6. 시스템 아키텍처
 
-<img width="428" height="630" alt="Image" src="https://github.com/user-attachments/assets/f7d9700e-a870-4dcf-93fc-1fa1d505dd87" />
+```mermaid
+flowchart TD
+    USER(["👤 사용자"])
+    CAM["📷 웹캠"]
 
+    subgraph RT["실시간 처리 — diagnosis.js"]
+        direction TB
+        WB["화이트밸런스 보정\ngray-world · white-patch"]
+        FM["FaceMesh  ·  468 랜드마크\n얼굴 위치 추적 → 가상 드레이핑"]
+        HS["Hands  ·  21 랜드마크\n제스처 분류  one · two · good · back · ok · palm"]
+    end
 
-+ 데이터 수집 방법
-  * 옷 데이터: 직접 수집
-  * 화장품 데이터: Claude deep research + 직접 수집
+    subgraph DIAG["진단 흐름 — diagnosis.js"]
+        direction TB
+        S1["① 파운데이션 선택\n손 인식 워밍업  ·  최종 판정 미반영"]
+        S25["② ~ ⑤ 색상 비교 드레이핑\n웜쿨 → 명도 → 채도 → 탁청  ·  각 3쌍"]
+        ADAPT["적응형 천 세트\n이전 점수 기반 COMPARE_POOLS 교체"]
+        SCORE["4축 점수 누적\nwarm/cool · light/dark · bright/muted · clear/grayish"]
+        SEASON["계절 산정\n봄 · 여름 · 가을 · 겨울"]
+        SUBTYPE["세부 타입 확정 + 신뢰도 계산\n12타입 중 1개 도출"]
+    end
+
+    subgraph STATIC["정적 데이터 (JS · JSON)"]
+        direction TB
+        SD["season-data.js\n12타입 팔레트 · 메이크업 · 패션"]
+        DD["diagnosis-data.js\nCOMPARE_POOLS · STAGE_TITLES"]
+        CA["cloth_analysis.json\n상품 64개 × 12타입 CIEDE2000 거리"]
+        MK["makeup_data.json\n12타입별 메이크업 제품"]
+    end
+
+    subgraph BUILD["빌드 타임 — Python"]
+        direction LR
+        CSV["cloth_data.csv\n상품 64개"]
+        PY["analyze_clothes.py\nK-means 대표색 추출\nCIEDE2000 매칭"]
+        CSV --> PY --> CA
+    end
+
+    subgraph RES["결과 페이지 — result.js"]
+        direction TB
+        FILTER["이중 필터\n① 반대계절 CIEDE2000\n② 베스트·워스트 ΔE76"]
+        OUT["팔레트 · 베스트/워스트 컬러\n옷 추천 6개 · 메이크업 추천\n신뢰도 · 타입 브라우저"]
+    end
+
+    USER -->|조작| CAM
+    CAM --> WB & FM & HS
+    WB -->|보정 게인 적용| FM
+    HS -->|제스처 이벤트| S1
+    FM -->|얼굴 위치| S1
+    S1 --> S25
+    DD --> ADAPT --> S25
+    S25 --> SCORE --> SEASON --> SUBTYPE
+    SD -->|팔레트 · worstKey| SEASON
+    SUBTYPE -->|"localStorage  cmt_result"| FILTER
+    CA --> FILTER
+    FILTER --> OUT
+    SD --> OUT
+    MK --> OUT
+```
+
 
 ---
 
@@ -362,7 +416,7 @@ min_dist(옷, 워스트 컬러) >= min_dist(옷, 베스트 컬러)  →  통과
 
 ---
 
-## 10. 라이센스
+# 10. 라이센스
 
 이 프로젝트의 소스 코드는 **MIT License**를 따릅니다.
 
@@ -376,11 +430,14 @@ min_dist(옷, 워스트 컬러) >= min_dist(옷, 베스트 컬러)  →  통과
 ### 데이터 관련
 
 상품 이미지·가격·링크 등 제품 데이터의 저작권은 각 브랜드 및 판매처에 있습니다.<br/>
-수집된 데이터는 학습·연구 목적으로만 사용되었습니다.
+수집된 데이터는 학습 및 테스트 목적으로만 사용되었습니다.
+
+- **옷 데이터**: 직접 수집
+- **화장품 데이터**: Claude deep research + 직접 수집
 
 ---
 
-## 11. 참고 및 감사 인사
+# 11. 참고 및 감사 인사
 * 한국분장예술인협회 퍼스널 컬러 컨설턴트 필기 자료
   : https://www.kmaa.or.kr/main/qexa/qexa14.php
 * 코드 작성 및 피드백 과정: Claude
