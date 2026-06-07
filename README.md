@@ -200,6 +200,12 @@ gain_b = target / B_measured
 
 ### 4-5. 옷 추천 알고리즘 (Python 사전 분석 + JS 런타임 필터)
 
+<img width="801" height="330" alt="Image" src="https://github.com/user-attachments/assets/da1bca41-b444-4b99-817b-fe98c4f66344" />
+
+<img width="801" height="330" alt="Image" src="https://github.com/user-attachments/assets/d53bdd48-1da0-4987-864e-a582f323f473" />
+
+<img width="801" height="328" alt="Image" src="https://github.com/user-attachments/assets/9a922aa8-0312-442c-995a-24aa4a193eae" />
+
 옷 추천은 **빌드 타임 사전 분석**과 **런타임 이중 필터**의 두 단계로 동작합니다.
 
 #### ① 사전 분석 — `analyze_clothes.py`
