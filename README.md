@@ -21,7 +21,7 @@
 
 ---
 
-# 2. 데모
+# 2. 데모와 사용법
 
 ①**홈**(home.html) → ②**진단하기**(diagnose.html) → ③**결과**(result.html) → ④ **퍼스널컬러란?**(about.html)
 
@@ -42,7 +42,55 @@ Lab 색공간에 색 점 구름과 옷 대표 색상을 계산해 제품 사진�
 <img width="800" height="362" alt="Image" src="https://github.com/user-attachments/assets/0c2f3f64-5ab4-4e68-8009-48b2a69b1173" />
 
 
-### ▼ ③-1 최종 분석 결과
+### ▼ ②-1 진단하기 진입화면
+
+<img width="800" height="346" alt="Image" src="https://github.com/user-attachments/assets/6d06e59e-e55a-4b2e-848e-66a998ed7f86" />
+
+### ▼ ②-2 환경 보정 방법 선택
+흰 종이 보정 또는 자동 보정 중 보정 방식을 선택할 수 있습니다.
+
+<img width="800" height="346" alt="Image" src="https://github.com/user-attachments/assets/8999c02b-e911-4c55-8382-69fe7fdcc282" />
+
+흰 종이 보정 시 박스 안 RGB 측정값을 가장 밝은 영역으로 가정하여 해당 기준값으로 화이트밸런싱을 수행합니다.
+<img width="800" height="361" alt="Image" src="https://github.com/user-attachments/assets/2c0a59ab-be13-486c-a33f-5ab4abad7c7b" />
+
+
+### ▼ ②-3 1단계: 파운데이션 선택
+검지 끝으로 블럭을 가리켜 피부 베이스 호수를 선택합니다.<br/>
+1단계의 결과는 손 인식 모델 테스트 및 워밍업 용도이며, 결과에 반영되지 않습니다.
+
+<img width="800" height="363" alt="Image" src="https://github.com/user-attachments/assets/6583e89c-bb9e-47d9-9e60-3017914ad627" />
+
+### ▼ ②-3 2~5단계: 단계별 천 3쌍 비교와 선택
+☝️ 1번 혹은 ✌️ 2번 손가락을 바꿔가며 나에게 더 어울리는 드레이프 천을 선택합니다.
+👍 손모양을 하면 천이 선택되고, 3쌍의 천을 비교하는 각 단계에서 👌 손모양을 하면 다음 단계로 넘어갑니다.
+
+<img width="800" height="364" alt="Image" src="https://github.com/user-attachments/assets/2db8f52a-403c-4130-9914-ae9acceae32a" />
+
+
+<img width="800" height="151" alt="Image" src="https://github.com/user-attachments/assets/6513f40a-b16d-433d-aff0-f71b25d16139" />
+
+### ▼ ②-4 이전 단계로
+화면의 왼쪽을 가리키는 손등 자세를 1.5초 이상 유지하면 이전 단계로 돌아갑니다.
+
+<img width="800" height="357" alt="Image" src="https://github.com/user-attachments/assets/60c4dc8c-a80e-4877-bf64-18ebabdb5afb" />
+
+### ▼ ②-5 분석 완료 안내
+5단계까지의 분석을 마치면 최종 분석 결과 페이지 이전에 나의 베스트 톤과 워스트 톤을 드레이프 천으로 확인할 수 있습니다.
+
+<img width="800" height="350" alt="Image" src="https://github.com/user-attachments/assets/3c3b7420-a5f4-4b14-90ae-b0e6ab049c9a" />
+
+☝️ 손모양은 베스트 톤(나의 결과)입니다.
+
+<img width="801" height="359" alt="Image" src="https://github.com/user-attachments/assets/ce8116fb-2a75-4a50-92d7-2a37be9bf060" />
+
+✌️ 손모양은 워스트 톤(나의 결과의 반대톤)이며, 👌 손모양을 하면 최종 결과 페이지로 넘어갑니다.
+
+<img width="801" height="358" alt="Image" src="https://github.com/user-attachments/assets/6c67abdc-9808-4532-977d-050a68874cfd" />
+
+
+
+### ▼ ③-1 최종 분석 결과 페이지
 5단계에 거친 분석을 마친 후, 최종 분석 결과입니다.<br/>
 대표 톤과 워스트 컬러, 단계별 점수 분포, 패션 컬러 및 제품 추천, 톤별 특징, 추천 메이크업 컬러 및 제품이 보입니다.
 
@@ -53,6 +101,12 @@ Lab 색공간에 색 점 구름과 옷 대표 색상을 계산해 제품 사진�
 옷 제품과 메이크업 제품 이미지 클릭시 구매 링크로 이동합니다. (메이크업 제품 이미지도 동일)
 
 <img width="800" height="362" alt="Image" src="https://github.com/user-attachments/assets/047e5dd1-3015-40d2-9bc1-4908e0053924" />
+
+### ▼ ③-3 결과 카드로 공유하기
+[결과 공유하기]를 누르면 내 이름을 입력하고, 프로필 사진과 함께 결과 카드로 저장할 수 있습니다.<br/>
+결과 카드를 이미지 파일(.png)로 저장하고 공유할 수 있습니다.
+
+<img width="800" height="362" alt="Image" src="https://github.com/user-attachments/assets/f68dfa2f-b004-4779-9cd2-77d30f3c54d6" />
 
 
 ### ▼ ④-1 퍼스널컬러란?
